@@ -1,0 +1,4 @@
+<?php
+
+$logDir = __DIR__."/../../logs/telegram";
+
