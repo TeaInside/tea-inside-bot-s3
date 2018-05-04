@@ -1,0 +1,9 @@
+<?php
+
+define("TOKEN", "308645660:AAG-EIkc2qgXsJ2zRk8A4fAREOKXUxKuxM8");
+
+define("SUDOERS", [243692601]);
+define("GLOBAL_ADMIN", []);
+
+define("IGNORELIST_USERS", []);
+
