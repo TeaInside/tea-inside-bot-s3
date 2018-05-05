@@ -6,8 +6,9 @@ $in = file_get_contents("php://input");
 
 shell_exec(
 	"nohup ".
-	PHP_BINARY.
+	"/usr/bin/php".
 	" ".
 	__DIR__."/../../connector/telegram.php \"".
-	rawurlencode($in)."\" >> \"{$logDir}\" 2>&1 &"
+	rawurlencode($in)."\" >> \"{$logDir}/background.log\" 2>&1 &"
 );
+
