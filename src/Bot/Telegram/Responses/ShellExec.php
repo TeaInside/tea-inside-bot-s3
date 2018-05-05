@@ -32,7 +32,8 @@ class ShellExec extends ResponseFoundation
 			Exe::sendMessage(
 				[
 					"chat_id" => $this->data["chat_id"],
-					"text" => shell_exec($filename)
+					"text" => "<pre>".htmlspecialchars(shell_exec($filename))."</pre>",
+					"parse_mode" => "html"
 				]
 			);
 			return true;
