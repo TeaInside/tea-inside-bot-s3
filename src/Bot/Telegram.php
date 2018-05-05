@@ -3,6 +3,7 @@
 namespace Bot;
 
 use Bot\Telegram\Data;
+use Bot\Telegram\Response;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -14,6 +15,9 @@ final class Telegram
 {
 	public static function run(string $json)
 	{
-		$data = new Data($json);
+		$resp = new Response(
+			new Data($json)
+		);
+		$resp->run();
 	}
 }

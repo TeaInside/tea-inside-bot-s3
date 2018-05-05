@@ -14,6 +14,8 @@ use Bot\Telegram\Exceptions\InvalidJsonDataException;
  */
 final class Data implements ArrayAccess, JsonSerializable
 {
+	private $__;
+
 	/**
 	 * @var array
 	 */
@@ -108,10 +110,11 @@ final class Data implements ArrayAccess, JsonSerializable
 	 */
 	public function &offsetGet($offset)
 	{
-		return 
-			$this->offsetExists($offset) ?
-				$this->container[$offset] :
-					null;
+		if ($this->offsetExists($offset)) {
+			return $this->container[$offset];
+		} else {
+			return $this->__;
+		}
 	}
 
 	/**
@@ -120,7 +123,7 @@ final class Data implements ArrayAccess, JsonSerializable
 	 */
 	public function offsetExists($offset)
 	{
-		return array_key_exists($this->container, $offset);
+		return array_key_exists($offset, $this->container);
 	}
 
 	/**
