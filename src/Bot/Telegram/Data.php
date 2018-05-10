@@ -58,10 +58,10 @@ final class Data implements ArrayAccess, JsonSerializable
 				$this["group_id"] = $this->in["message"]["chat"]["id"];
 				$this["group_name"] = $this->in["message"]["chat"]["title"];
 				$this["group_type"] = $this->in["message"]["chat"]["type"];
-				$this["group_username"] = $this->in["message"]["chat"]["username"];
+				$this["group_username"] = isset($this->in["message"]["chat"]["username"]) ? $this->in["message"]["chat"]["username"] : null;
 			}
 			$this["update_id"] = $this->in["update_id"];
-			$this["message_id"] = $this->in["message"]["message_id"];
+			$this["msg_id"] = $this->in["message"]["message_id"];
 			$this["chat_id"] = $this->in["message"]["chat"]["id"];
 			$this["user_id"] = $this->in["message"]["from"]["id"];
 			$this["first_name"] = $this->in["message"]["from"]["first_name"];
