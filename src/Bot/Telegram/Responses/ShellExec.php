@@ -31,11 +31,13 @@ class ShellExec extends ResponseFoundation
 			shell_exec("sudo chmod +x ".$filename);
 			Exe::sendMessage(
 				[
-					"chat_id" => $this->data["chat_id"],
-					"text" => "<pre>".htmlspecialchars(shell_exec($filename." 2>&1"))."</pre>",
 					"parse_mode" => "html"
+					"chat_id" => $this->data["chat_id"],
+					"reply_to_message_id" => $this->data["msg_id"],
+					"text" => "<pre>".htmlspecialchars(shell_exec($filename." 2>&1"))."</pre>"
 				]
 			);
+			shell_exec("sudo rm -f ".$filename);
 			return true;
 		}
 	}
