@@ -68,7 +68,7 @@ class ShellExec extends ResponseFoundation
 					fflush($fp);
 					fclose($fp);
 					shell_exec("sudo chmod +x ".$filename);
-					$reply = shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1");
+					$reply = "<pre>".htmlspecialchars(shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1"), ENT_QUOTES, "UTF-8")."</pre>";
 					shell_exec("sudo rm -f ".$filename);
 				}
 			}
@@ -78,7 +78,7 @@ class ShellExec extends ResponseFoundation
 					"parse_mode" => "html",
 					"chat_id" => $this->data["chat_id"],
 					"reply_to_message_id" => $this->data["msg_id"],
-					"text" => "<pre>".htmlspecialchars($reply)."</pre>"
+					"text" => $reply
 				]
 			);
 
@@ -103,9 +103,7 @@ class ShellExec extends ResponseFoundation
 	 */
 	private function isNotSecure($cmd)
 	{
-		return (
-			(strpos($cmd, "rm ")!==false && strpos($cmd, "-r")!==false)
-		);
+		return false;
 	}
 
 	/**
