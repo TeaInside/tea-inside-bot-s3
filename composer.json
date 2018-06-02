@@ -10,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "ammarfaizi2/googletranslate": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "": "src/"

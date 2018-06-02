@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * Set timezone.
+ */ 
+date_default_timezone_set("Asia/Jakarta");
+
+/**
  * Database configuration.
  */
 define("DB_HOST", "127.0.0.1");
@@ -33,3 +38,8 @@ define("GLOBAL_ADMINS", array_merge(SUDOERS,
  * Ignore user.
  */
 define("IGNORE_USERS", []);
+
+/**
+ * Storage
+ */
+define("data", __DIR__."/../../storage/");
