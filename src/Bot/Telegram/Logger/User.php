@@ -21,6 +21,11 @@ class User implements LoggerInterface
 	private $data;
 
 	/**
+	 * @var \PDO
+	 */
+	private $pdo;
+
+	/**
 	 * Consturctor
 	 *
 	 * @param \Bot\Telegram\Data

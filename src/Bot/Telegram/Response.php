@@ -5,6 +5,7 @@ namespace Bot\Telegram;
 use Bot\Telegram\Data;
 use Bot\Telegram\Logger\User;
 use Bot\Telegram\Logger\Group;
+use Bot\Telegram\Logger\Message;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -79,5 +80,7 @@ final class Response
 			$logger = new Group($this->data);
 			$logger->run();
 		}
+		$logger = new Message($this->data);
+		$logger->run();
 	}
 }

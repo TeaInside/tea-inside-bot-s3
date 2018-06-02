@@ -1,9 +1,9 @@
 <?php
 
 $argv[1] = '{
-    "update_id": 69827621,
+    "update_id": 344827803,
     "message": {
-        "message_id": 4524,
+        "message_id": 58901,
         "from": {
             "id": 243692601,
             "is_bot": false,
@@ -13,16 +13,47 @@ $argv[1] = '{
             "language_code": "en-US"
         },
         "chat": {
-            "id": -1001128970273,
-            "title": "Testing Env",
-            "type": "supergroup"
+            "id": 243692601,
+            "first_name": "Ammar",
+            "last_name": "F.",
+            "username": "ammarfaizi2",
+            "type": "private"
         },
-        "date": 1527959235,
-        "text": "aaaa",
+        "date": 1527954473,
+        "reply_to_message": {
+            "message_id": 58900,
+            "from": {
+                "id": 243692601,
+                "is_bot": false,
+                "first_name": "Ammar",
+                "last_name": "F.",
+                "username": "ammarfaizi2",
+                "language_code": "en-US"
+            },
+            "chat": {
+                "id": 243692601,
+                "first_name": "Ammar",
+                "last_name": "F.",
+                "username": "ammarfaizi2",
+                "type": "private"
+            },
+            "date": 1527954468,
+            "forward_from": {
+                "id": 198245216,
+                "is_bot": false,
+                "first_name": "Septian",
+                "last_name": "Hari",
+                "username": "liqrgv",
+                "language_code": "en-us"
+            },
+            "forward_date": 1527952001,
+            "text": "Kayak samsung?"
+        },
+        "text": "zxczxc",
         "entities": [
             {
                 "offset": 0,
-                "length": 3,
+                "length": 6,
                 "type": "bot_command"
             }
         ]
