@@ -26,12 +26,14 @@ CREATE TABLE `groups` (
 
 DROP TABLE IF EXISTS `groups_history`;
 CREATE TABLE `groups_history` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_id` varchar(64) NOT NULL,
   `name` varchar(255) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
   `link` varchar(255) DEFAULT NULL,
   `photo` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   KEY `name` (`name`),
   KEY `username` (`username`),
@@ -45,7 +47,9 @@ DROP TABLE IF EXISTS `group_messages`;
 CREATE TABLE `group_messages` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `group_id` varchar(64) NOT NULL,
+  `tmsg_id` bigint(20) NOT NULL,
   `user_id` varchar(64) NOT NULL,
+  `reply_to_tmsg_id` bigint(20) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
@@ -70,7 +74,9 @@ CREATE TABLE `group_messages_data` (
 DROP TABLE IF EXISTS `private_messages`;
 CREATE TABLE `private_messages` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tmsg_id` bigint(20) NOT NULL,
   `user_id` varchar(64) NOT NULL,
+  `reply_to_tmsg_id` bigint(20) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -97,6 +103,8 @@ CREATE TABLE `users` (
   `last_name` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
+  `private_message_count` bigint(20) NOT NULL DEFAULT '0',
+  `group_message_count` bigint(20) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `last_seen` datetime DEFAULT NULL,
@@ -127,4 +135,4 @@ CREATE TABLE `users_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2018-05-04 17:31:16
+-- 2018-06-02 17:47:36
