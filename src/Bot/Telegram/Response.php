@@ -2,8 +2,6 @@
 
 namespace Bot\Telegram;
 
-use DB;
-use PDO;
 use Bot\Telegram\Data;
 use Bot\Telegram\Logger\User;
 
