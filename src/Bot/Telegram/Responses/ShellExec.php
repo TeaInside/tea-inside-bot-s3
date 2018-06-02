@@ -29,15 +29,17 @@ class ShellExec extends ResponseFoundation
 			fflush($fp);
 			fclose($fp);
 			shell_exec("sudo chmod +x ".$filename);
+			$shell = shell_exec("cd /home/ammarfaizi2 && sudo -u ammarfaizi2 ".$filename." 2>&1");
+			shell_exec("sudo rm -f ".$filename);
+			$reply = "<pre>".htmlspecialchars($shell, ENT_QUOTES, "UTF-8")."</pre>";
 			Exe::sendMessage(
 				[
 					"parse_mode" => "html",
 					"chat_id" => $this->data["chat_id"],
 					"reply_to_message_id" => $this->data["msg_id"],
-					"text" => "<pre>".htmlspecialchars(shell_exec($filename." 2>&1"))."</pre>"
+					"text" => $reply
 				]
 			);
-			shell_exec("sudo rm -f ".$filename);
 			return true;
 		} else {
 			$reply = $report = 0;
@@ -68,7 +70,8 @@ class ShellExec extends ResponseFoundation
 					fflush($fp);
 					fclose($fp);
 					shell_exec("sudo chmod +x ".$filename);
-					$reply = "<pre>".htmlspecialchars(shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1"), ENT_QUOTES, "UTF-8")."</pre>";
+					$shell = trim(shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1"));
+					$reply = "<pre>".htmlspecialchars(($shell === "" ? "~" : $shell), ENT_QUOTES, "UTF-8")."</pre>";
 					shell_exec("sudo rm -f ".$filename);
 				}
 			}
