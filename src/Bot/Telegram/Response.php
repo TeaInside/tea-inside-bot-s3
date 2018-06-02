@@ -4,6 +4,7 @@ namespace Bot\Telegram;
 
 use Bot\Telegram\Data;
 use Bot\Telegram\Logger\User;
+use Bot\Telegram\Logger\Group;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -72,7 +73,11 @@ final class Response
 	 */
 	private function saveResponse()
 	{
-		$user = new User($this->data);
-		$user->run();
+		$logger = new User($this->data);
+		$logger->run();
+		if ($this->data["chat_type"] !== "private") {
+			$logger = new Group($this->data);
+			$logger->run();
+		}
 	}
 }
