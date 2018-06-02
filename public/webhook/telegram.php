@@ -9,6 +9,5 @@ shell_exec(
 	"/usr/bin/php".
 	" ".
 	__DIR__."/../../connector/telegram.php \"".
-	rawurlencode($in)."\" >> \"{$logDir}/background.log\" 2>&1 &"
+	rawurlencode($in)."\" >> \"{$logDir}/bg.log\" 2>&1 &"
 );
-
