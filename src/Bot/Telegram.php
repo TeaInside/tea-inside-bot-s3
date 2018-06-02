@@ -15,9 +15,7 @@ final class Telegram
 {
 	public static function run(string $json)
 	{
-		$resp = new Response(
-			new Data($json)
-		);
+		$resp = new Response(new Data($json));
 		$resp->run();
 	}
 }
