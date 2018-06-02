@@ -9,7 +9,7 @@ use Bot\Telegram\Contracts\LoggerInterface;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
- * @package \Bot\Telegram
+ * @package \Bot\Telegram\Logger
  * @license MIT
  * @since 0.0.1
  */
@@ -78,6 +78,7 @@ class User implements LoggerInterface
 		if (! empty($data)) {
 			$query .= "`updated_at`=:updated_at, ";
 			$data[":updated_at"] = $now;
+			$this->addUserHistory($now);
 		}
 
 		$query .= "`last_seen`=:last_seen ";
@@ -95,9 +96,10 @@ class User implements LoggerInterface
 	 */
 	private function addNewUser()
 	{
-		$st = $this->pdo->prepare("INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `photo`, `private_message_count`, `group_message_count`, `created_at`, `updated_at`, `last_seen`) VALUES (:id, :first_name, :last_name, :username, :photo, :private_message_count, :group_message_count, :created_at, :updated_at, :last_seen);");
 		$now = date("Y-m-d H:i:s");
 		$isPrivate = $this->data["chat_type"] === "private";
+
+		$st = $this->pdo->prepare("INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `photo`, `private_message_count`, `group_message_count`, `created_at`, `updated_at`, `last_seen`) VALUES (:id, :first_name, :last_name, :username, :photo, :private_message_count, :group_message_count, :created_at, :updated_at, :last_seen);");
 		$st->execute(
 			[
 				":id" => $this->data["user_id"],
@@ -113,6 +115,15 @@ class User implements LoggerInterface
 			]
 		);
 
+		$this->addUserHistory($now);
+	}
+
+	/**
+	 * @param string $now
+	 * @return void
+	 */
+	private function addUserHistory($now = null)
+	{
 		$st = $this->pdo->prepare("INSERT INTO `users_history` (`user_id`, `first_name`, `last_name`, `username`, `photo`, `created_at`) VALUES (:user_id, :first_name, :last_name, :username, :photo, :created_at);");
 		$st->execute(
 			[
@@ -121,7 +132,7 @@ class User implements LoggerInterface
 				":last_name" => $this->data["last_name"],
 				":username" => $this->data["username"],
 				":photo" => null,
-				":created_at" => $now
+				":created_at" => (is_null($now) ? date("Y-m-d H:i:s") : $now)
 			]
 		);
 	}
