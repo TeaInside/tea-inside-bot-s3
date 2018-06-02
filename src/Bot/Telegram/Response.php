@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram;
 
+use DB;
 use Bot\Telegram\Data;
 
 /**
@@ -39,6 +40,7 @@ final class Response
 			$this->buildRoutes();
 			$this->action();
 		}
+		$this->saveResponse();
 	}
 
 	/**
@@ -63,5 +65,13 @@ final class Response
 				}
 			}
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function saveResponse()
+	{
+
 	}
 }

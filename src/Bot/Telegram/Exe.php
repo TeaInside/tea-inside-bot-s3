@@ -43,7 +43,7 @@ final class Exe
 	 */
 	private static function exec(string $method, $postData, $httpMethod)
 	{
-		if ($method === "GET") {
+		if ($httpMethod === "GET") {
 			$ch = curl_init(
 				"https://api.telegram.org/bot".TOKEN."/".$method."?".http_build_query($postData)
 			);

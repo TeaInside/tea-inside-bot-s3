@@ -15,7 +15,6 @@ trait ResponseRoutes
 	 */
 	private $routes = [];
 
-
 	/**
 	 * @return void
 	 */

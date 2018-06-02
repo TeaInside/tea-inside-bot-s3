@@ -13,8 +13,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Bot\\": "src/Bot/",
-            "Plugins\\": "src/Plugins/"
+            "": "src/"
         }
     }
 }
