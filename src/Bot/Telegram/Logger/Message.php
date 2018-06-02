@@ -57,7 +57,7 @@ class Message implements LoggerInterface
 			[
 				":tmsg_id" => $this->data["msg_id"],
 				":user_id" => $this->data["user_id"],
-				":reply_to_tmsg_id" => (isset($this->data["message"]["reply_to_message"]) ? $this->data["message"]["reply_to_message"]["message_id"] : null),
+				":reply_to_tmsg_id" => (isset($this->data->in["message"]["reply_to_message"]) ? $this->data->in["message"]["reply_to_message"]["message_id"] : null),
 				":created_at" => date("Y-m-d H:i:s")
 			]
 		);
@@ -86,7 +86,7 @@ class Message implements LoggerInterface
 				":group_id" => $this->data["group_id"],
 				":tmsg_id" => $this->data["msg_id"],
 				":user_id" => $this->data["user_id"],
-				":reply_to_tmsg_id" => (isset($this->data["message"]["reply_to_message"]) ? $this->data["message"]["reply_to_message"]["message_id"] : null),
+				":reply_to_tmsg_id" => (isset($this->data->in["message"]["reply_to_message"]) ? $this->data->in["message"]["reply_to_message"]["message_id"] : null),
 				":created_at" => date("Y-m-d H:i:s")
 			]
 		);

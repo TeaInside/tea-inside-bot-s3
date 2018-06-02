@@ -19,7 +19,7 @@ final class Data implements ArrayAccess, JsonSerializable
 	/**
 	 * @var array
 	 */
-	private $in = [];
+	public $in = [];
 
 	/**
 	 * @var array
