@@ -1,9 +1,34 @@
 <?php
 
-define("TOKEN", "308645660:AAG-EIkc2qgXsJ2zRk8A4fAREOKXUxKuxM8");
+/**
+ * Database configuration.
+ */
+define("DB_HOST", "127.0.0.1");
+define("DB_PORT", "3306");
+define("DB_USER", "root");
+define("DB_PASS", "");
 
-define("SUDOERS", [243692601]);
-define("GLOBAL_ADMIN", []);
+/**
+ * Bot Token
+ */
+define("TOKEN", "308645660:AAFlEKTBWjuwTDiRvyqHaBVuwCXAziQPijQ");
 
-define("IGNORELIST_USERS", []);
+/**
+ * Sudoers and Global Admins
+ */
+define("SUDOERS", 
+	[
+		243692601, // @ammarfaizi2
+		198245216, // @liqrgv
+	]
+);
+define("GLOBAL_ADMINS", array_merge(SUDOERS, 
+	[
+		
+	]
+));
 
+/**
+ * Ignore user.
+ */
+define("IGNORE_USERS", []);
