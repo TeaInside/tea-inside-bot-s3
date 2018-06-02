@@ -3,7 +3,9 @@
 namespace Bot\Telegram;
 
 use DB;
+use PDO;
 use Bot\Telegram\Data;
+use Bot\Telegram\Logger\User;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -72,6 +74,7 @@ final class Response
 	 */
 	private function saveResponse()
 	{
-
+		$user = new User($this->data);
+		$user->run();
 	}
 }

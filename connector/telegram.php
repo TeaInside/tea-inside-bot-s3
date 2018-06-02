@@ -20,7 +20,7 @@ $argv[1] = '{
             "type": "private"
         },
         "date": 1527956107,
-        "text": "/sh echo 123",
+        "text": "echo 123",
         "entities": [
             {
                 "offset": 0,
