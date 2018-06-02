@@ -39,3 +39,7 @@ if (isset($argv[1])) {
 	print "\n\$argv[1] is not provided!\n";
 	exit(1);
 }
+
+// debug only
+$data = json_encode(json_decode(rawurldecode($argv[1])), 128 | JSON_UNESCAPED_SLASHES);
+require __DIR__."/debug_telegram.php";
