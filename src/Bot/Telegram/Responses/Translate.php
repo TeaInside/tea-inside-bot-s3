@@ -3,6 +3,7 @@
 namespace Bot\Telegram\Responses;
 
 use Bot\Telegram\Exe;
+use GoogleTranslate\GoogleTranslate;
 use Bot\Telegram\ResponseFoundation;
 
 /**
@@ -11,7 +12,7 @@ use Bot\Telegram\ResponseFoundation;
  * @license MIT
  * @since 0.0.1
  */
-class VirtualizorLanguages extends ResponseFoundation
+class Translate extends ResponseFoundation
 {
 	/**
 	 * @param string $cmd
@@ -19,13 +20,5 @@ class VirtualizorLanguages extends ResponseFoundation
 	 */
 	public function run(string $cmd)
 	{
-		switch ($cmd) {
-			case 'php':
-				
-				break;
-			
-			default:
-				break;
-		}
 	}
 }
