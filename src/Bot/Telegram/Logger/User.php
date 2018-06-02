@@ -39,10 +39,55 @@ class User implements LoggerInterface
 		$st = $this->pdo->prepare("SELECT `first_name`,`last_name`,`username`,`photo` FROM `users` WHERE `id`=:id LIMIT 1;");
 		$st->execute([":id" => $this->data["user_id"]]);
 		if ($u = $st->fetch(PDO::FETCH_ASSOC)) {
-			
+			$this->updateUser($u);
 		} else {
 			$this->addNewUser();
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function updateUser($u)
+	{
+		$query	= "UPDATE `users` SET ";
+		$data	= [];
+		$now	= date("Y-m-d H:i:s");
+
+		if ($u["first_name"] !== $this->data["first_name"]) {
+			$query .= "`first_name`=:first_name, ";
+			$data[":first_name"] = $this->data["first_name"];
+		}
+
+		if ($u["last_name"] !== $this->data["last_name"]) {
+			$query .= "`last_name`=:last_name, ";
+			$data[":last_name"] = $this->data["last_name"];
+		}
+
+		if ($u["username"] !== $this->data["username"]) {
+			$query .= "`username`=:username, ";
+			$data[":username"] = $this->data["username"];
+		}
+
+		if ($this->data["chat_type"] === "private") {
+			$query .= "`private_message_count`=`private_message_count`+1, ";
+		} else {
+			$query .= "`group_message_count`=`group_message_count`+1, ";
+		}
+
+		if (! empty($data)) {
+			$query .= "`updated_at`=:updated_at, ";
+			$data[":updated_at"] = $now;
+		}
+
+		$query .= "`last_seen`=:last_seen ";
+		$data[":last_seen"] = $now;
+
+		$query .= "WHERE `id`=:id LIMIT 1;";
+		$data[":id"] = $this->data["user_id"];
+		
+		$st = $this->pdo->prepare($query);
+		$exe = $st->execute($data);
 	}
 
 	/**
