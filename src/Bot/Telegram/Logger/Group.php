@@ -61,7 +61,7 @@ class Group implements LoggerInterface
 
 		if ($u["name"] !== $this->data["group_name"]) {
 			$query .= "`name`=:name, ";
-			$data[":name"] = $this->data[":group_name"];
+			$data[":name"] = $this->data["group_name"];
 		}
 
 		if ($u["username"] !== $this->data["group_username"]) {
@@ -85,7 +85,6 @@ class Group implements LoggerInterface
 
 		$st = $this->pdo->prepare($query);
 		$st->execute($data);
-		var_dump($st->errorInfo());
 	}
 
 	/**
