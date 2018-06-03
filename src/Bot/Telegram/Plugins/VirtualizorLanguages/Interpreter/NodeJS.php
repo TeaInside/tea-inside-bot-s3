@@ -14,7 +14,7 @@ defined("VIRTUALIZOR_BINARY_NODEJS") or die("VIRTUALIZOR_BINARY_NODEJS is not de
  * @license MIT
  * @since 0.0.1
  */
-class Python extends Interpreter
+class NodeJS extends Interpreter
 {
 	/**
 	 * @var string
