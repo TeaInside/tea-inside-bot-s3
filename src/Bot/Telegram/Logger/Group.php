@@ -55,7 +55,7 @@ class Group implements LoggerInterface
 	 */
 	private function updateGroup($u)
 	{
-		$query	= "UPDATE `group` SET ";
+		$query	= "UPDATE `groups` SET ";
 		$data	= [];
 		$now	= date("Y-m-d H:i:s");
 
@@ -79,6 +79,9 @@ class Group implements LoggerInterface
 
 		$query .= "`last_seen`=:last_seen ";
 		$data[":last_seen"] = $now;
+
+		$query .= "WHERE `id`=:id LIMIT 1;";
+		$data[":id"] = $this->data["group_id"];
 
 		$st = $this->pdo->prepare($query);
 		$st->execute($data);
