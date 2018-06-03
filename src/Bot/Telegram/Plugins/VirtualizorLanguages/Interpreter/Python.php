@@ -4,8 +4,8 @@ namespace Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
-defined("VIRTUALIZOR_STORAGE_PHP") or die("VIRTUALIZOR_STORAGE_PHP is not defined!");
-defined("VIRTUALIZOR_BINARY_PHP") or die("VIRTUALIZOR_BINARY_PHP is not defined!");
+defined("VIRTUALIZOR_STORAGE_PYTHON") or die("VIRTUALIZOR_STORAGE_PYTHON is not defined!");
+defined("VIRTUALIZOR_BINARY_PYTHON") or die("VIRTUALIZOR_BINARY_PYTHON is not defined!");
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -13,7 +13,7 @@ defined("VIRTUALIZOR_BINARY_PHP") or die("VIRTUALIZOR_BINARY_PHP is not defined!
  * @license MIT
  * @since 0.0.1
  */
-class PHP extends Interpreter
+class Python extends Interpreter
 {
 	/**
 	 * @var string
@@ -45,7 +45,7 @@ class PHP extends Interpreter
 	{
 		$this->code = $code;
 		$this->me = $this->user = trim(shell_exec("whoami"));
-		$this->version = "7.2";
+		$this->version = "3";
 	}
 
 	/**
@@ -53,10 +53,10 @@ class PHP extends Interpreter
 	 */
 	public function run()
 	{
-		if (! is_dir(VIRTUALIZOR_STORAGE_PHP)) {
-			mkdir(VIRTUALIZOR_STORAGE_PHP);
+		if (! is_dir(VIRTUALIZOR_STORAGE_PYTHON)) {
+			mkdir(VIRTUALIZOR_STORAGE_PYTHON);
 		}
-		$filename	= VIRTUALIZOR_STORAGE_PHP."/".($shortName = $this->generateFilename());
+		$filename	= VIRTUALIZOR_STORAGE_PYTHON."/".($shortName = $this->generateFilename());
 		if (! file_exists($filename)) {
 			$handle 	= fopen($filename,"w");
 			fwrite($handle, $this->code);
@@ -65,8 +65,8 @@ class PHP extends Interpreter
 		}
 		shell_exec("sudo chmod {$this->me}:{$this->me} ".$filename);
 		shell_exec("sudo chmod 775 ".$filename);
-		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_PHP[$this->version])." ".$filename." 2>&1");
-		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $exe);
+		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_PYTHON[$this->version])." ".$filename." 2>&1");
+		return str_replace(realpath(VIRTUALIZOR_STORAGE_PYTHON), "/tmp", $exe);
 	}
 
 	/**
@@ -74,6 +74,6 @@ class PHP extends Interpreter
 	 */
 	private function generateFilename()
 	{
-		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".php";
+		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".py";
 	}
 }

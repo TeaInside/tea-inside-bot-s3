@@ -42,4 +42,11 @@ define("IGNORE_USERS", []);
 /**
  * Storage
  */
-define("data", __DIR__."/../../storage/");
+define("data", 							realpath(__DIR__."/../../storage/"));
+define("VIRTUALIZOR_URL_PHP", 			"https://webhook-a2.teainside.tech/storage/virtualizor/php");
+define("VIRTUALIZOR_BINARY_PHP",		["7.2" => "/usr/bin/php7.2"]);
+define("VIRTUALIZOR_BINARY_PYTHON",		["3" => "/usr/bin/python3", "2" => "/usr/bin/python2"]);
+define("VIRTUALIZOR_BINARY_NODEJS",		["*" => "/usr/bin/node"]);
+define("VIRTUALIZOR_STORAGE_PHP",		data."/virtualizor_languages/php");
+define("VIRTUALIZOR_STORAGE_PYTHON",	data."/virtualizor_languages/python");
+define("VIRTUALIZOR_STORAGE_NODEJS",	data."/virtualizor_languages/js");

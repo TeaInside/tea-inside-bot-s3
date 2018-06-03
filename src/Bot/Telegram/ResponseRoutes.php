@@ -48,7 +48,7 @@ trait ResponseRoutes
 			}
 
 			if (substr($l, 0, 4) === "<?py") {
-				return [true, ["python3"]];
+				return [true, ["python"]];
 			}
 
 			if (substr($l, 0, 4) === "<?js") {
