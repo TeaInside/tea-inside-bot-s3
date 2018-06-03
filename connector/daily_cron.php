@@ -1,5 +1,7 @@
 <?php
 
+use Bot\Telegram\Exe;
+
 require __DIR__."/../vendor/autoload.php";
 require __DIR__."/../config/telegram/main.php";
 
