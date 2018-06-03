@@ -85,6 +85,7 @@ class Group implements LoggerInterface
 
 		$st = $this->pdo->prepare($query);
 		$st->execute($data);
+		var_dump($st->errorInfo());
 	}
 
 	/**
