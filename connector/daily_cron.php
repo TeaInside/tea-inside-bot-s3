@@ -15,7 +15,7 @@ if (file_exists($f = logs."/daily_cron/.daily_count")) {
 $sh = shell_exec("rm -rfv ".VIRTUALIZOR_STORAGE_PHP."/*")."\n";
 $sh.= shell_exec("rm -rfv ".VIRTUALIZOR_STORAGE_PYTHON."/*")."\n";
 $sh.= shell_exec("rm -rfv ".VIRTUALIZOR_STORAGE_NODEJS."/*")."\n";
-$sh.= shell_exec("rm -rfv /tmp/*"),."\n";
+$sh.= shell_exec("rm -rfv /tmp/*")."\n";
 
 $end = date("Y-m-d H:i:s");
 $aaa = microtime(true)-$aaa;
