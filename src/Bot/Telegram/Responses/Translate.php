@@ -3,8 +3,8 @@
 namespace Bot\Telegram\Responses;
 
 use Bot\Telegram\Exe;
-use GoogleTranslate\GoogleTranslate;
 use Bot\Telegram\ResponseFoundation;
+use Bot\Telegram\Plugins\Translators\GoogleTranslate;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -18,7 +18,18 @@ class Translate extends ResponseFoundation
 	 * @param string $cmd
 	 * @return bool
 	 */
-	public function run(string $cmd)
+	public function run(string $text, string $from, string $to)
 	{
+		$st = new GoogleTranslate($text, $from, $to);
+		$st = trim($st->exec());
+		$st = $st === "" ? "~" : $st;
+		Exe::sendMessage(
+			[
+				"chat_id" => $this->data["chat_id"],
+				"text" => $st,
+				"reply_to_message_id" => $this->data["msg_id"]
+			]
+		);
+		return true;
 	}
 }

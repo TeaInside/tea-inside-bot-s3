@@ -49,7 +49,7 @@
 //             "forward_date": 1527952001,
 //             "text": "Kayak samsung?"
 //         },
-//         "text": "zxczxc",
+//         "text": "tr auto en selamat pagi",
 //         "entities": [
 //             {
 //                 "offset": 0,
