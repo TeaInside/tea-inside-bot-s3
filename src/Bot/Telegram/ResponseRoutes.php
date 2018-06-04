@@ -82,7 +82,6 @@ trait ResponseRoutes
 			if (substr($l, 0, 5) === "<?c") {
 				return [true, ["c"]];
 			}
-
 		}, "VirtualizorLanguages@run");
 	}
 

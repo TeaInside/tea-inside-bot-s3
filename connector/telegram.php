@@ -1,9 +1,9 @@
 <?php
 
 // $argv[1] = '{
-//     "update_id": 344827803,
+//     "update_id": 344831456,
 //     "message": {
-//         "message_id": 58901,
+//         "message_id": 5134,
 //         "from": {
 //             "id": 243692601,
 //             "is_bot": false,
@@ -13,15 +13,13 @@
 //             "language_code": "en-US"
 //         },
 //         "chat": {
-//             "id": 243692601,
-//             "first_name": "Ammar",
-//             "last_name": "F.",
-//             "username": "ammarfaizi2",
-//             "type": "private"
+//             "id": -1001128970273,
+//             "title": "A",
+//             "type": "supergroup"
 //         },
-//         "date": 1527954473,
+//         "date": 1528135837,
 //         "reply_to_message": {
-//             "message_id": 58900,
+//             "message_id": 5126,
 //             "from": {
 //                 "id": 243692601,
 //                 "is_bot": false,
@@ -31,25 +29,21 @@
 //                 "language_code": "en-US"
 //             },
 //             "chat": {
-//                 "id": 243692601,
-//                 "first_name": "Ammar",
-//                 "last_name": "F.",
-//                 "username": "ammarfaizi2",
-//                 "type": "private"
+//                 "id": -1001128970273,
+//                 "title": "A",
+//                 "type": "supergroup"
 //             },
-//             "date": 1527954468,
-//             "forward_from": {
-//                 "id": 198245216,
-//                 "is_bot": false,
-//                 "first_name": "Septian",
-//                 "last_name": "Hari",
-//                 "username": "liqrgv",
-//                 "language_code": "en-us"
-//             },
-//             "forward_date": 1527952001,
-//             "text": "Kayak samsung?"
+//             "date": 1528128822,
+//             "text": "zxczxczxc",
+//             "entities": [
+//                 {
+//                     "offset": 0,
+//                     "length": 4,
+//                     "type": "bot_command"
+//                 }
+//             ]
 //         },
-//         "text": "tr auto en selamat pagi",
+//         "text": "/debug",
 //         "entities": [
 //             {
 //                 "offset": 0,
