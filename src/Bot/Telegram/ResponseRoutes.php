@@ -34,8 +34,7 @@ trait ResponseRoutes
 
 		$this->set(function ($d){
 			if (preg_match("/^((\/|!|~)?tlr)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})$/Usi", $d["text"], $m)) {
-				var_dump($m);die;
-				return [true, []];
+				return [true, [trim($m[3]), trim($m[4])]];
 			}
 		}, "Translate@tlr2");
 
