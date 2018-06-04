@@ -63,7 +63,7 @@ class Python extends Interpreter
 			fflush($handle);
 			fclose($handle);
 		}
-		shell_exec("sudo chmod {$this->me}:{$this->me} ".$filename);
+		shell_exec("sudo chown {$this->me}:{$this->me} ".$filename);
 		shell_exec("sudo chmod 775 ".$filename);
 		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_PYTHON[$this->version])." ".$filename." 2>&1");
 		return str_replace(realpath(VIRTUALIZOR_STORAGE_PYTHON), "/tmp", $exe);
