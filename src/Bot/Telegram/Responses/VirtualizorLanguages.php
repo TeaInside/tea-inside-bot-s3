@@ -73,6 +73,7 @@ class VirtualizorLanguages extends ResponseFoundation
 		if ($reply === "") {
 			$reply = "~";
 		}
+		
 		Exe::sendMessage(
 			[
 				"chat_id" => $this->data["chat_id"],
