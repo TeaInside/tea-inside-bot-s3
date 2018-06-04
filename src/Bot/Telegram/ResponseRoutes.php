@@ -33,6 +33,13 @@ trait ResponseRoutes
 		}, "Translate@run");
 
 		$this->set(function ($d){
+			if (preg_match("/^((\/|!|~)?tlr)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})$/Usi", $d["text"], $m)) {
+				var_dump($m);die;
+				return [true, []];
+			}
+		}, "Translate@tlr2");
+
+		$this->set(function ($d){
 			if (preg_match("/^((\/|!|~)?tlr)/Usi", $d["text"])) {
 				return [true, []];
 			}

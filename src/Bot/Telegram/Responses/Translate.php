@@ -54,4 +54,28 @@ class Translate extends ResponseFoundation
 		}
 		return true;
 	}
+
+	/**
+	 * @param string $lang1
+	 * @param string $lang2
+	 * @return bool
+	 */
+	public function tlr2($lang1, $lang2)
+	{
+		if (isset($this->data->in["message"]["reply_to_message"]["text"])) {
+			$st = new GoogleTranslate(
+				$this->data->in["message"]["reply_to_message"]["text"], $lang1, $lang2
+			);
+			$st = trim($st->exec());
+			$st = $st === "" ? "~" : $st;
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => $st,
+					"reply_to_message_id" => $this->data->in["message"]["reply_to_message"]["message_id"]
+				]
+			);
+		}
+		return true;
+	}
 }
