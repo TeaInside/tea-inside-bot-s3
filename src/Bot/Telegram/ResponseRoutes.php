@@ -33,10 +33,10 @@ trait ResponseRoutes
 		}, "Translate@run");
 
 		$this->set(function ($d){
-			if (preg_match("/(\/|!|~)?tlr\s(.*)$/Usi", $d["text"], $m)) {
-				return [true, [trim($m[1])]];
+			if (preg_match("/(\/|!|~)?tlr\s(.*)$/Usi", $d["text"])) {
+				return [true, []];
 			}
-		});
+		}, "Translate@tlr");
 
 		$this->set(function($d){
 			$l = strtolower($d["text"]);
