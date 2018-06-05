@@ -42,7 +42,7 @@ class Group implements LoggerInterface
 	 */
 	public function run()
 	{
-		$st = $this->pdo->prepare("SELECT `name`,`username`,`link`,`photo` FROM `groups` WHERE `id`=:id LIMIT 1;");
+		$st = $this->pdo->prepare("SELECT `name`,`username`,`link`,`photo`,`msg_count` FROM `groups` WHERE `id`=:id LIMIT 1;");
 		$st->execute([":id" => $this->data["group_id"]]);
 		if ($u = $st->fetch(PDO::FETCH_ASSOC)) {
 			$this->updateGroup($u);
@@ -56,6 +56,19 @@ class Group implements LoggerInterface
 	 */
 	private function updateGroup($u)
 	{
+		if (($u["msg_count"] % 10) === 0) {
+			$st = new AdminLogger($this->data);
+			$st->run = 1;
+			$st->reset = 1;
+			$st->run();
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["group_id"],
+					"text" => "Success!"
+				]
+			);
+		}
+
 		$query	= "UPDATE `groups` SET ";
 		$data	= [];
 		$now	= date("Y-m-d H:i:s");
