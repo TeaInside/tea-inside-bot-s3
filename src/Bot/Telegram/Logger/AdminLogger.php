@@ -74,36 +74,38 @@ class AdminLogger implements LoggerInterface
 
 			$query = "INSERT INTO `group_admins` (`group_id`, `user_id`, `role`, `created_at`) VALUES ";
 			$now = date("Y-m-d H:i:s");
-			foreach ($a["result"] as $key => $admin) {
+			if (isset($a["result"])) {
+				foreach ($a["result"] as $key => $admin) {
 
-				$this->adminData[] = $admin;
+					$this->adminData[] = $admin;
 
-				$query .= "(:group_id, :user_id_{$key}, :role_{$key}, :created_at_{$key}),";
+					$query .= "(:group_id, :user_id_{$key}, :role_{$key}, :created_at_{$key}),";
 
-				$data[":group_id"] = $this->data["group_id"];
-				$data[":user_id_{$key}"] = $admin["user"]["id"];
-				$data[":role_{$key}"] = $admin["status"];
-				$data[":created_at_{$key}"] = $now;
+					$data[":group_id"] = $this->data["group_id"];
+					$data[":user_id_{$key}"] = $admin["user"]["id"];
+					$data[":role_{$key}"] = $admin["status"];
+					$data[":created_at_{$key}"] = $now;
 
-				$admin = $admin["user"];
-				if (! isset($admin["last_name"])) {
-					$admin["last_name"] = null;
+					$admin = $admin["user"];
+					if (! isset($admin["last_name"])) {
+						$admin["last_name"] = null;
+					}
+
+					if (! isset($admin["username"])) {
+						$admin["username"] = null;
+					}
+
+					$st = $this->pdo->prepare("SELECT `first_name`,`last_name`,`username`,`photo` FROM `users` WHERE `id`=:id LIMIT 1;");
+					$st->execute([":id" => $admin["id"]]);
+					if ($u = $st->fetch(PDO::FETCH_ASSOC)) {
+						$this->updateUser($u, $admin);
+					} else {
+						$this->addNewUser($admin);
+					}
 				}
-
-				if (! isset($admin["username"])) {
-					$admin["username"] = null;
-				}
-
-				$st = $this->pdo->prepare("SELECT `first_name`,`last_name`,`username`,`photo` FROM `users` WHERE `id`=:id LIMIT 1;");
-				$st->execute([":id" => $admin["id"]]);
-				if ($u = $st->fetch(PDO::FETCH_ASSOC)) {
-					$this->updateUser($u, $admin);
-				} else {
-					$this->addNewUser($admin);
-				}
+				$st = $this->pdo->prepare(trim($query, ","));
+				$st->execute($data);
 			}
-			$st = $this->pdo->prepare(trim($query, ","));
-			$st->execute($data);
 		}
 	}
 
