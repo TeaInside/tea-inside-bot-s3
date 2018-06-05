@@ -53,7 +53,7 @@ class AdminLogger implements LoggerInterface
 	public function run()
 	{
 		if ($this->reset) {
-			$this->pdo->prepare(\
+			$this->pdo->prepare(
 				"DELETE FROM `group_admins` WHERE `group_id`=:group_id;"
 			)->execute([":group_id" => $this->group_id]);
 		}
