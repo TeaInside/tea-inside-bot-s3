@@ -1,6 +1,4 @@
-/vendor/
-/logs/access.log
-/logs/error.log
-*.lock
 *.tmp
 *.swp
+*.lock
+/vendor/
