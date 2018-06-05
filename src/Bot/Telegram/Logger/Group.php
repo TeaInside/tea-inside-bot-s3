@@ -61,13 +61,6 @@ class Group implements LoggerInterface
 			$st->run = 1;
 			$st->reset = 1;
 			$st->run();
-			Exe::sendMessage(
-				[
-					"chat_id" => $this->data["group_id"],
-					"text" => "Success!"
-				]
-			);
-			echo 123123123123;
 		}
 
 		$query	= "UPDATE `groups` SET ";
