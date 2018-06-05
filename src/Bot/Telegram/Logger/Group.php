@@ -4,6 +4,7 @@ namespace Bot\Telegram\Logger;
 
 use DB;
 use PDO;
+use Bot\Telegram\Exe;
 use Bot\Telegram\Data;
 use Bot\Telegram\Contracts\LoggerInterface;
 
@@ -112,6 +113,10 @@ class Group implements LoggerInterface
 		$st->execute([":group_id" => $this->data["group_id"]]);
 
 		$this->addGroupHistory();
+
+		$st = new AdminLogger($this->data);
+		$st->run = 1;
+		$st->run();
 	}
 
 	/**

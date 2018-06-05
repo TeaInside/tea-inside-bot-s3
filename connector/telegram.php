@@ -1,48 +1,23 @@
 <?php
 
 // $argv[1] = '{
-//     "update_id": 344831456,
+//     "update_id": 344831842,
 //     "message": {
-//         "message_id": 5134,
+//         "message_id": 5137,
 //         "from": {
-//             "id": 243692601,
+//             "id": 562623987,
 //             "is_bot": false,
-//             "first_name": "Ammar",
-//             "last_name": "F.",
-//             "username": "ammarfaizi2",
-//             "language_code": "en-US"
+//             "first_name": "Vasco da",
+//             "last_name": "Gama",
+//             "username": "VascoDaGama1460",
+//             "language_code": "en-us"
 //         },
 //         "chat": {
 //             "id": -1001128970273,
 //             "title": "A",
 //             "type": "supergroup"
 //         },
-//         "date": 1528135837,
-//         "reply_to_message": {
-//             "message_id": 5126,
-//             "from": {
-//                 "id": 243692601,
-//                 "is_bot": false,
-//                 "first_name": "Ammar",
-//                 "last_name": "F.",
-//                 "username": "ammarfaizi2",
-//                 "language_code": "en-US"
-//             },
-//             "chat": {
-//                 "id": -1001128970273,
-//                 "title": "A",
-//                 "type": "supergroup"
-//             },
-//             "date": 1528128822,
-//             "text": "zxczxczxc",
-//             "entities": [
-//                 {
-//                     "offset": 0,
-//                     "length": 4,
-//                     "type": "bot_command"
-//                 }
-//             ]
-//         },
+//         "date": 1528200353,
 //         "text": "/debug",
 //         "entities": [
 //             {
