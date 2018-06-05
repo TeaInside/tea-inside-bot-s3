@@ -12,7 +12,7 @@ use Bot\Telegram\Logger\AdminLogger;
  * @license MIT
  * @since 0.0.1
  */
-class ShellExec extends ResponseFoundation
+class Admin extends ResponseFoundation
 {
 	/**
 	 * @return bool
