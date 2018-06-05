@@ -40,5 +40,5 @@ if (isset($argv[1])) {
 }
 
 // debug only
-$data = json_encode(json_decode(rawurldecode($argv[1])), 128 | JSON_UNESCAPED_SLASHES);
-require __DIR__."/debug_telegram.php";
+// $data = json_encode(json_decode(rawurldecode($argv[1])), 128 | JSON_UNESCAPED_SLASHES);
+// require __DIR__."/debug_telegram.php";
