@@ -27,7 +27,7 @@ trait ResponseRoutes
 		}, "ShellExec@run");
 
 		$this->set(function($d){
-			if (preg_match("/^(\/|!|~|admin)/Usi", $d["text"])) {
+			if (preg_match("/^(\/|!|~)admin/Usi", $d["text"])) {
 				return [true, []];
 			}
 		}, "Admin@show");
