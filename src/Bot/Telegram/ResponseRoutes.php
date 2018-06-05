@@ -21,10 +21,22 @@ trait ResponseRoutes
 	public function buildRoutes()
 	{
 		$this->set(function($d){
-			if (preg_match("/^(\/sh|!sh|sh)\s(.*)$/Usi", $d["text"], $m)) {
+			if (preg_match("/^(\/|!|~)?sh\s(.*)$/Usi", $d["text"], $m)) {
 				return [true, [$m[2]]];
 			}
 		}, "ShellExec@run");
+
+		$this->set(function($d){
+			if (preg_match("/^(\/|!|~|admin)/Usi", $d["text"])) {
+				return [true, []];
+			}
+		}, "Admin@show");
+
+		$this->set(function($d){
+			if (preg_match("/\@admin/Usi", $d["text"])) {
+				return [true, []];
+			}
+		}, "Admin@call");
 
 		$this->set(function($d){
 			if (preg_match("/(\/|!|~)?t(r|l)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})(.*)$/Usi", $d["text"], $m)) {

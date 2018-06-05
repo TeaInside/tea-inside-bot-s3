@@ -37,6 +37,11 @@ class AdminLogger implements LoggerInterface
 	public $reset = 0;
 
 	/**
+	 * @var array
+	 */
+	private $adminData = [];
+
+	/**
 	 * Consturctor
 	 *
 	 * @param \Bot\Telegram\Data
@@ -71,6 +76,8 @@ class AdminLogger implements LoggerInterface
 			$now = date("Y-m-d H:i:s");
 			foreach ($a["result"] as $key => $admin) {
 
+				$this->adminData[] = $admin;
+
 				$query .= "(:group_id, :user_id_{$key}, :role_{$key}, :created_at_{$key}),";
 
 				$data[":group_id"] = $this->data["group_id"];
@@ -98,6 +105,14 @@ class AdminLogger implements LoggerInterface
 			$st = $this->pdo->prepare(trim($query, ","));
 			$st->execute($data);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get()
+	{
+		return $this->adminData;
 	}
 
 	/**
