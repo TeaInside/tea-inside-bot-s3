@@ -53,7 +53,7 @@ class PHP extends Interpreter
 		}
 		$filename	= VIRTUALIZOR_STORAGE_PHP."/".($shortName = $this->generateFilename());
 		if (! file_exists($filename)) {
-			$handle 	= fopen($filename,"w");
+			$handle = fopen($filename,"w");
 			fwrite($handle, $this->code);
 			fflush($handle);
 			fclose($handle);

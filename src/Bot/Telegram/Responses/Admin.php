@@ -20,30 +20,30 @@ class Admin extends ResponseFoundation
 	public function show()
 	{
 		$st = new AdminLogger($this->data);
-		$st->run = 1;
-		$st->reset = 1;
+		$i = $st->reset = $st->run = 1;
 		$st->run();
-		$data = $st->get();
-		$adminCount = 1;
+		
 		$adminField = $creatorField = "";
-		foreach ($data as $u) {
+		foreach ($st->get() as $u) {
 			if ($u["status"] === "creator") {
-				$creatorField = "<a href=\"tg://user?id=".$u["user"]["id"]."\">".	
-					htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8").
-					"</a> (Creator)\n";
+				$name = trim(htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8"));
+				if ($name === "") {
+					$name = "Unknown";
+				}
+				$creatorField = "<a href=\"tg://user?id=".$u["user"]["id"]."\">".$name."</a> (Creator)\n\n";
 			} else {
-				$adminField .= "<a href=\"tg://user?id=".$u["user"]["id"]."\">".
-					htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8").
-					"</a>\n";
+				$name = trim(htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8"));
+				if ($name === "") {
+					$name = "Unknown";
+				}
+				$adminField .= ($i++).". <a href=\"tg://user?id=".$u["user"]["id"]."\">".$name."</a>\n";
 			}
 		}
-
-		$reply = trim("<b>Admin List:</b>\n".$creatorField.$adminField);
 
 		Exe::sendMessage(
 			[
 				"chat_id" => $this->data["chat_id"],
-				"text" => $reply,
+				"text" => trim("<b>Admin List:</b>\n".$creatorField.$adminField),
 				"parse_mode" => "HTML",
 				"reply_to_message_id" => $this->data["msg_id"]
 			]
