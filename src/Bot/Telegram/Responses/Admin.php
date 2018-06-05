@@ -25,19 +25,18 @@ class Admin extends ResponseFoundation
 		
 		$adminField = $creatorField = "";
 		foreach ($st->get() as $u) {
+			
+			$name = trim(htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8"));
+			if ($name === "") {
+				$name = "Unknown";
+			}
+
 			if ($u["status"] === "creator") {
-				$name = trim(htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8"));
-				if ($name === "") {
-					$name = "Unknown";
-				}
 				$creatorField = "<a href=\"tg://user?id=".$u["user"]["id"]."\">".$name."</a> (Creator)\n\n";
 			} else {
-				$name = trim(htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8"));
-				if ($name === "") {
-					$name = "Unknown";
-				}
 				$adminField .= ($i++).". <a href=\"tg://user?id=".$u["user"]["id"]."\">".$name."</a>\n";
 			}
+
 		}
 
 		Exe::sendMessage(
@@ -48,5 +47,6 @@ class Admin extends ResponseFoundation
 				"reply_to_message_id" => $this->data["msg_id"]
 			]
 		);
+		return true;
 	}
 }
