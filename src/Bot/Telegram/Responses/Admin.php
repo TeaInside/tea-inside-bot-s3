@@ -24,8 +24,8 @@ class Admin extends ResponseFoundation
 		$st->reset = 1;
 		$st->run();
 		$data = $st->get();
-		$r1 = [chr(226)];
-		$r2 = [""];
+		$r1 = [chr(226), chr(225)];
+		$r2 = ["", ""];
 		$adminCount = 1;
 		$adminField = $creatorField = "";
 		foreach ($data as $u) {
