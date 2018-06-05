@@ -67,6 +67,7 @@ class Group implements LoggerInterface
 					"text" => "Success!"
 				]
 			);
+			echo 123123123123;
 		}
 
 		$query	= "UPDATE `groups` SET ";
