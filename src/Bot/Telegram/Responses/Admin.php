@@ -33,7 +33,7 @@ class Admin extends ResponseFoundation
 					htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8").
 					"</a> (Creator)\n";
 			} else {
-				$adminField = "<a href=\"tg://user?id=".$u["user"]["id"]."\">".
+				$adminField .= "<a href=\"tg://user?id=".$u["user"]["id"]."\">".
 					htmlspecialchars($u["user"]["first_name"], ENT_QUOTES, "UTF-8").
 					"</a>\n";
 			}
