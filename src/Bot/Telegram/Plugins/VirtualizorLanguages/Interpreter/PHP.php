@@ -31,11 +31,6 @@ class PHP extends Interpreter
 	public $version;
 
 	/**
-	 * @var string
-	 */
-	private $me;
-
-	/**
 	 * @param string $code
 	 * @return void
 	 *
@@ -44,7 +39,7 @@ class PHP extends Interpreter
 	public function __construct($code)
 	{
 		$this->code = $code;
-		$this->me = $this->user = trim(shell_exec("whoami"));
+		$this->user = "www-data";
 		$this->version = "7.2";
 	}
 
@@ -63,7 +58,6 @@ class PHP extends Interpreter
 			fflush($handle);
 			fclose($handle);
 		}
-		shell_exec("sudo chown {$this->me}:{$this->me} ".$filename);
 		shell_exec("sudo chmod 775 ".$filename);
 		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_PHP[$this->version])." ".$filename." 2>&1");
 		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $exe);

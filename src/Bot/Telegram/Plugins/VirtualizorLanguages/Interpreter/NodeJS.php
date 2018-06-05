@@ -7,7 +7,6 @@ use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 defined("VIRTUALIZOR_STORAGE_NODEJS") or die("VIRTUALIZOR_STORAGE_NODEJS is not defined!");
 defined("VIRTUALIZOR_BINARY_NODEJS") or die("VIRTUALIZOR_BINARY_NODEJS is not defined!");
 
-
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @package Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter
@@ -32,11 +31,6 @@ class NodeJS extends Interpreter
 	public $version;
 
 	/**
-	 * @var string
-	 */
-	private $me;
-
-	/**
 	 * @param string $code
 	 * @return void
 	 *
@@ -45,7 +39,7 @@ class NodeJS extends Interpreter
 	public function __construct($code)
 	{
 		$this->code = $code;
-		$this->me = $this->user = trim(shell_exec("whoami"));
+		$this->user = "www-data";
 		$this->version = "*";
 	}
 
@@ -64,7 +58,6 @@ class NodeJS extends Interpreter
 			fflush($handle);
 			fclose($handle);
 		}
-		shell_exec("sudo chown {$this->me}:{$this->me} ".$filename);
 		shell_exec("sudo chmod 775 ".$filename);
 		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_NODEJS[$this->version])." ".$filename." 2>&1");
 		return str_replace(realpath(VIRTUALIZOR_STORAGE_NODEJS), "/tmp", $exe);
