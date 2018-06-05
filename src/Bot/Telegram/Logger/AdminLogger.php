@@ -55,7 +55,7 @@ class AdminLogger implements LoggerInterface
 		if ($this->reset) {
 			$this->pdo->prepare(
 				"DELETE FROM `group_admins` WHERE `group_id`=:group_id;"
-			)->execute([":group_id" => $this->group_id]);
+			)->execute([":group_id" => $this->data["group_id"]]);
 		}
 
 		if ($this->run) {
@@ -84,7 +84,7 @@ class AdminLogger implements LoggerInterface
 				}
 
 				if (! isset($admin["username"])) {
-					$admin["last_name"] = null;
+					$admin["username"] = null;
 				}
 
 				$st = $this->pdo->prepare("SELECT `first_name`,`last_name`,`username`,`photo` FROM `users` WHERE `id`=:id LIMIT 1;");
