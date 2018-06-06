@@ -35,7 +35,7 @@ class ShellExec extends ResponseFoundation
 			Exe::push(
 				[
 					"to" => $this->data["chat_id"],
-					"messages" => Exe::buildLongTextMessage($reply)
+					"messages" => Exe::buildLongTextMessage(trim($reply))
 				]
 			);
 			return true;
@@ -77,7 +77,7 @@ class ShellExec extends ResponseFoundation
 			Exe::push(
 				[
 					"to" => $this->data["chat_id"],
-					"messages" => Exe::buildLongTextMessage($reply)
+					"messages" => Exe::buildLongTextMessage(trim($reply))
 				]
 			);
 
