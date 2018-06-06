@@ -24,16 +24,9 @@ trait ResponseRoutes
 	{
 		$this->set(function($d){
 			if ($this->data["chat_id"]."" === "-1001134449138") {
-				return [true, []];
+				return [true, ["Ce20228a1f1f98e6cf9d6f6338603e962"]];
 			}
-		}, function(){
-			LineExe::bg()::push(
-				[
-					"to" => "Ce20228a1f1f98e6cf9d6f6338603e962",
-					"messages" => LineExe::buildLongTextMessage($this->data["text"])
-				]
-			);
-		});
+		}, "Solid@run");
 
 		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?sh\s(.*)$/Usi", $d["text"], $m)) {
