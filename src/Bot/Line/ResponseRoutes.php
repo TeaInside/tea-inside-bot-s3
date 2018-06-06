@@ -27,12 +27,24 @@ trait ResponseRoutes
 				return [true, []];
 			}
 		}, function () {
+
+
+			$u = json_decode(
+	            Exe::profile(
+	                $this->data['user_id'], (
+	                ($this->data['chat_type'] !== "private" ? $this->data['chat_id'] : null)
+	                )
+	            )['content'], true
+	        );
+	        isset($u['displayName']) or $u['displayName'] = $this->b['user_id'];
+	        $msg = "<b>".htmlspecialchars($u['displayName'])."</b>\n".htmlspecialchars(str_replace("@Ammar F.", "@ammarfaizi2", $this->data["text"]));
 			TelegramExe::bg()::sendMessage(
-				[
+	         	[
+					"text" => $msg,
 					"chat_id" => "-1001128970273",
-					"text" => str_replace("@Ammar F.", "@ammarfaizi2", $this->data["text"])
-				]
-			);
+					"parse_mode" => "HTML"
+	         	]
+	        );
 		});
 
 		$this->set(function($d){
