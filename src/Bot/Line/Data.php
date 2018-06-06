@@ -84,6 +84,10 @@ final class Data implements ArrayAccess, JsonSerializable
 					$this["msg_type"] = "text";
 					$this["text"] = $data["message"]["text"];
 					$this["msg_id"] = $data["message"]["id"];
+				} elseif ($data["message"]["type"] === "image") {
+					$this["msg_type"] = "image";
+					$this["text"] = null;
+					$this["msg_id"] = $data["message"]["id"];
 				}
 			}
 		}

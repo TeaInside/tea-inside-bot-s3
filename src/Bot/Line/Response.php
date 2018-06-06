@@ -33,7 +33,7 @@ final class Response
 	 */
 	public function run()
 	{
-		if ($this->data["msg_type"] === "text") {
+		if (in_array($this->data["msg_type"], ["text", "image"])) {
 			$this->buildRoutes();
 			$this->action();
 		}
