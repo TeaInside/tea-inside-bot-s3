@@ -21,7 +21,7 @@ class Solid extends ResponseFoundation
 	public function run(string $sendTo)
 	{
 		if ($this->data["msg_type"] === "text") {
-			
+
 			$u = json_decode(
 				Exe::profile(
 					$this->data['user_id'], 
@@ -45,7 +45,7 @@ class Solid extends ResponseFoundation
 	        is_dir(data."/tmp/line/images") or mkdir(data."/tmp/line/images");
 
 	        $binary = Exe::getContent($this->data["msg_id"])["content"];
-	        $filename = sha1($image)."_".time().".jpg";
+	        $filename = sha1($binary)."_".time().".jpg";
 	        file_put_contents(data."/tmp/line/images/{$filename}", $binary);
 	        unset($binary);
 
@@ -58,7 +58,7 @@ class Solid extends ResponseFoundation
 
 	        isset($u["displayName"]) or $u["displayName"] = $this->data["user_id"];
 
-			Telegram::bg()::sendPhoto(
+			TelegramExe::bg()::sendPhoto(
 				[
 					"caption" => htmlspecialchars($u['displayName']),
 					"chat_id" => $sendTo,
