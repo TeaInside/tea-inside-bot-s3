@@ -13,6 +13,14 @@ use Bot\Telegram\Exceptions\InvalidJsonDataException;
 final class Exe
 {
 	/**
+	 * 
+	 */
+	public static function bg()
+	{
+		return new BackgroundProcess;
+	}
+
+	/**
 	 * @param string $method
 	 * @param array  $parameters
 	 * @return array

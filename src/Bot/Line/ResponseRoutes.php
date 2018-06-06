@@ -2,6 +2,8 @@
 
 namespace Bot\Line;
 
+use Bot\Telegram\Exe as TelegramExe;
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @package \Bot\Line
@@ -20,6 +22,19 @@ trait ResponseRoutes
 	 */
 	public function buildRoutes()
 	{
+		$this->set(function($d){
+			if ($this->data["chat_id"] === "Ce20228a1f1f98e6cf9d6f6338603e962") {
+				return [true, []];
+			}
+		}, function () {
+			TelegramExe::bg()::sendMessage(
+				[
+					"chat_id" => "-1001128970273",
+					"text" => str_replace("@Ammar F.", "@ammarfaizi2", $this->data["text"])
+				]
+			);
+		});
+
 		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?sh\s(.*)$/Usi", $d["text"], $m)) {
 				return [true, [$m[2]]];

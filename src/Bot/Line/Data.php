@@ -67,10 +67,13 @@ final class Data implements ArrayAccess, JsonSerializable
 				$this["reply_token"] = $data["reply_token"]; 
 			}
 			if (isset($data["source"]["type"])) {
+				$this["user_id"] = $data["source"]["userId"];
 				if ($data["source"]["type"] === "user") {
-					$this["user_id"] = $data["source"]["userId"];
 					$this["chat_id"] = $data["source"]["userId"];
 					$this["chat_type"] = "private";
+				} else {
+					$this["chat_id"] = $data["source"]["groupId"];
+					$this["chat_type"] = "group";
 				}
 			}
 			if (isset($data["timestamp"])) {

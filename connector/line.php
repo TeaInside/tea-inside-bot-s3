@@ -5,16 +5,17 @@
 //     "events": [
 //         {
 //             "type": "message",
-//             "replyToken": "3293df8625b14a3a930172f0fa47ba47",
+//             "replyToken": "b424dd70116e4ebdb26e611bb8a30980",
 //             "source": {
-//                 "userId": "U547ba62dc793c6557abbb42ab347f15f",
-//                 "type": "user"
+//                 "groupId": "Ce20228a1f1f98e6cf9d6f6338603e962",
+//                 "userId": "Ue051b0e302e7362709e8762895c066eb",
+//                 "type": "group"
 //             },
-//             "timestamp": 1528279788347,
+//             "timestamp": 1528283710780,
 //             "message": {
 //                 "type": "text",
-//                 "id": "8074345942053",
-//                 "text": "/tr en id good morning"
+//                 "id": "8074656171338",
+//                 "text": "@Ammar F. "
 //             }
 //         }
 //     ]

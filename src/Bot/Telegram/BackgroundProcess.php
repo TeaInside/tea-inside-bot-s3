@@ -10,4 +10,25 @@ namespace Bot\Telegram;
  */
 final class BackgroundProcess
 {
+	public function __call($method, $parameters)
+	{
+		shell_exec(
+			"nohup "
+			.PHP_BINARY." "
+			.__DIR__."/../../../connector/telegram_bridge.php \"{$method}\" \""
+			.rawurlencode(json_encode($parameters))."\" >> "
+			.logs."/telegram/bgpc.log 2>&1 &"
+		);
+	}
+
+	public static function __callStatic($method, $parameters)
+	{
+		shell_exec(
+			"nohup "
+			.PHP_BINARY." "
+			.__DIR__."/../../../connector/telegram_bridge.php \"{$method}\" \""
+			.rawurlencode(json_encode($parameters))."\" >> "
+			.logs."/telegram/bgpc.log 2>&1 &"
+		);
+	}
 }
