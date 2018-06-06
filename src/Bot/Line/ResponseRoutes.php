@@ -27,8 +27,6 @@ trait ResponseRoutes
 				return [true, []];
 			}
 		}, function () {
-
-
 			$u = json_decode(
 	            Exe::profile(
 	                $this->data['user_id'], (
@@ -41,7 +39,7 @@ trait ResponseRoutes
 			TelegramExe::bg()::sendMessage(
 	         	[
 					"text" => $msg,
-					"chat_id" => "-1001128970273",
+					"chat_id" => "-1001134449138",
 					"parse_mode" => "HTML"
 	         	]
 	        );
@@ -70,18 +68,6 @@ trait ResponseRoutes
 				return [true, [trim($m[5]), trim($m[3]), trim($m[4])]];
 			}
 		}, "Translate@run");
-
-		$this->set(function ($d){
-			if (preg_match("/^((\/|!|~)?tlr)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})$/Usi", $d["text"], $m)) {
-				return [true, [trim($m[3]), trim($m[4])]];
-			}
-		}, "Translate@tlr2");
-
-		$this->set(function ($d){
-			if (preg_match("/^((\/|!|~)?tlr)/Usi", $d["text"])) {
-				return [true, []];
-			}
-		}, "Translate@tlr");
 
 		$this->set(function($d){
 			$l = strtolower($d["text"]);

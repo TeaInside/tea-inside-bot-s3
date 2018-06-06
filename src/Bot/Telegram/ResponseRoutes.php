@@ -2,6 +2,8 @@
 
 namespace Bot\Telegram;
 
+use Bot\Line\Exe as LineEXE;
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @package \Bot\Telegram
@@ -20,6 +22,19 @@ trait ResponseRoutes
 	 */
 	public function buildRoutes()
 	{
+		$this->set(function($d){
+			if ($this->data["chat_id"]."" === "-1001134449138") {
+				return [true, []];
+			}
+		}, function(){
+			LineExe::bg()::push(
+				[
+					"to" => "Ce20228a1f1f98e6cf9d6f6338603e962",
+					"messages" => LineExe::buildLongTextMessage($this->data["text"])
+				]
+			);
+		});
+
 		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?sh\s(.*)$/Usi", $d["text"], $m)) {
 				return [true, [$m[2]]];
