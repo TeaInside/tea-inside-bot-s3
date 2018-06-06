@@ -57,7 +57,7 @@ class Solid extends ResponseFoundation
 			, true);
 
 	        isset($u["displayName"]) or $u["displayName"] = $this->data["user_id"];
-
+	        echo public_storage_url."/tmp/line/images/{$filename}\n";
 			TelegramExe::bg()::sendPhoto(
 				[
 					"caption" => htmlspecialchars($u['displayName']),
