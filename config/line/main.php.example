@@ -1,3 +1,48 @@
 <?php
 
+
+
+/**
+ * Set timezone.
+ */ 
+date_default_timezone_set("Asia/Jakarta");
+
+/**
+ * Database configuration.
+ */
+define("DB_HOST", "127.0.0.1");
+define("DB_PORT", "3306");
+define("DB_NAME", "bot_telegram");
+define("DB_USER", "a1");
+define("DB_PASS", "a1");
+
 define("CHANNEL_ACCESS_TOKEN", "xdrgSF1cNJERHhjwh3uO4l2J9sA6DWFMXpgRBgHr4RhMXgbRxdPgjgpaG7GymyDH5bjJhhTRxBURzPw3Xi939aTamjmDWQJtH81IoHAgFN4+KlYJMyGT4h56c7+aVKBLbT5NaTh3KG07kYmipQkgagdB04t89/1O/w1cDnyilFU=");
+
+/**
+ * Sudoers and Global Admins
+ */
+define("SUDOERS", ["U547ba62dc793c6557abbb42ab347f15f"]);
+define("GLOBAL_ADMINS", array_merge(SUDOERS, 
+	[
+		
+	]
+));
+
+/**
+ * Ignore user.
+ */
+define("IGNORE_USERS", []);
+
+/**
+ * Storage
+ */
+define("data", 							realpath(__DIR__."/../../storage"));
+define("logs",							realpath(__DIR__."/../../logs"));
+define("public_storage_url",			"https://webhook-a2.teainside.me/storage");
+define("VIRTUALIZOR_URL_PHP", 			"https://webhook-a2.teainside.tech/storage/virtualizor/php");
+define("VIRTUALIZOR_BINARY_PHP",		["7.2" => "/usr/bin/php7.2"]);
+define("VIRTUALIZOR_BINARY_PYTHON",		["3" => "/usr/bin/python3", "2" => "/usr/bin/python2"]);
+define("VIRTUALIZOR_BINARY_NODEJS",		["*" => "/usr/bin/node"]);
+define("VIRTUALIZOR_STORAGE_PHP",		data."/virtualizor_languages/php");
+define("VIRTUALIZOR_STORAGE_PYTHON",	data."/virtualizor_languages/python");
+define("VIRTUALIZOR_STORAGE_NODEJS",	data."/virtualizor_languages/js");
