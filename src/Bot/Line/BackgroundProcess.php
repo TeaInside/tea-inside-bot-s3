@@ -1,10 +1,10 @@
 <?php
 
-namespace Bot\Telegram;
+namespace Bot\Line;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
- * @package \Bot\Telegram
+ * @package \Bot\Line
  * @license MIT
  * @since 0.0.1
  */
