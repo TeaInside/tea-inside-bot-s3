@@ -60,7 +60,7 @@ class Translate extends ResponseFoundation
 	 * @param string $lang2
 	 * @return bool
 	 */
-	public function tlr2($lang1, $lang2)
+	public function tlr2(string $lang1, string $lang2)
 	{
 		if (isset($this->data->in["message"]["reply_to_message"]["text"])) {
 			$st = new GoogleTranslate(

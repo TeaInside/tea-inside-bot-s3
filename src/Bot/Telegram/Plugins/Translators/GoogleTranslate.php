@@ -24,7 +24,7 @@ class GoogleTranslate
 	 *
 	 * Constructor.
 	 */
-	public function __construct($text, $from, $to)
+	public function __construct(string $text, string $from, string $to)
 	{
 		$this->googleTranslate = new BaseGoogleTranslate($text, $from, $to);
 	}

@@ -96,7 +96,7 @@ class ShellExec extends ResponseFoundation
 	/**
 	 * @return bool
 	 */
-	private function sudoersOnly($cmd)
+	private function sudoersOnly(string $cmd)
 	{
 		return (bool) preg_match("/sudo\s/", $cmd);
 	}
@@ -104,7 +104,7 @@ class ShellExec extends ResponseFoundation
 	/**
 	 * @return bool
 	 */
-	private function isNotSecure($cmd)
+	private function isNotSecure(string $cmd)
 	{
 		return false;
 	}
