@@ -45,7 +45,7 @@ class Solid extends ResponseFoundation
 	        is_dir(data."/tmp/line/images") or mkdir(data."/tmp/line/images");
 
 	        $binary = Exe::getContent($this->data["msg_id"])["content"];
-	        $filename = sha1($binary)."_".time().".jpg";
+	        $filename = sha1($binary).".jpg";
 	        file_put_contents(data."/tmp/line/images/{$filename}", $binary);
 	        unset($binary);
 
