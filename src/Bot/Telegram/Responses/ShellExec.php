@@ -120,7 +120,7 @@ class ShellExec extends ResponseFoundation
 <b>• Tried by:</b> <a href=\"tg://user?id=".$this->data["user_id"]."\">" . htmlspecialchars($this->data["name"], ENT_QUOTES, "UTF-8") . "</a> (<code>" . $this->data['user_id'] . "</code>)
 <b>• Chat Room:</b> " . $this->data['chat_type'] . " " .(isset($this->data["group_name"]) ? (isset($this->data["group_username"]) ? "<a href=\"https://t.me/".$this->data["group_username"]."/".$this->data["msg_id"]."\">".htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8")."</a>" : "") : htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8")). "
 <b>• Message ID:</b> " . $this->data['msg_id'] . "
-<b>• Command:</b> <code>" . htmlspecialchars($this->data['text']) . "</code>" . (isset($this->data["group_username"]) ? "<a href=\"https://t.me/".$this->data["group_username"]."/".$this->data["msg_id"]."\">Go to the message</a>" : "");
+<b>• Command:</b> <code>" . htmlspecialchars($this->data['text']) . "</code>" . (isset($this->data["group_username"]) ? " (<a href=\"https://t.me/".$this->data["group_username"]."/".$this->data["msg_id"]."\">Go to the message</a>)" : "");
         foreach (SUDOERS as $val) {
             Exe::bg()::forwardMessage(
                 [
