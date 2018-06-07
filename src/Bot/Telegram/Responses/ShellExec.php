@@ -44,14 +44,25 @@ class ShellExec extends ResponseFoundation
 		} else {
 
 			if (file_exists(data."/tmp/telegram/shell_count/".$this->data["user_id"])) {
-				$count = ((int) file_get_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"])) + 1;
+				$c = json_decode(file_get_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"]), true);
+				if (isset($c["count"], $c["last"])) {
+					$c["count"]++;
+					$c["last"] = time();
+				} else {
+					$c = ["count" => 1, "last" => time()];	
+				}
 			} else {
 				is_dir(data."/tmp/telegram/shell_count/") or mkdir(data."/tmp/telegram/shell_count/");
-				$count = 1;
+				$c = ["count" => 1, "last" => time()];
 			}
 
-			if ($count > 10) {
-				$reply = "You have reached the max number of limit. Please try again later!\n\nYou can also buy our service to increase the shell exec limitation.\n\nContact Us: @KodingTeh (24 hours)";
+			if ($c["count"] > 15) {
+				if (time() > ($c["last"]+(3600*12))) {
+					@unlink(data."/tmp/telegram/shell_count/".$this->data["user_id"]);
+					return true;
+				} else {
+					$reply = "You have reached the max number of limit. Please try again later!\n\nYour limitation will be removed at ".date("d F Y h:i:s A", $c["last"]+(3600*12))." GMT+7\n\nYou can also buy our service to increase the shell exec limitation.\n\nContact Us: @KodingTeh (24 hours)";	
+				}
 			} else {
 				$reply = $report = 0;
 				if ($this->sudoersOnly($cmd)) {
@@ -85,7 +96,7 @@ class ShellExec extends ResponseFoundation
 						$reply = "<pre>".htmlspecialchars(($shell === "" ? "~" : $shell), ENT_QUOTES, "UTF-8")."</pre>";
 						shell_exec("sudo rm -f ".$filename);
 					}
-					file_put_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"], $count, LOCK_EX);
+					file_put_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"], json_encode($c), LOCK_EX);
 				}
 			}
 			Exe::sendMessage(
