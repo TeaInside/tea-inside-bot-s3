@@ -99,7 +99,7 @@ trait ResponseRoutes
 				return [true, ["c++"]];
 			}
 
-			if (substr($l, 0, 5) === "<?c") {
+			if (substr($l, 0, 3) === "<?c") {
 				return [true, ["c"]];
 			}
 		}, "VirtualizorLanguages@run");
