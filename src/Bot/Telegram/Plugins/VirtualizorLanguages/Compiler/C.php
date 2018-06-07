@@ -36,6 +36,11 @@ class C extends Compiler
 	protected $filename;
 
 	/**
+	 * @var string
+	 */
+	protected $binName;
+
+	/**
 	 * @param string $code
 	 * @return void
 	 *
@@ -55,7 +60,7 @@ class C extends Compiler
 	{
 		is_dir(VIRTUALIZOR_STORAGE_C."/bin") or mkdir(VIRTUALIZOR_STORAGE_C."/bin");
 		is_dir(VIRTUALIZOR_STORAGE_C."/code") or mkdir(VIRTUALIZOR_STORAGE_C."/code");
-		$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->generateFilename());
+		$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->binName = $this->generateFilename()).".c";
 		if (! file_exists($filename)) {
 			$handle = fopen($filename, "w");
 			fwrite($handle, $this->code);
@@ -76,7 +81,7 @@ class C extends Compiler
 		return str_replace(
 			realpath(VIRTUALIZOR_STORAGE_C), 
 			"/tmp", 
-			shell_exec("sudo -u ".$this->user." ".$this->filename." 2>&1")
+			shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1")
 		);
 	}
 
@@ -85,6 +90,6 @@ class C extends Compiler
 	 */
 	private function generateFilename()
 	{
-		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".c";
+		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5);
 	}
 }
