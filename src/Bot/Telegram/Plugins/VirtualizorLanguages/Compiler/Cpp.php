@@ -68,8 +68,7 @@ class Cpp extends Compiler
 			fflush($handle);
 			fclose($handle);
 		}
-		$compile = shell_exec($a = (VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." && echo compiled_successfully");
-		echo "\n{$a}\n";
+		$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." && echo compiled_successfully");
 		return (bool) preg_match("/compiled_successfully/", $compile);
 	}
 
@@ -78,12 +77,15 @@ class Cpp extends Compiler
 	 */
 	public function run()
 	{
-		$this->compile();
-		return str_replace(
-			realpath(VIRTUALIZOR_STORAGE_CPP), 
-			"/tmp", 
-			shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." 2>&1")
-		);
+		if ($this->compile()) {
+			return str_replace(
+				realpath(VIRTUALIZOR_STORAGE_CPP), 
+				"/tmp", 
+				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." 2>&1")
+			);
+		} else {
+			return "Error!";
+		}
 	}
 
 	/**

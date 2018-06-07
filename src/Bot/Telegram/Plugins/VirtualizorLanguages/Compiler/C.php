@@ -68,8 +68,7 @@ class C extends Compiler
 			fflush($handle);
 			fclose($handle);
 		}
-		shell_exec("sudo chmod 775 ".$filename);
-		$compile = shell_exec((VIRTUALIZOR_BINARY_C[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1 && echo compiled_successfully");
+		$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_C[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1 && echo compiled_successfully");
 		return (bool) preg_match("/compiled_successfully/", $compile);
 	}
 
@@ -78,12 +77,15 @@ class C extends Compiler
 	 */
 	public function run()
 	{
-		$this->compile();
-		return str_replace(
-			realpath(VIRTUALIZOR_STORAGE_C), 
-			"/tmp", 
-			shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1")
-		);
+		if ($this->compile()) {
+			return str_replace(
+				realpath(VIRTUALIZOR_STORAGE_C), 
+				"/tmp", 
+				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1")
+			);
+		} else {
+			return "Error!";
+		}
 	}
 
 	/**
