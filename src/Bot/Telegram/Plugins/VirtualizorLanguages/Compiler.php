@@ -2,7 +2,7 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages;
 
-use Bot\Telegram\Contracts\VirtualizorLanguages\Interpreter as InterpreterContract;
+use Bot\Telegram\Contracts\VirtualizorLanguages\Compiler as CompilerContract;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -10,7 +10,7 @@ use Bot\Telegram\Contracts\VirtualizorLanguages\Interpreter as InterpreterContra
  * @license MIT
  * @since 0.0.1
  */
-abstract class Interpreter implements InterpreterContract
+abstract class Compiler implements CompilerContract
 {
 	/**
 	 * @var string
@@ -29,6 +29,11 @@ abstract class Interpreter implements InterpreterContract
 	 * Constructor.
 	 */
 	abstract public function __construct($code);
+
+	/**
+	 * @return bool
+	 */
+	abstract protected function compile();
 
 	/**
 	 * @return string

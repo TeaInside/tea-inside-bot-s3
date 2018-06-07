@@ -5,6 +5,7 @@ namespace Bot\Telegram\Responses;
 use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\PHP;
+use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Ruby;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Python;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\NodeJS;
 
@@ -60,6 +61,13 @@ class VirtualizorLanguages extends ResponseFoundation
 			case 'node':
 			case 'nodejs':
 					$st = new NodeJS(substr($this->data["text"], 4));
+					if (! in_array($this->data["user_id"], SUDOERS)) {
+						$st->user = "limited";
+					}
+					$reply = $st->run();
+				break;
+			case 'ruby':
+					$st = new Ruby(substr($this->data["text"], 6));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
