@@ -20,7 +20,6 @@ class Solid extends ResponseFoundation
 	 */
 	public function run(string $sendTo)
 	{
-		var_dump(123);
 		if ($this->data["msg_type"] === "text") {
 			LineExe::bg()::push(
 				[

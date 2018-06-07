@@ -114,5 +114,29 @@ class ShellExec extends ResponseFoundation
 	 */
 	private function reportToSudoers()
 	{
+		$incidentMessage = "<b>WARNING</b>
+<b>Unwanted user tried to use sudo.</b>
+<b>• Datetime:</b> ".date("Y-m-d H:i:s")."
+<b>• Tried by:</b> <a href=\"tg://user?id=".$this->data["user_id"]."\">" . htmlspecialchars($this->name, ENT_QUOTES, "UTF-8") . " (<code>" . $this->e['user_id'] . "</code>)
+<b>• Chat Room:</b> " . $this->data['chat_type'] . " " .(isset($this->data["group_name"]) ? (isset($this->data["group_username"]) ? "<a href=\"https://t.me/".$this->data["group_username"]."/".$this->data["msg_id"]."\">".htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8")."/a>" : "") : htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8")). "
+<b>• Message ID:</b> " . $this->data['msg_id'] . "
+<b>• Command:</b> <code>" . htmlspecialchars($this->data['text']) . "</code>" . (isset($this->data["group_username"]) ? "<a href=\"https://t.me/".$this->data["group_username"]."/".$this->data["msg_id"]."\">Go to the message</a>" : "");
+        foreach (SUDOERS as $val) {
+            Exe::bg()::forwardMessage(
+                [
+                    "chat_id" => $val,
+                    "from_chat_id" => $this->data['chat_id'],
+                    "message_id" => $this->data['msg_id']
+                ]
+            );
+            Exe::bg()::sendMessage(
+                [
+                    "chat_id"    => $val,
+                    "text"       => $incidentMessage,
+                    "parse_mode" => "HTML",
+                    "disable_web_page_preview" => true
+                ]
+            );
+        }
 	}
 }
