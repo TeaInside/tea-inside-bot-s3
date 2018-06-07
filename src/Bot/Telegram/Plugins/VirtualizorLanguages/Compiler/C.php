@@ -33,7 +33,7 @@ class C extends Compiler
 	/**
 	 * @var string
 	 */
-	private $filename;
+	protected $filename;
 
 	/**
 	 * @param string $code
