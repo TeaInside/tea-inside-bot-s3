@@ -58,18 +58,21 @@ class Cpp extends Compiler
 	 */
 	protected function compile()
 	{
-		is_dir(VIRTUALIZOR_STORAGE_CPP) or mkdir(VIRTUALIZOR_STORAGE_CPP);
-		is_dir(VIRTUALIZOR_STORAGE_CPP."/bin") or mkdir(VIRTUALIZOR_STORAGE_CPP."/bin");
-		is_dir(VIRTUALIZOR_STORAGE_CPP."/code") or mkdir(VIRTUALIZOR_STORAGE_CPP."/code");
-		$this->filename = $filename = VIRTUALIZOR_STORAGE_CPP."/code/".($this->binName = $this->generateFilename()).".cpp";
-		if (! file_exists($filename)) {
-			$handle = fopen($filename, "w");
-			fwrite($handle, $this->code);
-			fflush($handle);
-			fclose($handle);
+		if (! file_exists(VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName)) {
+			is_dir(VIRTUALIZOR_STORAGE_CPP) or mkdir(VIRTUALIZOR_STORAGE_CPP);
+			is_dir(VIRTUALIZOR_STORAGE_CPP."/bin") or mkdir(VIRTUALIZOR_STORAGE_CPP."/bin");
+			is_dir(VIRTUALIZOR_STORAGE_CPP."/code") or mkdir(VIRTUALIZOR_STORAGE_CPP."/code");
+			$this->filename = $filename = VIRTUALIZOR_STORAGE_CPP."/code/".($this->binName = $this->generateFilename()).".cpp";
+			if (! file_exists($filename)) {
+				$handle = fopen($filename, "w");
+				fwrite($handle, $this->code);
+				fflush($handle);
+				fclose($handle);
+			}
+			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." && echo compiled_successfully");
+			return (bool) preg_match("/compiled_successfully/", $compile);
 		}
-		$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." && echo compiled_successfully");
-		return (bool) preg_match("/compiled_successfully/", $compile);
+		return true;
 	}
 
 	/**
@@ -93,6 +96,6 @@ class Cpp extends Compiler
 	 */
 	private function generateFilename()
 	{
-		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5);
+		return sha1($this->code);
 	}
 }
