@@ -42,40 +42,53 @@ class ShellExec extends ResponseFoundation
 			);
 			return true;
 		} else {
-			$reply = $report = 0;
-			if ($this->sudoersOnly($cmd)) {
-				$reply = "<a href=\"tg://user?id=".$this->data["user_id"]."\">".htmlspecialchars($this->data["name"], ENT_QUOTES, "UTF-8")."</a> is not in the sudoers file. This incident will be reported.";
-				$report = 1;
-			} elseif ($this->isNotSecure($cmd)) {
-				$reply = "Rejected due to security reason!";
-				$report = 1;
+
+			if (file_exists(data."/tmp/telegram/shell_count/".$this->data["user_id"])) {
+				$count = ((int) file_get_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"])) + 1;
+			} else {
+				is_dir(data."/tmp/telegram/shell_count/") or mkdir(data."/tmp/telegram/shell_count/");
+				$count = 1;
 			}
 
-			if (! $reply) {
-				if (! ($a = trim(shell_exec("lastlog | grep limited && echo 123")))) {
-					$passwd = rand().rand();
-					shell_exec("echo -e \"{$passwd}\\n{$passwd}\" > /tmp/limited_passwd.tmp");
-					shell_exec("sudo adduser limited < /tmp/limited_passwd.tmp");
-					shell_exec("sudo rm -f /tmp/limited_passwd.tmp");
+			file_put_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"], $count, LOCK_EX);
+
+			if ($count > 3) {
+				$reply = "You have reached the max number of limit. Please try again later!\n\nYou can also buy our service to increase the shell exec limitation.\n\nContact Us: @KodingTeh (24 hours)";
+			} else {
+				$reply = $report = 0;
+				if ($this->sudoersOnly($cmd)) {
+					$reply = "<a href=\"tg://user?id=".$this->data["user_id"]."\">".htmlspecialchars($this->data["name"], ENT_QUOTES, "UTF-8")."</a> is not in the sudoers file. This incident will be reported.";
+					$report = 1;
+				} elseif ($this->isNotSecure($cmd)) {
+					$reply = "Rejected due to security reason!";
+					$report = 1;
 				}
-				if (! ($a = trim(shell_exec("lastlog | grep limited && echo 123")))) {
-					$reply = "Unable to create limited user";
-				} else {
-					$fp = fopen(
-					$filename = "/tmp/".substr(md5(sha1($cmd).md5($cmd)), 0, 4).".sh", 
-						"w"
-					);
-					flock($fp, LOCK_EX);
-					fwrite($fp, "#!/usr/bin/env bash\n".$cmd);
-					fflush($fp);
-					fclose($fp);
-					shell_exec("sudo chmod +x ".$filename);
-					$shell = trim(shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1"));
-					$reply = "<pre>".htmlspecialchars(($shell === "" ? "~" : $shell), ENT_QUOTES, "UTF-8")."</pre>";
-					shell_exec("sudo rm -f ".$filename);
+
+				if (! $reply) {
+					if (! ($a = trim(shell_exec("lastlog | grep limited && echo 123")))) {
+						$passwd = rand().rand();
+						shell_exec("echo -e \"{$passwd}\\n{$passwd}\" > /tmp/limited_passwd.tmp");
+						shell_exec("sudo adduser limited < /tmp/limited_passwd.tmp");
+						shell_exec("sudo rm -f /tmp/limited_passwd.tmp");
+					}
+					if (! ($a = trim(shell_exec("lastlog | grep limited && echo 123")))) {
+						$reply = "Unable to create limited user";
+					} else {
+						$fp = fopen(
+						$filename = "/tmp/".substr(md5(sha1($cmd).md5($cmd)), 0, 4).".sh", 
+							"w"
+						);
+						flock($fp, LOCK_EX);
+						fwrite($fp, "#!/usr/bin/env bash\n".$cmd);
+						fflush($fp);
+						fclose($fp);
+						shell_exec("sudo chmod +x ".$filename);
+						$shell = trim(shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1"));
+						$reply = "<pre>".htmlspecialchars(($shell === "" ? "~" : $shell), ENT_QUOTES, "UTF-8")."</pre>";
+						shell_exec("sudo rm -f ".$filename);
+					}
 				}
 			}
-
 			Exe::sendMessage(
 				[
 					"parse_mode" => "html",
