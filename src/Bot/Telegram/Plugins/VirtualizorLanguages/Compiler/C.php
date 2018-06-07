@@ -58,11 +58,11 @@ class C extends Compiler
 	 */
 	protected function compile()
 	{
+		$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->binName = $this->generateFilename()).".c";
 		if (! file_exists(VIRTUALIZOR_STORAGE_C."/code/".$this->binName)) {
 			is_dir(VIRTUALIZOR_STORAGE_C) or mkdir(VIRTUALIZOR_STORAGE_C);
 			is_dir(VIRTUALIZOR_STORAGE_C."/bin") or mkdir(VIRTUALIZOR_STORAGE_C."/bin");
 			is_dir(VIRTUALIZOR_STORAGE_C."/code") or mkdir(VIRTUALIZOR_STORAGE_C."/code");
-			$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->binName = $this->generateFilename()).".c";
 			if (! file_exists($filename)) {
 				$handle = fopen($filename, "w");
 				fwrite($handle, $this->code);

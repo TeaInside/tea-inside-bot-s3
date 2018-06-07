@@ -58,11 +58,11 @@ class Cpp extends Compiler
 	 */
 	protected function compile()
 	{
+		$this->filename = $filename = VIRTUALIZOR_STORAGE_CPP."/code/".($this->binName = $this->generateFilename()).".cpp";
 		if (! file_exists(VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName)) {
 			is_dir(VIRTUALIZOR_STORAGE_CPP) or mkdir(VIRTUALIZOR_STORAGE_CPP);
 			is_dir(VIRTUALIZOR_STORAGE_CPP."/bin") or mkdir(VIRTUALIZOR_STORAGE_CPP."/bin");
 			is_dir(VIRTUALIZOR_STORAGE_CPP."/code") or mkdir(VIRTUALIZOR_STORAGE_CPP."/code");
-			$this->filename = $filename = VIRTUALIZOR_STORAGE_CPP."/code/".($this->binName = $this->generateFilename()).".cpp";
 			if (! file_exists($filename)) {
 				$handle = fopen($filename, "w");
 				fwrite($handle, $this->code);
