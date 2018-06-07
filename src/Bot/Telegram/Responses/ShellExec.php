@@ -50,9 +50,7 @@ class ShellExec extends ResponseFoundation
 				$count = 1;
 			}
 
-			file_put_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"], $count, LOCK_EX);
-
-			if ($count > 3) {
+			if ($count > 10) {
 				$reply = "You have reached the max number of limit. Please try again later!\n\nYou can also buy our service to increase the shell exec limitation.\n\nContact Us: @KodingTeh (24 hours)";
 			} else {
 				$reply = $report = 0;
@@ -87,6 +85,7 @@ class ShellExec extends ResponseFoundation
 						$reply = "<pre>".htmlspecialchars(($shell === "" ? "~" : $shell), ENT_QUOTES, "UTF-8")."</pre>";
 						shell_exec("sudo rm -f ".$filename);
 					}
+					file_put_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"], $count, LOCK_EX);
 				}
 			}
 			Exe::sendMessage(
