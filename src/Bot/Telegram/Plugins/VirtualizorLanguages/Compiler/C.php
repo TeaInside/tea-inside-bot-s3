@@ -58,6 +58,7 @@ class C extends Compiler
 	 */
 	protected function compile()
 	{
+		is_dir(VIRTUALIZOR_STORAGE_C) or mkdir(VIRTUALIZOR_STORAGE_C);
 		is_dir(VIRTUALIZOR_STORAGE_C."/bin") or mkdir(VIRTUALIZOR_STORAGE_C."/bin");
 		is_dir(VIRTUALIZOR_STORAGE_C."/code") or mkdir(VIRTUALIZOR_STORAGE_C."/code");
 		$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->binName = $this->generateFilename()).".c";
