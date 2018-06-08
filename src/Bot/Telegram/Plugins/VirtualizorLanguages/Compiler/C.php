@@ -70,6 +70,7 @@ class C extends Compiler
 				fclose($handle);
 			}
 			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_C[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName." 2>&1 && echo compiled_successfully");
+			shell_exec("sudo chmod +rx ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName);
 			return (bool) preg_match("/compiled_successfully/", $compile);
 		}
 		return true;
