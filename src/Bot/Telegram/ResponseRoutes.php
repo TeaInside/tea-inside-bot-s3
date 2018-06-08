@@ -95,6 +95,10 @@ trait ResponseRoutes
 				return [true, ["ruby"]];
 			}
 
+			if (substr($l, 0, 5) === "<?cpp") {
+				return [true, ["c++"]];
+			}
+
 			if (substr($l, 0, 5) === "<?c++") {
 				return [true, ["c++"]];
 			}
