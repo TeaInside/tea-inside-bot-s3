@@ -69,7 +69,8 @@ class Cpp extends Compiler
 				fflush($handle);
 				fclose($handle);
 			}
-			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName." && echo compiled_successfully");
+			$compile = shell_exec($a = ("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName." && echo compiled_successfully");
+			echo "\n\n".$a."\n\n";
 			shell_exec("sudo chmod +rx ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName);
 			return (bool) preg_match("/compiled_successfully/", $compile);
 		}
