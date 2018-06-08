@@ -84,7 +84,7 @@ class Java extends Compiler
 			return str_replace(
 				realpath(VIRTUALIZOR_STORAGE_JAVA), 
 				"/tmp", 
-				shell_exec("cd ".VIRTUALIZOR_STORAGE_JAVA."/bin && sudo -u ".VIRTUALIZOR_BINARY_JAVA[$this->version][1]." ".$this->binName." 2>&1")
+				shell_exec("cd ".VIRTUALIZOR_STORAGE_JAVA."/bin && sudo -u ".$this->user." ".VIRTUALIZOR_BINARY_JAVA[$this->version][1]." ".$this->binName." 2>&1")
 			);
 		} else {
 			return str_replace(VIRTUALIZOR_STORAGE_JAVA, "/tmp", $this->compile);
