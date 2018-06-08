@@ -81,6 +81,8 @@ final class Exe
 		$info = curl_getinfo($ch);
 		$errno = curl_errno($ch);
 		$error = curl_error($ch);
+		curl_close($ch);
+
 		return [
 			"out" => $out,
 			"info" => $info,
