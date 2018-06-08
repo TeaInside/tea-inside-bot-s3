@@ -70,8 +70,8 @@ class PHP extends Interpreter
 	{
 		if ($this->user === "limited") {
 			$a = explode("<?php", $this->code, 2);
-			$a[0].=" set_time_limit(10); ini_set(\"max_execution_time\",10); ini_set(\"memory_limit\", \"50M\"); ";
-			$this->code = implode("<?php", $a);
+			$a[0] ="<?php set_time_limit(10); ini_set(\"max_execution_time\",10); ini_set(\"memory_limit\", \"50M\"); ";
+			$this->code = $a[0]." ".$a[1];
 		}
 		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".php";
 	}
