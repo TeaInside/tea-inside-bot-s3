@@ -13,7 +13,7 @@ defined("VIRTUALIZOR_BINARY_JAVA") or die("VIRTUALIZOR_BINARY_JAVA is not define
  * @license MIT
  * @since 0.0.1
  */
-class Cpp extends Compiler
+class Java extends Compiler
 {
 	/**
 	 * @var string
