@@ -13,7 +13,7 @@ use Bot\Telegram\Exceptions\InvalidJsonDataException;
 final class Exe
 {
 	/**
-	 * 
+	 * @return \Bot\Telegram\BackgrounProcess
 	 */
 	public static function bg()
 	{
