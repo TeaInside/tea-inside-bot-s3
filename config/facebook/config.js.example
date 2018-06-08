@@ -1,0 +1,16 @@
+"use strict";
+
+
+const 
+	facebook_email = "",
+	facebook_pass  = "",
+	app_state_file = __dirname+"/../../storage/appstate/facebook.json";
+
+
+module.exports = {
+	"credentials": {
+		"email": facebook_email,
+		"password": facebook_pass
+	},
+	"app_state_file": app_state_file
+};
