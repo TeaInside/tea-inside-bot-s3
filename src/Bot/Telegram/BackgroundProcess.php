@@ -10,6 +10,11 @@ namespace Bot\Telegram;
  */
 final class BackgroundProcess
 {
+	/**
+	 * @param string $method
+	 * @param array  $parameters
+	 * @return void
+	 */
 	public function __call($method, $parameters)
 	{
 		shell_exec(
@@ -21,6 +26,11 @@ final class BackgroundProcess
 		);
 	}
 
+	/**
+	 * @param string $method
+	 * @param array  $parameters
+	 * @return void
+	 */
 	public static function __callStatic($method, $parameters)
 	{
 		shell_exec(
