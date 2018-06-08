@@ -4,7 +4,8 @@
   "description": "Tea Inside Bot S3",
   "main": "connector/js/handler.js",
   "dependencies": {
-    "facebook-chat-api": "^1.5.1"
+    "facebook-chat-api": "^1.5.1",
+    "scandir": "^0.1.2"
   },
   "devDependencies": {},
   "scripts": {

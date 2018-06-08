@@ -1,11 +1,8 @@
 "use strict";
 
-// load config file
-const config = require(__dirname+"/../../../config/facebook/config.js");
-
-// load handler
-const fs	= require("fs");
-const login	= require("facebook-chat-api");
+const fs		= require("fs");
+const login		= require("facebook-chat-api");
+const config	= require(__dirname+"/../../../config/facebook/config.js");
 
 login(config["credentials"], function (err, api) {
 	if(err) {
