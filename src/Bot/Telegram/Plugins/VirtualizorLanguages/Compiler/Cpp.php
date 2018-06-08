@@ -59,7 +59,7 @@ class Cpp extends Compiler
 	protected function compile()
 	{
 		$this->filename = $filename = VIRTUALIZOR_STORAGE_CPP."/code/".($this->binName = $this->generateFilename()).".cpp";
-		if (! file_exists(VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName)) {
+		if (! file_exists(VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName)) {
 			is_dir(VIRTUALIZOR_STORAGE_CPP) or mkdir(VIRTUALIZOR_STORAGE_CPP);
 			is_dir(VIRTUALIZOR_STORAGE_CPP."/bin") or mkdir(VIRTUALIZOR_STORAGE_CPP."/bin");
 			is_dir(VIRTUALIZOR_STORAGE_CPP."/code") or mkdir(VIRTUALIZOR_STORAGE_CPP."/code");
@@ -69,7 +69,7 @@ class Cpp extends Compiler
 				fflush($handle);
 				fclose($handle);
 			}
-			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." && echo compiled_successfully");
+			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName." && echo compiled_successfully");
 			return (bool) preg_match("/compiled_successfully/", $compile);
 		}
 		return true;
@@ -84,7 +84,7 @@ class Cpp extends Compiler
 			return str_replace(
 				realpath(VIRTUALIZOR_STORAGE_CPP), 
 				"/tmp", 
-				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_CPP."/code/".$this->binName." 2>&1")
+				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName." 2>&1")
 			);
 		} else {
 			return "Error!";

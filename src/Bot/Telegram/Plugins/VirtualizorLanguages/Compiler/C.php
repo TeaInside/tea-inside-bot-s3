@@ -59,7 +59,7 @@ class C extends Compiler
 	protected function compile()
 	{
 		$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->binName = $this->generateFilename()).".c";
-		if (! file_exists(VIRTUALIZOR_STORAGE_C."/code/".$this->binName)) {
+		if (! file_exists(VIRTUALIZOR_STORAGE_C."/bin/".$this->binName)) {
 			is_dir(VIRTUALIZOR_STORAGE_C) or mkdir(VIRTUALIZOR_STORAGE_C);
 			is_dir(VIRTUALIZOR_STORAGE_C."/bin") or mkdir(VIRTUALIZOR_STORAGE_C."/bin");
 			is_dir(VIRTUALIZOR_STORAGE_C."/code") or mkdir(VIRTUALIZOR_STORAGE_C."/code");
@@ -69,7 +69,7 @@ class C extends Compiler
 				fflush($handle);
 				fclose($handle);
 			}
-			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_C[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1 && echo compiled_successfully");
+			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_C[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName." 2>&1 && echo compiled_successfully");
 			return (bool) preg_match("/compiled_successfully/", $compile);
 		}
 		return true;
@@ -84,7 +84,7 @@ class C extends Compiler
 			return str_replace(
 				realpath(VIRTUALIZOR_STORAGE_C), 
 				"/tmp", 
-				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_C."/code/".$this->binName." 2>&1")
+				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName." 2>&1")
 			);
 		} else {
 			return "Error!";

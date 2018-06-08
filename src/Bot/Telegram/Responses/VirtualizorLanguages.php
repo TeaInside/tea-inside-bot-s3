@@ -6,6 +6,7 @@ use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\C;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Cpp;
+use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Java;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\PHP;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Ruby;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Python;
@@ -84,6 +85,13 @@ class VirtualizorLanguages extends ResponseFoundation
 				break;
 			case 'c++':
 					$st = new Cpp(substr($this->data["text"], 5));
+					if (! in_array($this->data["user_id"], SUDOERS)) {
+						$st->user = "limited";
+					}
+					$reply = $st->run();
+				break;
+			case 'java':
+					$st = new Java(substr($this->data["text"], 5));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
