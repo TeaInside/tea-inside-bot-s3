@@ -91,7 +91,7 @@ class VirtualizorLanguages extends ResponseFoundation
 					$reply = $st->run();
 				break;
 			case 'java':
-					$st = new Java(substr($this->data["text"], 5));
+					$st = new Java(substr($this->data["text"], 6));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}

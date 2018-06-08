@@ -71,7 +71,7 @@ class Java extends Compiler
 		fwrite($handle, $this->code);
 		fflush($handle);
 		fclose($handle);
-		$this->compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_JAVA[$this->version][0])." ".$filename." -d ".VIRTUALIZOR_STORAGE_JAVA."/bin && echo compiled_successfully");
+		$this->compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_JAVA[$this->version][0])." ".$filename." -d ".VIRTUALIZOR_STORAGE_JAVA."/bin 2>&1 && echo compiled_successfully");
 		return (bool) preg_match("/compiled_successfully/", $this->compile);
 	}
 
