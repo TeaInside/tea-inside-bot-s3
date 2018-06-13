@@ -47,7 +47,7 @@ trait ResponseRoutes
 		}, "Admin@call");
 
 		$this->set(function($d){
-			if (preg_match("/(\/|!|~)?t(r|l)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})(.*)$/Usi", $d["text"], $m)) {
+			if (preg_match("/^(\/|!|~)?t(r|l)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})(.*)$/Usi", $d["text"], $m)) {
 				return [true, [trim($m[5]), trim($m[3]), trim($m[4])]];
 			}
 		}, "Translate@run");
