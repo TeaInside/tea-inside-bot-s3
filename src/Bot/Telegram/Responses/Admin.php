@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Responses;
 
+use DB;
 use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Logger\AdminLogger;
@@ -48,5 +49,20 @@ class Admin extends ResponseFoundation
 			]
 		);
 		return true;
+	}
+
+	public function ban($reason = null)
+	{
+		$pdo = DB::pdo();
+		if (in_array($this->data["user_id"], SUDOERS)) {
+			Exe::kickChatMember(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"user_id" => 
+				]
+			);
+		} else {
+			$st = $pdo->prepare("SELECT `user_id`,`role` FROM `group_admins` WHERE `group_id`=:group_id LIMIT 1;");
+		}
 	}
 }
