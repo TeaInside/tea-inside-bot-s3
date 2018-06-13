@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Responses;
 
+use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 
 /**
@@ -10,7 +11,7 @@ use Bot\Telegram\ResponseFoundation;
  * @license MIT
  * @since 0.0.1
  */
-class Admin extends ResponseFoundation
+class Debug extends ResponseFoundation
 {
 	/**
 	 * @return bool
