@@ -6,7 +6,8 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-
+      - run: sudo wget https://getcomposer.org/download/1.6.5/composer.phar -O /usr/bin/composer
+      - run: sudo chmod +x /usr/bin/composer
       - run: sudo composer self-update
       - restore_cache:
           keys:
