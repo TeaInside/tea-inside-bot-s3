@@ -58,7 +58,7 @@ class Admin extends ResponseFoundation
 			Exe::kickChatMember(
 				[
 					"chat_id" => $this->data["chat_id"],
-					"user_id" => 
+					"user_id" => ""
 				]
 			);
 		} else {
