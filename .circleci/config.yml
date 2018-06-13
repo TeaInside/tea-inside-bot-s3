@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.1.5-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - run: sudo composer self-update
+      - restore_cache:
+          keys:
+          - composer-fx-{{ checksum "composer.json" }}          
+          - composer-fx-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-fx-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+
+      - run: sudo npm install -g npm
+      - restore_cache: 
+          keys:
+            - node-fx-{{ checksum "package.json" }}
+            - node-fx-
+      - run: npm install
+      - save_cache:
+          key: node-fx-{{ checksum "package.json" }}
+          paths:
+            - node_moduless
+
+      # - run: phpunit
