@@ -47,28 +47,18 @@ class PHP extends Interpreter
 	/**
 	 * @return string
 	 */
-	public function run()
+	public function run($userId)
 	{
-		if (! is_dir(VIRTUALIZOR_STORAGE_PHP)) {
-			mkdir(VIRTUALIZOR_STORAGE_PHP);
-		}
-		$filename	= VIRTUALIZOR_STORAGE_PHP."/".($shortName = $this->generateFilename());
-		if (! file_exists($filename)) {
-			$handle = fopen($filename,"w");
-			fwrite($handle, $this->code);
-			fflush($handle);
-			fclose($handle);
-		}
-		shell_exec("sudo chmod 775 ".$filename);
-		$st = new Isolator(VIRTUALIZOR_BINARY_PHP[$this->version]." ".$filename);
-		$st->setUser($this->user);
+		$st = new Isolator(Isolator::generateUserId($userId));
 		$st->setMemoryLimit(1024 * 256);
 		$st->setMaxProcesses(5);
-		$st->setMaxWallTime(10);
+		$st->setMaxWallTime(30);
+		$st->setMaxExecutionTime(15);
 		$st->setExtraTime(5);
-		$st->run();
-		var_dump($st->getCmd());
-		$st = $st->getStdout();
+		$st->run("/usr/bin/php7.2 ".$filename);
+		$rr = "";
+		$rr = $st->getStdout();
+		$rr.= $st->getStderr();
 		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $st);
 	}
 

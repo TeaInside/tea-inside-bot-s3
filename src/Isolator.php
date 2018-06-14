@@ -3,6 +3,10 @@
 use Exceptions\IsolatorException;
 use Contracts\Isolator as IsolatorContract;
 
+defined("ISOLATOR") or die("ISOLATOR is not defined yet!\n");
+defined("ISOLATOR_TMP") or die("ISOLATOR_TMP is not defined yet!\n");
+defined("ISOLATOR_HOME") or die("ISOLATOR_HOME is not defined yet!\n");
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @license MIT
@@ -61,14 +65,80 @@ final class Isolator implements IsolatorContract
 	private $isExecuted = false;
 
 	/**
+	 * @var int
+	 */
+	private $userId;
+
+	/**
+	 * @var string
+	 */
+	private $homePath;
+
+	/**
+	 * @var string
+	 */
+	private $tmpPath;
+
+	/**
 	 * @param string $cmd
 	 * @return void
 	 *
 	 * Constructor.
 	 */
-	public function __construct(string $cmd)
+	public function __construct(string $userId)
 	{
-		$this->cmd = $cmd;
+		$this->userId = $userId;
+
+		if (! is_dir($this->homePath = ISOLATOR_HOME."/".$userId)) {
+			mkdir($this->homePath);
+			mkdir($this->homePath."/u".$userId);
+		}
+
+		if (! is_dir($this->tmpPath = ISOLATOR_TMP."/".$userId)) {
+			mkdir($this->tmpPath);
+		}
+
+	}
+
+	/**
+	 * @param string $unique
+	 * @return int
+	 */
+	public static function generateUserId($unique)
+	{
+		if (! file_exists($f = ISOLATOR."/id_map")) {
+			$data = [
+				"count" => 1,
+				"data" => [
+					$unique => 0
+				]
+			];
+
+			$r = 0;
+		} else {
+			$data = json_decode(file_get_contents(ISOLATOR."/id_map"), true);
+			if (isset($data["count"], $data["data"]) && is_array($data["data"])) {
+				if (isset($data["data"][$unique])) {
+					$r = $data["data"]["unique"];
+				} else {
+					$data["data"][$unique] = $data["count"]++;
+				}
+			} else {
+				$data = [
+					"count" => 1,
+					"data" => [
+						$unique => 0
+					]
+				];
+
+				$r = 0;
+			}
+		}
+
+
+		file_put_contents(ISOLATOR."/id_map", json_encode($data));
+
+		return $r;
 	}
  
 	/**
@@ -145,7 +215,7 @@ final class Isolator implements IsolatorContract
 	 * See the discussion on UIDs in the INSTALLATION section. 
 	 * The ID defaults to 0. 
 	 */
-	public function setBoxId(int $boxId)
+	private function setBoxId(int $boxId)
 	{
 		$this->boxId = $boxId;
 	}
@@ -174,14 +244,16 @@ final class Isolator implements IsolatorContract
 	}
 
 	/**
+	 * @param string $cmd
 	 * @return void
 	 */
-	public function run()
+	public function run(string $cmd)
 	{
 		shell_exec(
 			$this->cmd = 
 			"sudo -u ".$this->user." ".
 			"/usr/local/bin/isolate ".
+			$this->param("dir").
 			$this->param("memoryLimit").
 			$this->param("maxExecutionTime").
 			$this->param("maxWallTime").
@@ -190,7 +262,7 @@ final class Isolator implements IsolatorContract
 			$this->param("maxProcesses").
 			$this->param("stdout").
 			$this->param("stderr").
-			"--run -- ".$this->cmd.
+			"--run -- ".$cmd.
 			" 2>&1"
 		);
 		$this->isExecuted = true;
@@ -204,7 +276,11 @@ final class Isolator implements IsolatorContract
 	{
 		$param = "";
 		switch ($r) {
-			case 'memoryLimit':
+			case "dir":
+				$param = "--dir=/home=".$this->homePath.":rw ";
+				$param.= "--dir=/tmp=".$this->tmpPath.":rw";
+				break;
+			case "memoryLimit":
 				$param = isset($this->memoryLimit) ? "--mem=".$this->memoryLimit : "";
 				break;
 			case "maxExecutionTime":

@@ -34,7 +34,7 @@ class VirtualizorLanguages extends ResponseFoundation
 						$st->user = "limited";
 					}
 					$st->version = "7.2";
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'python':
 					$st = new Python(substr($this->data["text"], 4));
