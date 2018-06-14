@@ -58,7 +58,7 @@ class C extends Compiler
 	{
 		$id = Isolator::generateUserId($userId);
 		$this->isolator = new Isolator($id);
-		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()))) {
+		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()).".c")) {
 			file_put_contents($f, $this->code);
 			$exe = trim(shell_exec("sudo gcc ".$f." -o ".ISOLATOR_HOME."/".$id."/u".$id."/".$n." && echo success"));
 			return preg_match("/success/i", $exe) ? $n : false;
