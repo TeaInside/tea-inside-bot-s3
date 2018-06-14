@@ -33,10 +33,10 @@ abstract class Compiler implements CompilerContract
 	/**
 	 * @return bool
 	 */
-	abstract protected function compile();
+	abstract protected function compile($userId);
 
 	/**
 	 * @return string
 	 */
-	abstract public function run();
+	abstract public function run($userId);
 }

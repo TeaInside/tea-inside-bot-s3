@@ -54,7 +54,7 @@ class C extends Compiler
 	/**
 	 * @return bool
 	 */
-	protected function compile()
+	protected function compile($userId)
 	{
 		$id = Isolator::generateUserId($userId);
 		$this->isolator = new Isolator($id);
@@ -70,9 +70,9 @@ class C extends Compiler
 	/**
 	 * @return string
 	 */
-	public function run()
+	public function run($userId)
 	{
-		if ($bin = $this->compile()) {
+		if ($bin = $this->compile($userId)) {
 
 			$st->setMemoryLimit(1024 * 256);
 			$st->setMaxProcesses(5);
