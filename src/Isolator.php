@@ -170,7 +170,7 @@ final class Isolator implements IsolatorContract
 	 */
 	public function run()
 	{
-		print(
+		shell_exec(
 			"sudo -u ".$this->user." ".
 			"/usr/local/bin/isolate ".
 			$this->param("memoryLimit").
@@ -184,7 +184,7 @@ final class Isolator implements IsolatorContract
 			"--run -- ".$this->cmd.
 			" 2>&1"
 		);
-		$this->executed = true;
+		$this->isExecuted = true;
 	}
 
 	/**
