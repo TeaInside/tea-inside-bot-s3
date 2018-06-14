@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
 defined("VIRTUALIZOR_STORAGE_PHP") or die("VIRTUALIZOR_STORAGE_PHP is not defined!");
@@ -59,8 +60,15 @@ class PHP extends Interpreter
 			fclose($handle);
 		}
 		shell_exec("sudo chmod 775 ".$filename);
-		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_PHP[$this->version])." ".$filename." 2>&1");
-		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $exe);
+		$st = new Isolator(VIRTUALIZOR_BINARY_PHP[$this->version])." ".$filename);
+		$st->setUser($this->user);
+		$st->setMemoryLimit(1024 * 256);
+		$st->setMaxProcesses(5);
+		$st->setMaxWallTime(10);
+		$st->setExtraTime(5);
+		$st->run();
+		$st = $st->getStdout();
+		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $st);
 	}
 
 	/**

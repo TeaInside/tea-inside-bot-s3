@@ -1,5 +1,8 @@
 <?php
 
+require __DIR__."/../vendor/autoload.php";
+require __DIR__."/../config/telegram/main.php";
+
 // $argv[1] = '{
 //     "update_id": 69829664,
 //     "message": {

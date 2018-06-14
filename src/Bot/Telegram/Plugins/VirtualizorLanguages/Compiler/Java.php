@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
 
 defined("VIRTUALIZOR_STORAGE_JAVA") or die("VIRTUALIZOR_STORAGE_JAVA is not defined!");
@@ -82,11 +83,22 @@ class Java extends Compiler
 	public function run()
 	{
 		if ($this->compile()) {
-			return str_replace(
-				realpath(VIRTUALIZOR_STORAGE_JAVA), 
-				"/tmp", 
-				shell_exec("cd ".VIRTUALIZOR_STORAGE_JAVA."/bin && sudo -u ".$this->user." ".VIRTUALIZOR_BINARY_JAVA[$this->version][1]." ".$this->binName." 2>&1")
-			);
+			// return str_replace(
+			// 	realpath(VIRTUALIZOR_STORAGE_JAVA), 
+			// 	"/tmp", 
+			// 	shell_exec("cd ".&& sudo -u ".$this->user." ".." 2>&1")
+			// );
+
+			$st = new Isolator(VIRTUALIZOR_BINARY_JAVA[$this->version][1]." ".VIRTUALIZOR_STORAGE_JAVA."/bin/".$this->binName);
+			$st->setUser($this->user);
+			$st->setMemoryLimit(1024 * 256);
+			$st->setMaxProcesses(5);
+			$st->setMaxWallTime(10);
+			$st->setExtraTime(5);
+			$st->run();
+			$st = $st->getStdout();
+			return str_replace(realpath(VIRTUALIZOR_STORAGE_JAVA), "/tmp", $st);
+
 		} else {
 			return str_replace(VIRTUALIZOR_STORAGE_JAVA, "/tmp", $this->compile);
 		}
