@@ -44,23 +44,36 @@ class Python extends Interpreter
 	}
 
 	/**
+	 * @param int $userId
 	 * @return string
 	 */
-	public function run()
+	public function run($userId)
 	{
-		if (! is_dir(VIRTUALIZOR_STORAGE_PYTHON)) {
-			mkdir(VIRTUALIZOR_STORAGE_PYTHON);
+		$id = Isolator::generateUserId($userId);
+		$st = new Isolator($id);
+
+		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()))) {
+			file_put_contents($f, $this->code);
 		}
-		$filename	= VIRTUALIZOR_STORAGE_PYTHON."/".($shortName = $this->generateFilename());
-		if (! file_exists($filename)) {
-			$handle 	= fopen($filename,"w");
-			fwrite($handle, $this->code);
-			fflush($handle);
-			fclose($handle);
+
+		$st->setMemoryLimit(1024 * 256);
+		$st->setMaxProcesses(5);
+		$st->setMaxWallTime(30);
+		$st->setMaxExecutionTime(15);
+		$st->setExtraTime(5);
+
+		if ($this->version == 3) {
+			$bin = "/usr/bin/python3.5";
+		} else {
+			$bin = "/usr/bin/python2.7";
 		}
-		shell_exec("sudo chmod 775 ".$filename);
-		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_PYTHON[$this->version])." ".$filename." 2>&1");
-		return str_replace(realpath(VIRTUALIZOR_STORAGE_PYTHON), "/tmp", $exe);
+
+		$st->run($bin." /home/u".$id."/".$n);
+		
+		$rr = $st->getStdout();
+		$rr.= $st->getStderr();
+
+		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $rr);
 	}
 
 	/**
