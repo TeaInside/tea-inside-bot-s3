@@ -53,7 +53,7 @@ class PHP extends Interpreter
 		$id = Isolator::generateUserId($userId);
 		$st = new Isolator($id);
 
-		if (file_exists($f = ISOLATOR_HOME."/u".$id."/".($n = $this->generateFilename()))) {
+		if (! file_exists($f = ISOLATOR_HOME."/u".$id."/".($n = $this->generateFilename()))) {
 			file_put_contents($f, $this->code);
 		}
 
