@@ -89,9 +89,11 @@ class ShellExec extends ResponseFoundation
 
 					$st->run("/bin/sh /home/u".$id."/".$n);
 
+					$rr = htmlspecialchars($st->getStdout());
+					$rr.= htmlspecialchars($st->getStderr());
+					$rr = trim($rr);
 					$reply = "<pre>";
-					$reply.= htmlspecialchars($st->getStdout());
-					$reply.= htmlspecialchars($st->getStderr());
+					$reply.= $rr === "" ? "~" : $rr;
 					$reply.= "</pre>";
 
 					$c["last"] = time();
