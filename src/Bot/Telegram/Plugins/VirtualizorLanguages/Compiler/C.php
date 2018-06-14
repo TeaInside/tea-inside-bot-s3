@@ -80,10 +80,11 @@ class C extends Compiler
 			$this->isolator->setMaxExecutionTime(15);
 			$this->isolator->setExtraTime(5);
 
-			$this->isolator->run("/home/u".$this->uniqueId."/".$bin);
+			$w = $this->isolator->run("/home/u".$this->uniqueId."/".$bin);
 			
 			$rr = $this->isolator->getStdout();
 			$rr.= $this->isolator->getStderr();
+			$rr.= "\n\n".$w;
 
 			return $rr;
 
