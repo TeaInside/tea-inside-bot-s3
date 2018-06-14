@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
 defined("VIRTUALIZOR_STORAGE_PYTHON") or die("VIRTUALIZOR_STORAGE_PYTHON is not defined!");
