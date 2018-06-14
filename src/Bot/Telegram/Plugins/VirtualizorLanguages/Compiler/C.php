@@ -2,10 +2,8 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
-
-defined("VIRTUALIZOR_STORAGE_C") or die("VIRTUALIZOR_STORAGE_C is not defined!");
-defined("VIRTUALIZOR_BINARY_C") or die("VIRTUALIZOR_BINARY_C is not defined!");
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -28,17 +26,17 @@ class C extends Compiler
 	/**
 	 * @var string
 	 */
-	public $version;
-
-	/**
-	 * @var string
-	 */
 	protected $filename;
 
 	/**
 	 * @var string
 	 */
 	protected $binName;
+
+	/**
+	 * @var \Isolator
+	 */
+	private $Isolator;
 
 	/**
 	 * @param string $code
@@ -58,22 +56,15 @@ class C extends Compiler
 	 */
 	protected function compile()
 	{
-		$this->filename = $filename = VIRTUALIZOR_STORAGE_C."/code/".($this->binName = $this->generateFilename()).".c";
-		if (! file_exists(VIRTUALIZOR_STORAGE_C."/bin/".$this->binName)) {
-			is_dir(VIRTUALIZOR_STORAGE_C) or mkdir(VIRTUALIZOR_STORAGE_C);
-			is_dir(VIRTUALIZOR_STORAGE_C."/bin") or mkdir(VIRTUALIZOR_STORAGE_C."/bin");
-			is_dir(VIRTUALIZOR_STORAGE_C."/code") or mkdir(VIRTUALIZOR_STORAGE_C."/code");
-			if (! file_exists($filename)) {
-				$handle = fopen($filename, "w");
-				fwrite($handle, $this->code);
-				fflush($handle);
-				fclose($handle);
-			}
-			$compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_C[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName." 2>&1 && echo compiled_successfully");
-			shell_exec("sudo chmod +rx ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName);
-			return (bool) preg_match("/compiled_successfully/", $compile);
+		$id = Isolator::generateUserId($userId);
+		$this->isolator = new Isolator($id);
+		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()))) {
+			file_put_contents($f, $this->code);
+			$exe = trim(shell_exec("sudo gcc ".$f." -o ".ISOLATOR_HOME."/".$id."/u".$id."/".$n." && echo success"));
+			return preg_match("/success/i", $exe) ? $n : false;
+		} else {
+			return $n;
 		}
-		return true;
 	}
 
 	/**
@@ -81,12 +72,21 @@ class C extends Compiler
 	 */
 	public function run()
 	{
-		if ($this->compile()) {
-			return str_replace(
-				realpath(VIRTUALIZOR_STORAGE_C), 
-				"/tmp", 
-				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_C."/bin/".$this->binName." 2>&1")
-			);
+		if ($bin = $this->compile()) {
+
+			$st->setMemoryLimit(1024 * 256);
+			$st->setMaxProcesses(5);
+			$st->setMaxWallTime(30);
+			$st->setMaxExecutionTime(15);
+			$st->setExtraTime(5);
+
+			$st->run("/home/u".$id."/".$n);
+			
+			$rr = $st->getStdout();
+			$rr.= $st->getStderr();
+
+			return $rr;
+
 		} else {
 			return "Error!";
 		}

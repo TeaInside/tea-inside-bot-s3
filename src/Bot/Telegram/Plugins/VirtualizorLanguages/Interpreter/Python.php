@@ -74,7 +74,7 @@ class Python extends Interpreter
 		$rr = $st->getStdout();
 		$rr.= $st->getStderr();
 
-		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $rr);
+		return $rr;
 	}
 
 	/**

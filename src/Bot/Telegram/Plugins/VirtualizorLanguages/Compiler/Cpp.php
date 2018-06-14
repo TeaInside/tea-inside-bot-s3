@@ -2,10 +2,8 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
-
-defined("VIRTUALIZOR_STORAGE_CPP") or die("VIRTUALIZOR_STORAGE_CPP is not defined!");
-defined("VIRTUALIZOR_BINARY_CPP") or die("VIRTUALIZOR_BINARY_CPP is not defined!");
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -28,17 +26,17 @@ class Cpp extends Compiler
 	/**
 	 * @var string
 	 */
-	public $version;
-
-	/**
-	 * @var string
-	 */
 	protected $filename;
 
 	/**
 	 * @var string
 	 */
 	protected $binName;
+
+	/**
+	 * @var \Isolator
+	 */
+	private $Isolator;
 
 	/**
 	 * @param string $code
@@ -58,23 +56,15 @@ class Cpp extends Compiler
 	 */
 	protected function compile()
 	{
-		$this->filename = $filename = VIRTUALIZOR_STORAGE_CPP."/code/".($this->binName = $this->generateFilename()).".cpp";
-		if (! file_exists(VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName)) {
-			is_dir(VIRTUALIZOR_STORAGE_CPP) or mkdir(VIRTUALIZOR_STORAGE_CPP);
-			is_dir(VIRTUALIZOR_STORAGE_CPP."/bin") or mkdir(VIRTUALIZOR_STORAGE_CPP."/bin");
-			is_dir(VIRTUALIZOR_STORAGE_CPP."/code") or mkdir(VIRTUALIZOR_STORAGE_CPP."/code");
-			if (! file_exists($filename)) {
-				$handle = fopen($filename, "w");
-				fwrite($handle, $this->code);
-				fflush($handle);
-				fclose($handle);
-			}
-			$compile = shell_exec($a = ("sudo ".VIRTUALIZOR_BINARY_CPP[$this->version])." ".$filename." -o ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName." && echo compiled_successfully");
-			echo "\n\n".$a."\n\n";
-			shell_exec("sudo chmod +rx ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName);
-			return (bool) preg_match("/compiled_successfully/", $compile);
+		$id = Isolator::generateUserId($userId);
+		$this->isolator = new Isolator($id);
+		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()))) {
+			file_put_contents($f, $this->code);
+			$exe = trim(shell_exec("sudo g++ ".$f." -o ".ISOLATOR_HOME."/".$id."/u".$id."/".$n." && echo success"));
+			return preg_match("/success/i", $exe) ? $n : false;
+		} else {
+			return $n;
 		}
-		return true;
 	}
 
 	/**
@@ -82,12 +72,21 @@ class Cpp extends Compiler
 	 */
 	public function run()
 	{
-		if ($this->compile()) {
-			return str_replace(
-				realpath(VIRTUALIZOR_STORAGE_CPP), 
-				"/tmp", 
-				shell_exec("sudo -u ".$this->user." ".VIRTUALIZOR_STORAGE_CPP."/bin/".$this->binName." 2>&1")
-			);
+		if ($bin = $this->compile()) {
+
+			$st->setMemoryLimit(1024 * 256);
+			$st->setMaxProcesses(5);
+			$st->setMaxWallTime(30);
+			$st->setMaxExecutionTime(15);
+			$st->setExtraTime(5);
+
+			$st->run("/home/u".$id."/".$n);
+			
+			$rr = $st->getStdout();
+			$rr.= $st->getStderr();
+
+			return $rr;
+
 		} else {
 			return "Error!";
 		}
