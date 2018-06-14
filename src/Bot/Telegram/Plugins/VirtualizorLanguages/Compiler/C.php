@@ -56,7 +56,7 @@ class C extends Compiler
 	 */
 	protected function compile($userId)
 	{
-		$id = Isolator::generateUserId($userId);
+		$id = $this->uniqueId = Isolator::generateUserId($userId);
 		$this->isolator = new Isolator($id);
 		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()).".c")) {
 			file_put_contents($f, $this->code);
@@ -80,7 +80,7 @@ class C extends Compiler
 			$this->isolator->setMaxExecutionTime(15);
 			$this->isolator->setExtraTime(5);
 
-			$this->isolator->run("/home/u".$id."/".$n);
+			$this->isolator->run("/home/u".$this->uniqueId."/".$bin);
 			
 			$rr = $this->isolator->getStdout();
 			$rr.= $this->isolator->getStderr();
