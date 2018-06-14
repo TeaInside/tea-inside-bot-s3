@@ -42,7 +42,7 @@ class VirtualizorLanguages extends ResponseFoundation
 						$st->user = "limited";
 					}
 					$st->version = "3";
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'python3':
 					$st = new Python(substr($this->data["text"], 5));
@@ -50,7 +50,7 @@ class VirtualizorLanguages extends ResponseFoundation
 						$st->user = "limited";
 					}
 					$st->version = "3";
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'python2':
 					$st = new Python(substr($this->data["text"], 5));
@@ -58,7 +58,7 @@ class VirtualizorLanguages extends ResponseFoundation
 						$st->user = "limited";
 					}
 					$st->version = "2";
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'js':
 			case 'node':
@@ -67,35 +67,35 @@ class VirtualizorLanguages extends ResponseFoundation
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'ruby':
 					$st = new Ruby(substr($this->data["text"], 6));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'c':
 					$st = new C(substr($this->data["text"], 3));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'c++':
 					$st = new Cpp(substr($this->data["text"], 5));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'java':
 					$st = new Java(substr($this->data["text"], 6));
 					if (! in_array($this->data["user_id"], SUDOERS)) {
 						$st->user = "limited";
 					}
-					$reply = $st->run();
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			default:
 				break;
