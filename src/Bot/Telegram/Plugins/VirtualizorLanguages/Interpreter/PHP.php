@@ -60,7 +60,7 @@ class PHP extends Interpreter
 			fclose($handle);
 		}
 		shell_exec("sudo chmod 775 ".$filename);
-		$st = new Isolator(VIRTUALIZOR_BINARY_PHP[$this->version])." ".$filename);
+		$st = new Isolator(VIRTUALIZOR_BINARY_PHP[$this->version]." ".$filename);
 		$st->setUser($this->user);
 		$st->setMemoryLimit(1024 * 256);
 		$st->setMaxProcesses(5);
