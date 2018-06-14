@@ -119,7 +119,7 @@ final class Isolator implements IsolatorContract
 			$data = json_decode(file_get_contents(ISOLATOR."/id_map"), true);
 			if (isset($data["count"], $data["data"]) && is_array($data["data"])) {
 				if (isset($data["data"][$unique])) {
-					$r = $data["data"]["unique"];
+					$r = $data["data"][$unique];
 				} else {
 					$data["data"][$unique] = $data["count"]++;
 				}
