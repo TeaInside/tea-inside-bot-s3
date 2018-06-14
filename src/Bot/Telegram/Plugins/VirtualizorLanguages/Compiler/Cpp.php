@@ -75,12 +75,12 @@ class Cpp extends Compiler
 		if ($bin = $this->compile($userId)) {
 
 			$this->isolator->setMemoryLimit(1024 * 256);
-			$this->isolator->setMaxProcesses(5);
-			$this->isolator->setMaxWallTime(30);
-			$this->isolator->setMaxExecutionTime(15);
-			$this->isolator->setExtraTime(5);
+			$this->isolator->setMaxProcesses(3);
+			$this->isolator->setMaxWallTime(10);
+			$this->isolator->setMaxExecutionTime(5);
+			$this->isolator->setExtraTime(3);
 
-			$w = $this->isolator->run("/home/u".$this->uniqueId."/".$bin);
+			$w = $this->isolator->run("/home/u".$this->uniqueId."/".$bin." 2>&1");
 			
 			$rr = $this->isolator->getStdout();
 			$rr.= $this->isolator->getStderr();
