@@ -74,7 +74,7 @@ class ShellExec extends ResponseFoundation
 				}
 
 				if (! $reply) {
-					$id = Isolator::generateUserId($userId);
+					$id = Isolator::generateUserId($this->data["user_id"]);
 					$st = new Isolator($id);
 
 					if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = substr(md5(sha1($cmd).md5($cmd)), 0, 4).".sh"))) {
