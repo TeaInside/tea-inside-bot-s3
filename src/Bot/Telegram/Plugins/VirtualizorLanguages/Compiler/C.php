@@ -74,16 +74,16 @@ class C extends Compiler
 	{
 		if ($bin = $this->compile($userId)) {
 
-			$st->setMemoryLimit(1024 * 256);
-			$st->setMaxProcesses(5);
-			$st->setMaxWallTime(30);
-			$st->setMaxExecutionTime(15);
-			$st->setExtraTime(5);
+			$this->isolator->setMemoryLimit(1024 * 256);
+			$this->isolator->setMaxProcesses(5);
+			$this->isolator->setMaxWallTime(30);
+			$this->isolator->setMaxExecutionTime(15);
+			$this->isolator->setExtraTime(5);
 
-			$st->run("/home/u".$id."/".$n);
+			$this->isolator->run("/home/u".$id."/".$n);
 			
-			$rr = $st->getStdout();
-			$rr.= $st->getStderr();
+			$rr = $this->isolator->getStdout();
+			$rr.= $this->isolator->getStderr();
 
 			return $rr;
 
