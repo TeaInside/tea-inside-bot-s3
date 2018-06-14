@@ -2,6 +2,7 @@
 
 namespace Bot\Telegram\Responses;
 
+use Isolator;
 use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 
@@ -73,28 +74,26 @@ class ShellExec extends ResponseFoundation
 				}
 
 				if (! $reply) {
-					if (! ($a = trim(shell_exec("lastlog | grep limited && echo 123")))) {
-						$passwd = rand().rand();
-						shell_exec("echo -e \"{$passwd}\\n{$passwd}\" > /tmp/limited_passwd.tmp");
-						shell_exec("sudo adduser limited < /tmp/limited_passwd.tmp");
-						shell_exec("sudo rm -f /tmp/limited_passwd.tmp");
+					$id = Isolator::generateUserId($userId);
+					$st = new Isolator($id);
+
+					if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = substr(md5(sha1($cmd).md5($cmd)), 0, 4).".sh"))) {
+						file_put_contents($f, $cmd);
 					}
-					if (! ($a = trim(shell_exec("lastlog | grep limited && echo 123")))) {
-						$reply = "Unable to create limited user";
-					} else {
-						$fp = fopen(
-						$filename = "/tmp/".substr(md5(sha1($cmd).md5($cmd)), 0, 4).".sh", 
-							"w"
-						);
-						flock($fp, LOCK_EX);
-						fwrite($fp, "#!/usr/bin/env bash\n".$cmd);
-						fflush($fp);
-						fclose($fp);
-						shell_exec("sudo chmod +x ".$filename);
-						$shell = trim(shell_exec("cd /home/limited && sudo -u limited ".$filename." 2>&1"));
-						$reply = "<pre>".htmlspecialchars(($shell === "" ? "~" : $shell), ENT_QUOTES, "UTF-8")."</pre>";
-						shell_exec("sudo rm -f ".$filename);
-					}
+
+					$st->setMemoryLimit(1024 * 256);
+					$st->setMaxProcesses(5);
+					$st->setMaxWallTime(30);
+					$st->setMaxExecutionTime(15);
+					$st->setExtraTime(5);
+
+					$st->run("/bin/sh /home/u".$id."/".$n);
+
+					$reply = "<pre>";
+					$reply.= htmlspecialchars($st->getStdout());
+					$reply.= htmlspecialchars($st->getStderr());
+					$reply.= "</pre>";
+
 					$c["last"] = time();
 					file_put_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"], json_encode($c), LOCK_EX);
 				}
