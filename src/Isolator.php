@@ -166,11 +166,20 @@ final class Isolator implements IsolatorContract
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getCmd(): string
+	{
+		return $this->cmd;
+	}
+
+	/**
 	 * @return void
 	 */
 	public function run()
 	{
 		shell_exec(
+			$this->cmd = 
 			"sudo -u ".$this->user." ".
 			"/usr/local/bin/isolate ".
 			$this->param("memoryLimit").

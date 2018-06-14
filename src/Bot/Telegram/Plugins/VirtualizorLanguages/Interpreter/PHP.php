@@ -67,6 +67,7 @@ class PHP extends Interpreter
 		$st->setMaxWallTime(10);
 		$st->setExtraTime(5);
 		$st->run();
+		var_dump($st->getCmd());
 		$st = $st->getStdout();
 		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $st);
 	}
