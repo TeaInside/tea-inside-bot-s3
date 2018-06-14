@@ -31,7 +31,8 @@ abstract class Interpreter implements InterpreterContract
 	abstract public function __construct($code);
 
 	/**
+	 * @param string $unqiue
 	 * @return string
 	 */
-	abstract public function run();
+	abstract public function run($unique);
 }

@@ -45,20 +45,29 @@ class PHP extends Interpreter
 	}
 
 	/**
+	 * @param int $userId
 	 * @return string
 	 */
 	public function run($userId)
 	{
-		$st = new Isolator(Isolator::generateUserId($userId));
+		$id = Isolator::generateUserId($userId);
+		$st = new Isolator($id);
+
+		if (file_exists($f = ISOLATOR_HOME."/u".$id."/".($n = $this->generateFilename()))) {
+			file_put_contents($f, $this->code);
+		}
+
 		$st->setMemoryLimit(1024 * 256);
 		$st->setMaxProcesses(5);
 		$st->setMaxWallTime(30);
 		$st->setMaxExecutionTime(15);
 		$st->setExtraTime(5);
-		$st->run("/usr/bin/php7.2 ".$filename);
-		$rr = "";
+
+		$st->run("/usr/bin/php7.2 /home/u".$id."/".$n);
+		
 		$rr = $st->getStdout();
 		$rr.= $st->getStderr();
+
 		return str_replace(realpath(VIRTUALIZOR_STORAGE_PHP), "/tmp", $st);
 	}
 
@@ -67,11 +76,6 @@ class PHP extends Interpreter
 	 */
 	private function generateFilename()
 	{
-		if ($this->user === "limited") {
-			$a = explode("<?php", $this->code, 2);
-			$a[0] ="<?php set_time_limit(3); ini_set(\"max_execution_time\", 3); ini_set(\"memory_limit\", \"5M\"); ";
-			$this->code = $a[0]." ".$a[1];
-		}
 		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".php";
 	}
 }
