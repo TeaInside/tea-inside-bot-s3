@@ -5,6 +5,7 @@ use Contracts\Isolator as IsolatorContract;
 
 defined("ISOLATOR") or die("ISOLATOR is not defined yet!\n");
 defined("ISOLATOR_TMP") or die("ISOLATOR_TMP is not defined yet!\n");
+defined("ISOLATOR_ETC") or die("ISOLATOR_ETC is not defined yet!\n");
 defined("ISOLATOR_HOME") or die("ISOLATOR_HOME is not defined yet!\n");
 
 /**
@@ -80,6 +81,11 @@ final class Isolator implements IsolatorContract
 	private $tmpPath;
 
 	/**
+	 * @var string
+	 */
+	private $etcPath;
+
+	/**
 	 * @param string $cmd
 	 * @return void
 	 *
@@ -96,6 +102,10 @@ final class Isolator implements IsolatorContract
 
 		if (! is_dir($this->tmpPath = ISOLATOR_TMP."/".$userId)) {
 			mkdir($this->tmpPath);
+		}
+
+		if (! is_dir($this->etcPath = ISOLATOR_ETC."/".$userId)) {
+			mkdir($this->etcPath);
 		}
 
 	}
@@ -278,7 +288,8 @@ final class Isolator implements IsolatorContract
 		switch ($r) {
 			case "dir":
 				$param = "--dir=/home=".$this->homePath.":rw ";
-				$param.= "--dir=/tmp=".$this->tmpPath.":rw";
+				$param.= "--dir=/tmp=".$this->tmpPath.":rw ";
+				$param.= "--dir=/etc=".$this->etcPath.":rw";
 				break;
 			case "memoryLimit":
 				$param = isset($this->memoryLimit) ? "--mem=".$this->memoryLimit : "";
@@ -303,6 +314,16 @@ final class Isolator implements IsolatorContract
 
 					if (! is_dir($d = "/var/local/lib/isolate/".$this->boxId."/root")) {
 						shell_exec("sudo mkdir -p ".$d);
+					}
+
+					if (! file_exists($d = $this->etcPath."/passwd")) {
+						$uid = "6000".$this->boxId;
+						file_put_contents($d, 
+							"root:x:0:0:root:/root:/bin/bash\n".
+							"daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\n".
+							"bin:x:2:2:bin:/bin:/usr/sbin/nologin\n".
+							"u".$this->boxId.":x:{$uid}:{$uid}:u".$this->boxId.":/home/u".$this->boxId.":/bin/bash"
+						);
 					}
 
 					$param = "--box-id=".$this->boxId;
