@@ -2,10 +2,8 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
-
-defined("VIRTUALIZOR_STORAGE_NODEJS") or die("VIRTUALIZOR_STORAGE_NODEJS is not defined!");
-defined("VIRTUALIZOR_BINARY_NODEJS") or die("VIRTUALIZOR_BINARY_NODEJS is not defined!");
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -39,28 +37,35 @@ class NodeJS extends Interpreter
 	public function __construct($code)
 	{
 		$this->code = $code;
-		$this->user = "www-data";
-		$this->version = "*";
+		// $this->user = "www-data";
+		// $this->version = "7.2";
 	}
 
 	/**
+	 * @param int $userId
 	 * @return string
 	 */
-	public function run()
+	public function run($userId)
 	{
-		if (! is_dir(VIRTUALIZOR_STORAGE_NODEJS)) {
-			mkdir(VIRTUALIZOR_STORAGE_NODEJS);
+		$id = Isolator::generateUserId($userId);
+		$st = new Isolator($id);
+
+		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()))) {
+			file_put_contents($f, $this->code);
 		}
-		$filename	= VIRTUALIZOR_STORAGE_NODEJS."/".($shortName = $this->generateFilename());
-		if (! file_exists($filename)) {
-			$handle 	= fopen($filename, "w");
-			fwrite($handle, $this->code);
-			fflush($handle);
-			fclose($handle);
-		}
-		shell_exec("sudo chmod 775 ".$filename);
-		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_NODEJS[$this->version])." ".$filename." 2>&1");
-		return str_replace(realpath(VIRTUALIZOR_STORAGE_NODEJS), "/tmp", $exe);
+
+		$st->setMemoryLimit(1024 * 256);
+		$st->setMaxProcesses(5);
+		$st->setMaxWallTime(10);
+		$st->setMaxExecutionTime(5);
+		$st->setExtraTime(5);
+
+		$st->run("/usr/bin/node /home/u".$id."/".$n);
+		
+		$rr = $st->getStdout();
+		$rr.= $st->getStderr();
+
+		return $rr;
 	}
 
 	/**

@@ -5,9 +5,6 @@ namespace Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
-defined("VIRTUALIZOR_STORAGE_PHP") or die("VIRTUALIZOR_STORAGE_PHP is not defined!");
-defined("VIRTUALIZOR_BINARY_PHP") or die("VIRTUALIZOR_BINARY_PHP is not defined!");
-
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @package Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter
