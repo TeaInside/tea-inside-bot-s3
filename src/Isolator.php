@@ -131,7 +131,7 @@ final class Isolator implements IsolatorContract
 				if (isset($data["data"][$unique])) {
 					$r = $data["data"][$unique];
 				} else {
-					$data["data"][$unique] = $data["count"]++;
+					$data["data"][$unique] = $r = $data["count"]++;
 				}
 			} else {
 				$data = [
