@@ -13,7 +13,7 @@ jobs:
           keys:
           - composer-fx-{{ checksum "composer.json" }}
           - composer-fx-
-      - run: composer install -n --prefer-dist
+      - run: composer update
       - save_cache:
           key: composer-fx-{{ checksum "composer.json" }}
           paths:

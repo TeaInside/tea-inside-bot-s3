@@ -14,7 +14,6 @@ if (file_exists($f = logs."/daily_cron/.daily_count")) {
 	$count = 1;
 }
 
-$sh = shell_exec("rm -rfv ".data."/virtualizor_languages/*")."\n";
 $sh.= shell_exec("rm -rfv /tmp/*")."\n";
 
 $end = date("Y-m-d H:i:s");
