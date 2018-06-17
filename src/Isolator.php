@@ -96,6 +96,7 @@ final class Isolator implements IsolatorContract
 		$this->userId = $userId;
 
 		if (! is_dir($this->homePath = ISOLATOR_HOME."/".$userId)) {
+			is_dir(ISOLATOR_HOME) or mkdir(ISOLATOR_HOME);
 			mkdir($this->homePath);
 			mkdir($this->homePath."/u".$userId);
 			shell_exec("sudo chmod -R 775 ".$this->homePath);
@@ -103,11 +104,13 @@ final class Isolator implements IsolatorContract
 		}
 
 		if (! is_dir($this->tmpPath = ISOLATOR_TMP."/".$userId)) {
+			is_dir(ISOLATOR_TMP) or mkdir(ISOLATOR_TMP);
 			mkdir($this->tmpPath);
 			shell_exec("sudo chmod -R 777 ".$this->tmpPath);
 		}
 
 		if (! is_dir($this->etcPath = ISOLATOR_ETC."/".$userId)) {
+			is_dir(ISOLATOR_ETC) or mkdir(ISOLATOR_ETC);
 			mkdir($this->etcPath);
 		}
 
