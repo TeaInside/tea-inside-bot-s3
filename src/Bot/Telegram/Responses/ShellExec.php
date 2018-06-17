@@ -31,7 +31,7 @@ class ShellExec extends ResponseFoundation
 			fclose($fp);
 			shell_exec("sudo chmod +x ".$filename);
 			$shell = trim(shell_exec("cd /home/ammarfaizi2 && ".$filename." 2>&1"));
-			$shell = $shell === "" ? "~" : "";
+			$shell = $shell === "" ? "~" : $shell;
 			shell_exec("sudo rm -f ".$filename);
 			$reply = "<pre>".htmlspecialchars($shell, ENT_QUOTES, "UTF-8")."</pre>";
 			Exe::sendMessage(
