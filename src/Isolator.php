@@ -306,6 +306,8 @@ final class Isolator implements IsolatorContract
 			case "boxId":
 				if (isset($this->boxId)) {
 
+					shell_exec("/usr/local/bin/isolate --box-id=".$this->boxId." --init");
+
 					if (! is_dir(
 						$this->boxDir = $d = "/var/local/lib/isolate/".$this->boxId."/box"
 					)) {
