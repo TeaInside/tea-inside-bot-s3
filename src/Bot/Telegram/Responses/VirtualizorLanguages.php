@@ -8,6 +8,7 @@ use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\C;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Cpp;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Java;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\PHP;
+use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Perl;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Ruby;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\Python;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\NodeJS;
@@ -29,72 +30,48 @@ class VirtualizorLanguages extends ResponseFoundation
 		$reply = "";
 		switch ($cmd) {
 			case 'php':
-					$st = new PHP($this->data["text"]);
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new PHP($this->data["__code"]);
 					$st->version = "7.2";
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'python':
-					$st = new Python(substr($this->data["text"], 4));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new Python($this->data["__code"]);
 					$st->version = "3";
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'python3':
-					$st = new Python(substr($this->data["text"], 5));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new Python($this->data["__code"]);
 					$st->version = "3";
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'python2':
-					$st = new Python(substr($this->data["text"], 5));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new Python($this->data["__code"]);
 					$st->version = "2";
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'js':
 			case 'node':
 			case 'nodejs':
-					$st = new NodeJS(substr($this->data["text"], 4));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new NodeJS($this->data["__code"]);
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'ruby':
-					$st = new Ruby(substr($this->data["text"], 6));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new Ruby($this->data["__code"]);
 					$reply = $st->run($this->data["user_id"]);
 				break;
+			case 'perl':
+					$st = new Perl($this->data["__code"]);
+					$st = $st->run($this->data["user_id"]);
 			case 'c':
-					$st = new C(substr($this->data["text"], 3));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new C($this->data["__code"]);
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'c++':
-					$st = new Cpp(substr($this->data["text"], 5));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new Cpp($this->data["__code"]);
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'java':
-					$st = new Java(substr($this->data["text"], 6));
-					if (! in_array($this->data["user_id"], SUDOERS)) {
-						$st->user = "limited";
-					}
+					$st = new Java($this->data["__code"]);
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			default:

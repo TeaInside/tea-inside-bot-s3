@@ -11,7 +11,7 @@ use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
  * @license MIT
  * @since 0.0.1
  */
-class NodeJS extends Interpreter
+class Perl extends Interpreter
 {
 	/**
 	 * @var string
@@ -50,7 +50,7 @@ class NodeJS extends Interpreter
 		$st->setMaxExecutionTime(5);
 		$st->setExtraTime(5);
 
-		$st->run("/usr/bin/node /home/u".$id."/".$n);
+		$st->run("/usr/bin/perl /home/u".$id."/".$n);
 		
 		$rr = $st->getStdout();
 		$rr.= $st->getStderr();
@@ -63,6 +63,6 @@ class NodeJS extends Interpreter
 	 */
 	private function generateFilename()
 	{
-		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".js";
+		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".pl";
 	}
 }

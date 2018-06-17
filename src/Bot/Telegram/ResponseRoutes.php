@@ -84,38 +84,67 @@ trait ResponseRoutes
 			}
 
 			if (substr($l, 0, 5) === "<?py2") {
+				$this->data["__code"] = substr($this->data["text"], 5);
 				return [true, ["python2"]];
 			}
 
 			if (substr($l, 0, 5) === "<?py3") {
+				$this->data["__code"] = substr($this->data["text"], 5);
 				return [true, ["python3"]];
 			}
 
 			if (substr($l, 0, 4) === "<?py") {
+				$this->data["__code"] = substr($this->data["text"], 4);
 				return [true, ["python"]];
 			}
 
 			if (substr($l, 0, 4) === "<?js") {
+				$this->data["__code"] = substr($this->data["text"], 4);
 				return [true, ["js"]];
 			}
 
+			if (substr($l, 0, 4) === "<?nodejs") {
+				$this->data["__code"] = substr($this->data["text"], 8);
+				return [true, ["js"]];
+			}
+
+			if (substr($l, 0, 4) === "<?node") {
+				$this->data["__code"] = substr($this->data["text"], 6);
+				return [true, ["js"]];
+			}
+
+			if (substr($l, 0, 4) === "<?pl") {
+				$this->data["__code"] = substr($this->data["text"], 4);
+				return [true, ["perl"]];
+			}
+
+			if (substr($l, 0, 4) === "<?perl") {
+				$this->data["__code"] = substr($this->data["text"], 6);
+				return [true, ["perl"]];
+			}
+
 			if (substr($l, 0, 6) === "<?java") {
+				$this->data["__code"] = substr($this->data["text"], 6);
 				return [true, ["java"]];
 			}
 
 			if (substr($l, 0, 6) === "<?ruby") {
+				$this->data["__code"] = substr($this->data["text"], 6);
 				return [true, ["ruby"]];
 			}
 
 			if (substr($l, 0, 5) === "<?cpp") {
+				$this->data["__code"] = substr($this->data["text"], 5);
 				return [true, ["c++"]];
 			}
 
 			if (substr($l, 0, 5) === "<?c++") {
+				$this->data["__code"] = substr($this->data["text"], 5);
 				return [true, ["c++"]];
 			}
 
 			if (substr($l, 0, 3) === "<?c") {
+				$this->data["__code"] = substr($this->data["text"], 3);
 				return [true, ["c"]];
 			}
 		}, "VirtualizorLanguages@run");
