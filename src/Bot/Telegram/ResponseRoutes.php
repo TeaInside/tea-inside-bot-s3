@@ -104,12 +104,12 @@ trait ResponseRoutes
 				return [true, ["js"]];
 			}
 
-			if (substr($l, 0, 4) === "<?nodejs") {
+			if (substr($l, 0, 8) === "<?nodejs") {
 				$this->data["__code"] = substr($this->data["text"], 8);
 				return [true, ["js"]];
 			}
 
-			if (substr($l, 0, 4) === "<?node") {
+			if (substr($l, 0, 6) === "<?node") {
 				$this->data["__code"] = substr($this->data["text"], 6);
 				return [true, ["js"]];
 			}
@@ -124,7 +124,7 @@ trait ResponseRoutes
 				return [true, ["ruby"]];
 			}
 
-			if (substr($l, 0, 4) === "<?perl") {
+			if (substr($l, 0, 6) === "<?perl") {
 				$this->data["__code"] = substr($this->data["text"], 6);
 				return [true, ["perl"]];
 			}
