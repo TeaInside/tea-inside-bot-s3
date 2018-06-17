@@ -54,7 +54,7 @@ class NodeJS extends Interpreter
 			file_put_contents($f, $this->code);
 		}
 
-		$st->setMemoryLimit(1024 * 1000);
+		$st->setMemoryLimit(1024 * 512);
 		$st->setMaxProcesses(10);
 		$st->setMaxWallTime(10);
 		$st->setMaxExecutionTime(5);
