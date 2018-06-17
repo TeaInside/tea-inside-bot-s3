@@ -17,12 +17,7 @@ class Cpp extends Compiler
 	 * @var string
 	 */
 	protected $code;
-
-	/**
-	 * @var string
-	 */
-	public $user;
-
+	
 	/**
 	 * @var string
 	 */
@@ -47,8 +42,6 @@ class Cpp extends Compiler
 	public function __construct($code)
 	{
 		$this->code = $code;
-		$this->user = "www-data";
-		$this->version = "*";
 	}
 
 	/**

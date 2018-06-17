@@ -5,9 +5,6 @@ namespace Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
 use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
 
-defined("VIRTUALIZOR_STORAGE_JAVA") or die("VIRTUALIZOR_STORAGE_JAVA is not defined!");
-defined("VIRTUALIZOR_BINARY_JAVA") or die("VIRTUALIZOR_BINARY_JAVA is not defined!");
-
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
  * @package Bot\Telegram\Plugins\VirtualizorLanguages\Compiler
@@ -29,11 +26,6 @@ class Java extends Compiler
 	/**
 	 * @var string
 	 */
-	public $version;
-
-	/**
-	 * @var string
-	 */
 	protected $filename;
 
 	/**
@@ -42,9 +34,9 @@ class Java extends Compiler
 	protected $binName;
 
 	/**
-	 * @var string
+	 * @var \Isolator
 	 */
-	private $compile;
+	private $Isolator;
 
 	/**
 	 * @param string $code
@@ -62,45 +54,43 @@ class Java extends Compiler
 	/**
 	 * @return bool
 	 */
-	protected function compile()
+	protected function compile($userId)
 	{
-		$this->filename = $filename = VIRTUALIZOR_STORAGE_JAVA."/code/".($this->binName = $this->generateFilename()).".java";
-		is_dir(VIRTUALIZOR_STORAGE_JAVA) or mkdir(VIRTUALIZOR_STORAGE_JAVA);
-		is_dir(VIRTUALIZOR_STORAGE_JAVA."/bin") or mkdir(VIRTUALIZOR_STORAGE_JAVA."/bin");
-		is_dir(VIRTUALIZOR_STORAGE_JAVA."/code") or mkdir(VIRTUALIZOR_STORAGE_JAVA."/code");
-		$handle = fopen($filename, "w");
-		fwrite($handle, $this->code);
-		fflush($handle);
-		fclose($handle);
-		$this->compile = shell_exec(("sudo ".VIRTUALIZOR_BINARY_JAVA[$this->version][0])." ".$filename." -d ".VIRTUALIZOR_STORAGE_JAVA."/bin 2>&1 && echo compiled_successfully");
-		shell_exec("sudo chmod +rx ".VIRTUALIZOR_STORAGE_JAVA."/bin/".$this->binName);
-		return (bool) preg_match("/compiled_successfully/", $this->compile);
+		$id = $this->uniqueId = Isolator::generateUserId($userId);
+		$this->isolator = new Isolator($id);
+
+		$javaDir = ISOLATOR_HOME."/".$id."/u".$id."/java";
+		is_dir($javaDir) or mkdir($javaDir);
+		is_dir($javaDir."/class") or mkdir($javaDir."/class");
+
+		file_put_contents($f = $javaDir."/".($n = $this->generateFilename()).".java", $this->code);
+		$exe = trim(shell_exec("sudo javac ".$f." -d ".$javaDir."/class && echo success"));
+		return preg_match("/success/i", $exe) ? $n : false;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function run()
+	public function run($userId)
 	{
-		if ($this->compile()) {
-			// return str_replace(
-			// 	realpath(VIRTUALIZOR_STORAGE_JAVA), 
-			// 	"/tmp", 
-			// 	shell_exec("cd ".&& sudo -u ".$this->user." ".." 2>&1")
-			// );
+		if ($bin = $this->compile($userId)) {
 
-			$st = new Isolator(VIRTUALIZOR_BINARY_JAVA[$this->version][1]." ".VIRTUALIZOR_STORAGE_JAVA."/bin/".$this->binName);
-			$st->setUser($this->user);
-			$st->setMemoryLimit(1024 * 256);
-			$st->setMaxProcesses(5);
-			$st->setMaxWallTime(10);
-			$st->setExtraTime(5);
-			$st->run();
-			$st = $st->getStdout();
-			return str_replace(realpath(VIRTUALIZOR_STORAGE_JAVA), "/tmp", $st);
+			$this->isolator->setMemoryLimit(1024 * 256);
+			$this->isolator->setMaxProcesses(3);
+			$this->isolator->setMaxWallTime(10);
+			$this->isolator->setMaxExecutionTime(5);
+			$this->isolator->setExtraTime(3);
+
+			$w = $this->isolator->run("/etc/alternatives/java /home/u".$this->uniqueId."/".$bin." 2>&1");
+			
+			$rr = $this->isolator->getStdout();
+			$rr.= $this->isolator->getStderr();
+			$rr.= "\n\n".$w;
+
+			return $rr;
 
 		} else {
-			return str_replace(VIRTUALIZOR_STORAGE_JAVA, "/tmp", $this->compile);
+			return "Error!";
 		}
 	}
 

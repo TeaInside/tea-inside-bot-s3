@@ -22,16 +22,6 @@ class Python extends Interpreter
 	protected $code;
 
 	/**
-	 * @var string
-	 */
-	public $user;
-
-	/**
-	 * @var string
-	 */
-	public $version;
-
-	/**
 	 * @param string $code
 	 * @return void
 	 *

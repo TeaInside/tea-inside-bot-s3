@@ -2,10 +2,8 @@
 
 namespace Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
 
+use Isolator;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter;
-
-defined("VIRTUALIZOR_STORAGE_RUBY") or die("VIRTUALIZOR_STORAGE_RUBY is not defined!");
-defined("VIRTUALIZOR_BINARY_RUBY") or die("VIRTUALIZOR_BINARY_RUBY is not defined!");
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -19,17 +17,7 @@ class Ruby extends Interpreter
 	 * @var string
 	 */
 	protected $code;
-
-	/**
-	 * @var string
-	 */
-	public $user;
-
-	/**
-	 * @var string
-	 */
-	public $version;
-
+	
 	/**
 	 * @param string $code
 	 * @return void
@@ -39,28 +27,33 @@ class Ruby extends Interpreter
 	public function __construct($code)
 	{
 		$this->code = $code;
-		$this->user = "www-data";
-		$this->version = "2.3.1";
 	}
 
 	/**
+	 * @param int $userId
 	 * @return string
 	 */
-	public function run()
+	public function run($userId)
 	{
-		if (! is_dir(VIRTUALIZOR_STORAGE_RUBY)) {
-			mkdir(VIRTUALIZOR_STORAGE_RUBY);
+		$id = Isolator::generateUserId($userId);
+		$st = new Isolator($id);
+
+		if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()))) {
+			file_put_contents($f, $this->code);
 		}
-		$filename	= VIRTUALIZOR_STORAGE_RUBY."/".($shortName = $this->generateFilename());
-		if (! file_exists($filename)) {
-			$handle = fopen($filename,"w");
-			fwrite($handle, $this->code);
-			fflush($handle);
-			fclose($handle);
-		}
-		shell_exec("sudo chmod 775 ".$filename);
-		$exe = shell_exec("sudo -u ".$this->user." ".(VIRTUALIZOR_BINARY_RUBY[$this->version])." ".$filename." 2>&1");
-		return str_replace(realpath(VIRTUALIZOR_STORAGE_RUBY), "/tmp", $exe);
+
+		$st->setMemoryLimit(1024 * 256);
+		$st->setMaxProcesses(5);
+		$st->setMaxWallTime(10);
+		$st->setMaxExecutionTime(5);
+		$st->setExtraTime(5);
+
+		$st->run("/usr/bin/ruby2.3 /home/u".$id."/".$n);
+		
+		$rr = $st->getStdout();
+		$rr.= $st->getStderr();
+
+		return $rr;
 	}
 
 	/**
@@ -68,6 +61,6 @@ class Ruby extends Interpreter
 	 */
 	private function generateFilename()
 	{
-		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".php";
+		return substr(sha1(sha1($this->code).md5($this->code)), 0, 5).".rb";
 	}
 }

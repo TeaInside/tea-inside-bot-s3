@@ -17,17 +17,7 @@ class PHP extends Interpreter
 	 * @var string
 	 */
 	protected $code;
-
-	/**
-	 * @var string
-	 */
-	public $user;
-
-	/**
-	 * @var string
-	 */
-	public $version;
-
+	
 	/**
 	 * @param string $code
 	 * @return void
@@ -37,8 +27,6 @@ class PHP extends Interpreter
 	public function __construct($code)
 	{
 		$this->code = $code;
-		$this->user = "www-data";
-		$this->version = "7.2";
 	}
 
 	/**

@@ -98,13 +98,17 @@ final class Isolator implements IsolatorContract
 		if (! is_dir($this->homePath = ISOLATOR_HOME."/".$userId)) {
 			mkdir($this->homePath);
 			mkdir($this->homePath."/u".$userId);
+			shell_exec("sudo chmod -R 775 ".$this->homePath);
+			shell_exec("sudo chown -R 6000{$userId}:www-data ".$this->homePath);
 		}
 
 		if (! is_dir($this->tmpPath = ISOLATOR_TMP."/".$userId)) {
 			mkdir($this->tmpPath);
+			shell_exec("sudo chmod -R 777 ".$this->tmpPath);
 		}
 
 		if (! is_dir($this->etcPath = ISOLATOR_ETC."/".$userId)) {
+			shell_exec("sudo ln -s /etc/alternatives ".$this->etcPath);
 			mkdir($this->etcPath);
 		}
 
