@@ -274,6 +274,8 @@ final class Isolator implements IsolatorContract
 			"--run -- ".$cmd.
 			" 2>&1";
 
+		print "\n\n".$this->cmd."\n\n";
+
 		shell_exec($this->cmd);
 		$this->isExecuted = true;
 	}
