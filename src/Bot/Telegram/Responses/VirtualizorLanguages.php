@@ -61,7 +61,7 @@ class VirtualizorLanguages extends ResponseFoundation
 				break;
 			case 'perl':
 					$st = new Perl($this->data["__code"]);
-					$st = $st->run($this->data["user_id"]);
+					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'c':
 					$st = new C($this->data["__code"]);
