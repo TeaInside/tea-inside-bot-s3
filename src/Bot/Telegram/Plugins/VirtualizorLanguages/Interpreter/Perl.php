@@ -27,8 +27,6 @@ class Perl extends Interpreter
 	public function __construct($code)
 	{
 		$this->code = $code;
-		// $this->user = "www-data";
-		// $this->version = "7.2";
 	}
 
 	/**
