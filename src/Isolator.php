@@ -108,8 +108,8 @@ final class Isolator implements IsolatorContract
 		}
 
 		if (! is_dir($this->etcPath = ISOLATOR_ETC."/".$userId)) {
-			shell_exec("sudo ln -s /etc/alternatives ".$this->etcPath);
 			mkdir($this->etcPath);
+			shell_exec("sudo ln -s /etc/alternatives ".$this->etcPath."/alternatives");
 		}
 
 		$this->setBoxId($userId);
