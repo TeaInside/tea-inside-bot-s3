@@ -80,6 +80,7 @@ trait ResponseRoutes
 			$l = strtolower($d["text"]);
 
 			if (substr($l, 0, 5) === "<?php") {
+				$this->data["__code"] = $this->data["text"];
 				return [true, ["php"]];
 			}
 
@@ -116,6 +117,11 @@ trait ResponseRoutes
 			if (substr($l, 0, 4) === "<?pl") {
 				$this->data["__code"] = substr($this->data["text"], 4);
 				return [true, ["perl"]];
+			}
+
+			if (substr($l, 0, 4) === "<?rb") {
+				$this->data["__code"] = substr($this->data["text"], 4);
+				return [true, ["ruby"]];
 			}
 
 			if (substr($l, 0, 4) === "<?perl") {
