@@ -28,7 +28,7 @@ final class Isolator implements IsolatorContract
 	/**
 	 * @var string
 	 */
-	private $user = "root";
+	private $user = "www-data";
 
 	/**
 	 * @var string
@@ -259,8 +259,7 @@ final class Isolator implements IsolatorContract
 	 */
 	public function run(string $cmd)
 	{
-		shell_exec(
-			$this->cmd = 
+		$this->cmd = 
 			"sudo -u ".$this->user." ".
 			"/usr/local/bin/isolate ".
 			$this->param("dir").
@@ -274,7 +273,8 @@ final class Isolator implements IsolatorContract
 			$this->param("stderr").
 			"--run -- ".$cmd.
 			" 2>&1"
-		);
+
+		shell_exec($this->cmd);
 		$this->isExecuted = true;
 	}
 
