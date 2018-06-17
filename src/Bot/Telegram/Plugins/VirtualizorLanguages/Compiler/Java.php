@@ -81,7 +81,7 @@ class Java extends Compiler
 			$this->isolator->setMaxExecutionTime(5);
 			$this->isolator->setExtraTime(3);
 
-			$w = $this->isolator->run("/etc/alternatives/java /home/u".$this->uniqueId."/".$bin." 2>&1");
+			$w = $this->isolator->run("sh -c \"cd /home/u".$this->uniqueId."; /etc/alternatives/java ".$bin." 2>&1\"");
 			
 			$rr = $this->isolator->getStdout();
 			$rr.= $this->isolator->getStderr();
