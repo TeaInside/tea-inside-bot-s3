@@ -109,7 +109,6 @@ final class Isolator implements IsolatorContract
 
 		if (! is_dir($this->etcPath = ISOLATOR_ETC."/".$userId)) {
 			mkdir($this->etcPath);
-			shell_exec("sudo ln -s /etc/alternatives ".$this->etcPath."/alternatives");
 		}
 
 		$this->setBoxId($userId);
@@ -297,7 +296,8 @@ final class Isolator implements IsolatorContract
 			case "dir":
 				$param = "--dir=/home=".$this->homePath.":rw ";
 				$param.= "--dir=/tmp=".$this->tmpPath.":rw ";
-				$param.= "--dir=/etc=".$this->etcPath.":rw";
+				$param.= "--dir=/etc=".$this->etcPath.":rw ";
+				$param.= "--dir=/etc/alternatives=/etc/alternatives";
 				break;
 			case "memoryLimit":
 				$param = isset($this->memoryLimit) ? "--mem=".$this->memoryLimit : "";
