@@ -272,7 +272,7 @@ final class Isolator implements IsolatorContract
 			$this->param("stdout").
 			$this->param("stderr").
 			"--run -- ".$cmd.
-			" 2>&1"
+			" 2>&1";
 
 		shell_exec($this->cmd);
 		$this->isExecuted = true;
