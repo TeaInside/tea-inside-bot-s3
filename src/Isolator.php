@@ -114,7 +114,16 @@ final class Isolator implements IsolatorContract
 		if (! is_dir($this->etcPath = ISOLATOR_ETC."/".$userId)) {
 			is_dir(ISOLATOR_ETC) or mkdir(ISOLATOR_ETC);
 			mkdir($this->etcPath);
-			shell_exec("sudo ln -s /shared/alternatives ".$this->etcPath."/alternatives");
+			
+		}
+		$etcFiles = [
+			".java",".pwd.lock","ConsoleKit","ImageMagick-6","NetworkManager","PackageKit","UPower","X11","acpi","adduser.conf","alternatives","apache2","apg.conf","apm","apparmor","apparmor.d","apport","apt","at-spi2","avahi","bash.bashrc","bash_completion","bash_completion.d","bindresvport.blacklist","binfmt.d","bluetooth","bonobo-activation","ca-certificates","ca-certificates.conf","ca-certificates.conf.dpkg-old","calendar","casper.conf","chatscripts","cifs-utils","compizconfig","conky","conky-lite","console-setup","cracklib","cron.d","cron.daily","cron.hourly","cron.monthly","cron.weekly","crontab","cryptsetup-initramfs","cups","cupshelpers","dbus-1","dconf","debconf.conf","debian_version","default","deluser.conf","depmod.d","dhcp","dictionaries-common","discover-modprobe.conf","discover.conf.d","dkms","dnsmasq.d","dpkg","drirc","emacs","environment","firefox","fonts","foomatic","freetds","fstab","fstab-ntfs-config-save","fuse.conf","gai.conf","gconf","geoclue","ghostscript","gimp","glvnd","gnome","gnome-app-install","gnome-system-tools","gnome-vfs-2.0","groff","group","group-","grub.d","gshadow","gshadow-","gss","gtk-2.0","gtk-3.0","guest-session","gufw","hal","hddtemp.db","hdparm.conf","host.conf","hostname","hosts","hosts.allow","hosts.deny","hp","ifplugd","init","init.d","initramfs-tools","inputrc","insserv","insserv.conf","insserv.conf.d","inxi.conf","iproute2","iscsi","issue","issue.dpkg-dist","issue.net","java-11-openjdk","java-8-openjdk","kernel","kernel-img.conf","ld.so.cache","ld.so.conf","ld.so.conf.d","ldap","legal","libaudit.conf","libblockdev","libnl-3","libpaper.d","libreoffice","lightdm","lighttpd","lintianrc","llver","locale.alias","locale.gen","localtime","logcheck","login.defs","logrotate.conf","logrotate.d","lsb-release","lsb-release.dpkg-dist","ltrace.conf","lvm","machine-id","magic","magic.mime","mailcap","mailcap.order","manpath.config","menu","menu-methods","mime.types","mke2fs.conf","modprobe.d","modules","modules-load.d","mtab","mtools.conf","mysql","nanorc","netplan","network","networks","newt","nginx","nsswitch.conf","ntp.conf","obex-data-server","openvpn","opt","os-release","pam.conf","pam.d","papersize","pcmcia","perl","php","pm","pnm2ppa.conf","polkit-1","ppp","printcap","profile","profile.d","protocols","pulse","python","python2.7","python3","python3.5","python3.6","rc0.d","rc1.d","rc2.d","rc3.d","rc4.d","rc5.d","rc6.d","rcS.d","relinux","request-key.conf","request-key.d","resolv.conf","resolvconf","rmt","rpc","rsyslog.conf","rsyslog.d","samba","sane.d","securetty","security","selinux","sensors.d","sensors3.conf","services","sgml","shells","skel","snmp","sound","ssh","ssl","su-to-rootrc","subgid","subgid-","subuid","subuid-","sudoers","sudoers.d","sysctl.conf","sysctl.d","systemd","teamviewer","terminfo","thermald","thunderbird","timezone","tmpfiles.d","ucf.conf","udev","udisks2","ufw","update-manager","update-motd.d","update-notifier","updatedb.conf","upstart-xsessions","usb_modeswitch.conf","usb_modeswitch.d","vdpau_wrapper.cfg","vim","vpnc","vtrgb","wgetrc","wpa_supplicant","xdg","xfce4","xml","zsh","zsh_command_not_found"
+		];
+		
+		foreach($etcFiles as $file) {
+			if (! file_exists($this->etcPath."/".$file)) {
+				shell_exec("sudo ln -s /parent_etc/".$file." ".$this->etcPath."/".$file);
+			}
 		}
 
 		$this->setBoxId($userId);
@@ -303,7 +312,8 @@ final class Isolator implements IsolatorContract
 				$param = "--dir=/home=".$this->homePath.":rw ";
 				$param.= "--dir=/tmp=".$this->tmpPath.":rw ";
 				$param.= "--dir=/etc=".$this->etcPath.":rw ";
-				$param.= "--dir=/shared/alternatives=/etc/alternatives";
+				$param.= "--dir=/parent_etc=/etc:rw ";
+				$param.= "--dir=/var=/var:rw";
 				break;
 			case "memoryLimit":
 				$param = isset($this->memoryLimit) ? "--mem=".$this->memoryLimit : "";
