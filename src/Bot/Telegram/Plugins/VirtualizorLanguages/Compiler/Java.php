@@ -75,8 +75,8 @@ class Java extends Compiler
 	{
 		if ($bin = $this->compile($userId)) {
 
-			$this->isolator->setMemoryLimit(1024 * 256 * 10);
-			$this->isolator->setMaxProcesses(15);
+			$this->isolator->setMemoryLimit(1024 * 256 * 50);
+			$this->isolator->setMaxProcesses(35);
 			$this->isolator->setMaxWallTime(10);
 			$this->isolator->setMaxExecutionTime(5);
 			$this->isolator->setExtraTime(3);
