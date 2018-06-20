@@ -7,8 +7,8 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get install libcap-dev -y
+      - run: php -r "is_dir('/tmp/isolate') or print shell_exec('git clone https://github.com/ioi/isolate /tmp/isolate');"
       - run: sudo /usr/bin/env bash ~/teainside-bot-s3/.circleci/isolate_install.sh
-      - run: git clone https://github.com/ioi/isolate /tmp/isolate && cd /tmp/isolate && make && sudo make install
       - run: sudo wget https://getcomposer.org/download/1.6.5/composer.phar -O /usr/bin/composer
       - run: sudo chmod +x /usr/bin/composer
       - run: sudo composer self-update
@@ -21,7 +21,6 @@ jobs:
           key: composer-fx-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-
       - run: sudo apt-get install nodejs -y
       - run: sudo npm install -g npm
       - restore_cache:

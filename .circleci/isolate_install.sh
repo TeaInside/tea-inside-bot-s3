@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-git clone https://github.com/ioi/isolate /tmp/isolate
-cd /tmp/isolate && make
-cd /tmp/isolate && sudo make install
+sh -c "cd /tmp/isolate && make ; cd /tmp/isolate && sudo make install 2>&1" >> /dev/null 2>&1 &
 exit 0
