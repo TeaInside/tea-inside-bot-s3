@@ -2,10 +2,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1.5-browsers
-    working_directory: ~/repo
+      - image: circleci/php:7.2.6-apache-stretch-node-browsers
+    working_directory: ~/teainside-bot-s3
     steps:
       - checkout
+      - run: sudo apt-get install libcap-dev -y
+      - run: sudo sysctl kernel.randomize_va_space=0
+      - run: git clone https://github.com/ioi/isolate /tmp/isolate && cd /tmp/isolate && make && sudo make install
       - run: sudo wget https://getcomposer.org/download/1.6.5/composer.phar -O /usr/bin/composer
       - run: sudo chmod +x /usr/bin/composer
       - run: sudo composer self-update
@@ -19,7 +22,6 @@ jobs:
           paths:
             - ./vendor
 
-      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
       - run: sudo apt-get install nodejs -y
       - run: sudo npm install -g npm
       - restore_cache:
@@ -30,6 +32,6 @@ jobs:
       - save_cache:
           key: node-fx-{{ checksum "package.json" }}
           paths:
-            - node_moduless
-
-      # - run: phpunit
+            - node_modules
+      - run: phpunit
+      - run: php ~/teainside-bot-s3/.circleci/update_server.php
