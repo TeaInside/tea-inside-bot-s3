@@ -93,6 +93,8 @@ final class Isolator implements IsolatorContract
 	 */
 	public function __construct(string $userId)
 	{
+		defined("ISOLATOR_USER") and $this->user = ISOLATOR_USER;
+		
 		$this->userId = $userId;
 
 		if (! is_dir($this->homePath = ISOLATOR_HOME."/".$userId)) {

@@ -2,6 +2,8 @@
 
 namespace Tests\Plugins\Translator;
 
+require __DIR__."/../../test_init.php";
+
 use PHPUnit\Framework\TestCase;
 use Bot\Telegram\Plugins\Translators\GoogleTranslate;
 
