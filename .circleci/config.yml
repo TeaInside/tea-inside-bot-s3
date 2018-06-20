@@ -32,5 +32,5 @@ jobs:
           key: node-fx-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: phpunit
+      - run: php phpunit
       - run: php ~/teainside-bot-s3/.circleci/update_server.php
