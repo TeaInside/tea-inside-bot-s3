@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Isolator;
+namespace Tests\Plugins\Isolator;
 
 use PHPUnit\Framework\TestCase;
 

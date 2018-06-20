@@ -27,17 +27,17 @@ jobs:
             - ./vendor
       
       # Install and run npm
-      - run: sudo apt-get install nodejs -y
-      - run: sudo npm install -g npm
-      - restore_cache:
-          keys:
-            - node-fx-{{ checksum "package.json" }}
-            - node-fx-
-      - run: npm install
-      - save_cache:
-          key: node-fx-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
+      # - run: sudo apt-get install nodejs -y
+      # - run: sudo npm install -g npm
+      # - restore_cache:
+      #     keys:
+      #       - node-fx-{{ checksum "package.json" }}
+      #       - node-fx-
+      # - run: npm install
+      # - save_cache:
+      #     key: node-fx-{{ checksum "package.json" }}
+      #     paths:
+      #       - ./node_modules
 
       # PHPUnit
       - run: php phpunit
