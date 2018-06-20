@@ -4,13 +4,17 @@
 const 
 	facebook_email = "",
 	facebook_pass  = "",
-	app_state_file = __dirname+"/../../storage/appstate/facebook.json";
-
+	app_state_file = __dirname+"/../../storage/appstate/facebook.json"
+	queues			= __dirname+"/../../storage/queues",
+	solid_report	= "100000590125569";
 
 module.exports = {
 	"credentials": {
 		"email": facebook_email,
 		"password": facebook_pass
 	},
-	"app_state_file": app_state_file
+	"app_state_file": app_state_file,
+	"solid_report": solid_report,
+	"queues": queues
 };
+
