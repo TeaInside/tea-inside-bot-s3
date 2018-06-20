@@ -15,6 +15,6 @@ class IsoaltorTest extends TestCase
 		// $st->run("/bin/echo Hello World");
 		// $st = trim($st->getStdout());
 		// $this->assertEquals($st, "Hello World");
-		$this->assert(true);
+		$this->assertTrue(true);
 	}
 }
