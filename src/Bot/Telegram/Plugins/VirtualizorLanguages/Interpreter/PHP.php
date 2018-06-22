@@ -42,7 +42,7 @@ class PHP extends Interpreter
 			file_put_contents($f, $this->code);
 		}
 
-		$st->setMemoryLimit(1024 * 256);
+		$st->setMemoryLimit(1024 * 512);
 		$st->setMaxProcesses(5);
 		$st->setMaxWallTime(10);
 		$st->setMaxExecutionTime(5);
