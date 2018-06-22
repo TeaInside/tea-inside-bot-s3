@@ -292,7 +292,7 @@ final class Isolator implements IsolatorContract
 			$this->param("stdout").
 			$this->param("stderr").
 			$this->param("env").
-			"--run -- /bin/sh -c \"".str_replace(["\"", "\$"], ["\\\"", "\\\$"], $cmd)."\""
+			"--run -- /bin/sh -c \"".str_replace(["\"", "\$"], ["\\\"", "\\\$"], $cmd)."\"".
 			" 2>&1";
 
 		print "\n\n".$this->cmd."\n\n";
