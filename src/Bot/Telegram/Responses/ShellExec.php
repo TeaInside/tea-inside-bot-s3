@@ -45,6 +45,7 @@ class ShellExec extends ResponseFoundation
 			return true;
 		} else {
 			$sharenet = false;
+			$report = false;
 			if (file_exists(data."/tmp/telegram/shell_count/".$this->data["user_id"])) {
 				$c = json_decode(file_get_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"]), true);
 				if (isset($c["count"], $c["last"])) {
