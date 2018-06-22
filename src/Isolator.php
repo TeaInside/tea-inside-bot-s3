@@ -292,6 +292,7 @@ final class Isolator implements IsolatorContract
 			$this->param("stdout").
 			$this->param("stderr").
 			$this->param("env").
+			$this->param("chdir").
 			"--run -- /bin/sh -c \"".str_replace(["\"", "\$"], ["\\\"", "\\\$"], $cmd)."\"".
 			" 2>&1";
 
@@ -369,6 +370,9 @@ final class Isolator implements IsolatorContract
 			case "env":
 				$param = "--full-env ";
 				$param.= "--env=TMPDIR=/tmp";
+				break;
+			case "chdir":
+				$param = "--chdir=/home/u".$this->boxId;
 				break;
 			default:
 				break;
