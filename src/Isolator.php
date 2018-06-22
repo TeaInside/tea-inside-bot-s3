@@ -121,7 +121,7 @@ final class Isolator implements IsolatorContract
 		];
 
 		foreach($etcFiles as $file) {
-			if (! file_exists($f = $this->etcPath."/".$file)) {
+			if (! @readlink($f = $this->etcPath."/".$file)) {
 				shell_exec("sudo ln -s /parent_etc/".$file." ".$f);
 			}
 		}
