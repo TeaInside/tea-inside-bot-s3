@@ -291,6 +291,7 @@ final class Isolator implements IsolatorContract
 			$this->param("maxProcesses").
 			$this->param("stdout").
 			$this->param("stderr").
+			$this->param("env").
 			"--run -- ".$cmd.
 			" 2>&1";
 
@@ -364,6 +365,10 @@ final class Isolator implements IsolatorContract
 				break;
 			case "maxProcesses":
 				$param = isset($this->maxProcesses) ? "--processes=".$this->maxProcesses : "";
+				break;
+			case "env":
+				$param = "--full-env ";
+				$param.= "--env=TMPDIR";
 				break;
 			default:
 				break;
