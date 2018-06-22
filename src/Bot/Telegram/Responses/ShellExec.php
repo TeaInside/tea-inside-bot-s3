@@ -60,16 +60,12 @@ class ShellExec extends ResponseFoundation
 			$limit = 20;
 			if (file_exists($f = data."/clients/".$this->data["user_id"])) {
 				$j = json_decode(file_get_contents($f), true);
-				if (isset($j["limit_per_day"]) && isset($j["sharenet"])) {
-					$sharenet = true;
+				if (isset($j["limit_per_day"]) && isset($j["share_net"])) {
+					$sharenet = $j["share_net"];
 					$limit = $j["limit_per_day"];
-				}
-				var_dump(123);
-			} else {
-				var_dump(456);
+				}				
 			}
 
-			var_dump($c, $j);
 			if ($c["count"] > $limit) {
 				if (time() > ($c["last"]+(3600*24))) {
 					@unlink(data."/tmp/telegram/shell_count/".$this->data["user_id"]);
