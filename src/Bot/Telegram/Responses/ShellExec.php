@@ -44,7 +44,7 @@ class ShellExec extends ResponseFoundation
 			);
 			return true;
 		} else {
-
+			$sharenet = false;
 			if (file_exists(data."/tmp/telegram/shell_count/".$this->data["user_id"])) {
 				$c = json_decode(file_get_contents(data."/tmp/telegram/shell_count/".$this->data["user_id"]), true);
 				if (isset($c["count"], $c["last"])) {
@@ -57,7 +57,15 @@ class ShellExec extends ResponseFoundation
 				$c = ["count" => 1];
 			}
 
-			if ($c["count"] > 20) {
+			if (file_exists($f = data."/clients/".$this->data["user_id"])) {
+				$j = json_decode(file_get_contents($f), true);
+				if (isset($j["limit_per_day"]) && isset($j["sharenet"])) {
+					$sharenet = true;
+					$limit = $j["limit_per_day"];
+				}
+			}
+
+			if ($c["count"] > $limit) {
 				if (time() > ($c["last"]+(3600*24))) {
 					@unlink(data."/tmp/telegram/shell_count/".$this->data["user_id"]);
 					return true;
@@ -81,7 +89,7 @@ class ShellExec extends ResponseFoundation
 					if (! file_exists($f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = substr(md5(sha1($cmd).md5($cmd)), 0, 4).".sh"))) {
 						file_put_contents($f, $cmd);
 					}
-
+					$st->sharenet = $sharenet;
 					$st->setMemoryLimit(1024 * 1024);
 					$st->setMaxProcesses(30);
 					$st->setMaxWallTime(15);

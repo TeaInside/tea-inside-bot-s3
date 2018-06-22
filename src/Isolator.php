@@ -86,6 +86,11 @@ final class Isolator implements IsolatorContract
 	private $etcPath;
 
 	/**
+	 * @var bool
+	 */
+	public $sharenet = false;
+
+	/**
 	 * @param string $cmd
 	 * @return void
 	 *
@@ -293,6 +298,7 @@ final class Isolator implements IsolatorContract
 			$this->param("stderr").
 			$this->param("env").
 			$this->param("chdir").
+			$this->param("sharenet").
 			"--run -- /bin/sh -c \"".str_replace(["\"", "\$"], ["\\\"", "\\\$"], $cmd)."\"".
 			" 2>&1";
 
@@ -373,6 +379,9 @@ final class Isolator implements IsolatorContract
 				break;
 			case "chdir":
 				$param = "--chdir=/home/u".$this->boxId;
+				break;
+			case "sharenet":
+				$param = $this->sharenet ? "--share-net" : "";
 				break;
 			default:
 				break;
