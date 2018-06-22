@@ -2,5 +2,6 @@
 *.swp
 *.lock
 /vendor/
+/.phpintel
 /node_modules/
 /package-lock.json
