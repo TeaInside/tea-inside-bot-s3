@@ -66,8 +66,6 @@ class ShellExec extends ResponseFoundation
 				}				
 			}
 
-			var_dump($sharenet, $j, $limit);
-
 			if ($c["count"] > $limit) {
 				if (time() > ($c["last"]+(3600*24))) {
 					@unlink(data."/tmp/telegram/shell_count/".$this->data["user_id"]);
