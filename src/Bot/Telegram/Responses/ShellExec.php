@@ -82,7 +82,7 @@ class ShellExec extends ResponseFoundation
 						file_put_contents($f, $cmd);
 					}
 
-					$st->setMemoryLimit(1024 * 256);
+					$st->setMemoryLimit(1024 * 1024);
 					$st->setMaxProcesses(5);
 					$st->setMaxWallTime(30);
 					$st->setMaxExecutionTime(15);
