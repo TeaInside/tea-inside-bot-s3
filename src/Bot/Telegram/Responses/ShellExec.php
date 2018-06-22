@@ -56,15 +56,19 @@ class ShellExec extends ResponseFoundation
 				is_dir(data."/tmp/telegram/shell_count/") or mkdir(data."/tmp/telegram/shell_count/");
 				$c = ["count" => 1];
 			}
-
+			$limit = 20;
 			if (file_exists($f = data."/clients/".$this->data["user_id"])) {
 				$j = json_decode(file_get_contents($f), true);
 				if (isset($j["limit_per_day"]) && isset($j["sharenet"])) {
 					$sharenet = true;
 					$limit = $j["limit_per_day"];
 				}
+				var_dump(123);
+			} else {
+				var_dump(456);
 			}
 
+			var_dump($c, $j);
 			if ($c["count"] > $limit) {
 				if (time() > ($c["last"]+(3600*24))) {
 					@unlink(data."/tmp/telegram/shell_count/".$this->data["user_id"]);
