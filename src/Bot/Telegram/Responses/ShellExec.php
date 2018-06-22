@@ -84,8 +84,8 @@ class ShellExec extends ResponseFoundation
 
 					$st->setMemoryLimit(1024 * 1024);
 					$st->setMaxProcesses(30);
-					$st->setMaxWallTime(30);
-					$st->setMaxExecutionTime(15);
+					$st->setMaxWallTime(15);
+					$st->setMaxExecutionTime(10);
 					$st->setExtraTime(5);
 
 					$st->run("/bin/sh /home/u".$id."/".$n);
