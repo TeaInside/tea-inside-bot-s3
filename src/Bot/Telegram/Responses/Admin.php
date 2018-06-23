@@ -28,7 +28,7 @@ class Admin extends ResponseFoundation
 	private function isAdmin(): bool
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
-		$st = $pdo->prepare(
+		$st = $this->pdo->prepare(
 			"SELECT `user_id` FROM `group_admins` WHERE `user_id`=:user_id AND `group_id`=:group_id LIMIT 1;"
 		);
 		$st->execute(
