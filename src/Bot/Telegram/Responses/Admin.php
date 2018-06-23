@@ -122,7 +122,10 @@ class Admin extends ResponseFoundation
 					Exe::sendMessage(
 						[
 							"chat_id" => $this->data["chat_id"],
-							"text" => Lang::get("admin.need_reply"),
+							"text" => 
+									"<b>An error occured!</b>\n\n"
+									."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
+									."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 							"parse_mode" => "HTML",
 							"reply_to_message_id" => $this->data["msg_id"]
 						]
@@ -132,7 +135,7 @@ class Admin extends ResponseFoundation
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => Lang::get("admin.need_reply"),
+						"text" => Lang::get("admin.need_reply_or_mention"),
 						"parse_mode" => "HTML",
 						"reply_to_message_id" => $this->data["msg_id"]
 					]
@@ -186,7 +189,7 @@ class Admin extends ResponseFoundation
 						[
 							"chat_id" => $this->data["chat_id"],
 							"text" => 
-								"<b>An error occured!</b>\n\n"
+									"<b>An error occured!</b>\n\n"
 									."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
 									."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 							"parse_mode" => "HTML",
@@ -198,7 +201,7 @@ class Admin extends ResponseFoundation
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => Lang::get("admin.need_reply"),
+						"text" => Lang::get("admin.need_reply_or_mention"),
 						"parse_mode" => "HTML",
 						"reply_to_message_id" => $this->data["msg_id"]
 					]
@@ -262,7 +265,7 @@ class Admin extends ResponseFoundation
 							[
 								"chat_id" => $this->data["chat_id"],
 								"text" => 
-									"<b>An error occured!</b>\n\n"
+										"<b>An error occured!</b>\n\n"
 										."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
 										."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 								"parse_mode" => "HTML",
@@ -287,7 +290,7 @@ class Admin extends ResponseFoundation
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => Lang::get("admin.need_reply"),
+						"text" => Lang::get("admin.need_reply_or_mention"),
 						"parse_mode" => "HTML",
 						"reply_to_message_id" => $this->data["msg_id"]
 					]
