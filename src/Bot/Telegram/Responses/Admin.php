@@ -77,6 +77,58 @@ class Admin extends ResponseFoundation
 		return true;
 	}
 
+	public function warn()
+	{
+		isset($this->pdo) or $this->pdo = DB::pdo();
+	}
+
+	public function promote()
+	{
+		isset($this->pdo) or $this->pdo = DB::pdo();
+		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS))) {
+			$exe = Exe::promoteChatMember(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"user_id" => $this->data["reply_to"]["from"]["id"]
+				]
+			);
+
+			// $exe = json_decode($exe["out"], true);
+
+			Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => $exe["out"]
+						"parse_mode" => "HTML"
+					]
+				);	
+
+			return;
+
+			if ($exe["ok"]) {
+				$exe = Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => $exe
+						"parse_mode" => "HTML"
+					]
+				);	
+			} else {
+				Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => 
+							"<b>An error occured!</b>\n\n"
+								."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
+								."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+						"parse_mode" => "HTML",
+						"reply_to_message_id" => $this->data["msg_id"]
+					]
+				);
+			}
+		}
+	}
+
 	public function ban($reason = null)
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
