@@ -5,6 +5,7 @@ namespace Bot\Telegram\Responses;
 use DB;
 use PDO;
 use Bot\Telegram\Exe;
+use Bot\Telegram\Lang;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Logger\AdminLogger;
 
@@ -100,6 +101,12 @@ class Admin extends ResponseFoundation
 				[
 					":welcome_message" => $msg,
 					":group_id" => $this->data["chat_id"]
+				]
+			);
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => Lang::get("welcome.set_success")
 				]
 			);
 		}
