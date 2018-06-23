@@ -80,15 +80,21 @@ class Admin extends ResponseFoundation
 	public function ban($reason = null)
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
-		if (in_array($this->data["user_id"], SUDOERS)) {
-			Exe::kickChatMember(
+		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin())) {
+			$exe = Exe::kickChatMember(
 				[
 					"chat_id" => $this->data["chat_id"],
-					"user_id" => ""
+					"user_id" => $this->data["reply_to"]["from"]
 				]
 			);
-		} else {
 
+			$exe = Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => $exe["out"],
+					// "parse_mode" => "HTML"
+				]
+			);
 		}
 	}
 
