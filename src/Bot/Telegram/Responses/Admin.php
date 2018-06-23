@@ -110,7 +110,7 @@ class Admin extends ResponseFoundation
 				$exe = Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => $exe
+						"text" => $exe,
 						"parse_mode" => "HTML"
 					]
 				);	
