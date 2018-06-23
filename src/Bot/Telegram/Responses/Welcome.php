@@ -27,7 +27,7 @@ class Welcome extends ResponseFoundation
 		);
 		$st->execute([":group_id" => $this->data["chat_id"]]);
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
-			if ($st[1] !== "on") {
+			if ($st[0] !== null && $st[1] !== "on") {
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
