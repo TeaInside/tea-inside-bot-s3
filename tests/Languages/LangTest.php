@@ -18,9 +18,14 @@ class LangTest extends TestCase
 
 	public function testEnLang()
 	{
+		// $this->assertEquals(
+		// 	Lang::get("welcome.set_success"),
+		// 	\Bot\Telegram\Lang\En\Fx\Welcome::$map["set_success"]
+		// );
+
 		$this->assertEquals(
-			Lang::get("welcome.set_success"),
-			\Bot\Telegram\Lang\En\Fx\Welcome::$map["set_success"]
+			Lang::get("admin.banned_success", [":admin" => "Admin", ":banned_user" => "User"]),
+			"Admin banned User!"
 		);
 	}
 }

@@ -57,17 +57,24 @@ final class Lang
 
 	/**
 	 * @param string $key
+	 * @param array  $bind
+	 * @param bool   $noBind
 	 */
-	public static function get(string $key, $noBind = false): string
+	public static function get(string $key, $bind = [], $noBind = false): string
 	{
 		$ins = self::getInstance();
 		if (array_key_exists($key, $ins->submapClass::$subMap)) {
 			$r = ($ins->namespace."Fx\\".$ins->submapClass::$subMap[$key]);
 			$key = explode(".", $key);
-			return $noBind ? $r::$map[$key[1]] : self::bind($r::$map[$key[1]]);
+			return str_replace(array_keys($bind), array_values($bind), ($noBind ? $r::$map[$key[1]] : self::bind($r::$map[$key[1]])));
 		} else {
 
 		}
+	}
+
+	public static function namelink($userId, $name)
+	{
+		return "<a href=\"tg://user?id={$userId}\">".htmlspecialchars($name, ENT_QUOTES, "UTF-8")."</a>";
 	}
 
 	public static function bind(string $str): string
