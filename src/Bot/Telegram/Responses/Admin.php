@@ -86,44 +86,103 @@ class Admin extends ResponseFoundation
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
 		var_dump($this->data["reply_to"]);
-		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin())) {
-			var_dump(isset($this->data["reply_to"]), 1, 2);
-			$exe = Exe::promoteChatMember(
-				[
-					"chat_id" => $this->data["chat_id"],
-					"user_id" => $this->data["reply_to"]["from"]["id"],
-					"can_change_info" => 1,
-					"can_restrict_members" => 1,
-					"can_pin_messages" => 1,
-					"can_promote_members" => 1,
-					"can_delete_messages" => 1,
-					"can_invite_users" => 1
-				]
-			);
-
-			$exe = json_decode($exe["out"], true);			
-
-
-			if ($exe["ok"]) {
-				$exe = Exe::sendMessage(
+		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
+			if (isset($this->data["reply_to"])) {
+				$exe = Exe::promoteChatMember(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => Lang::get("admin.promote_success",
-							[
-								":promotor" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
-								":new_admin" => Lang::namelink($this->data["reply_to"]["from"]["id"], $this->data["reply_to"]["from"]["first_name"])
-							]),
-						"parse_mode" => "HTML"
+						"user_id" => $this->data["reply_to"]["from"]["id"],
+						"can_change_info" => 1,
+						"can_restrict_members" => 1,
+						"can_pin_messages" => 1,
+						"can_promote_members" => 1,
+						"can_delete_messages" => 1,
+						"can_invite_users" => 1
 					]
 				);
+				$exe = json_decode($exe["out"], true);			
+				if ($exe["ok"]) {
+					$exe = Exe::sendMessage(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"text" => Lang::get("admin.promote_success",
+								[
+									":promotor" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
+									":new_admin" => Lang::namelink($this->data["reply_to"]["from"]["id"], $this->data["reply_to"]["from"]["first_name"])
+								]),
+							"parse_mode" => "HTML"
+						]
+					);
+				} else {
+					Exe::sendMessage(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"text" => Lang::get("admin.need_reply"),
+							"parse_mode" => "HTML",
+							"reply_to_message_id" => $this->data["msg_id"]
+						]
+					);
+				}
+			} else {
+
+			}
+		} else {
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => Lang::get("admin.command_not_allowed"),
+					"reply_to_message_id" => $this->data["msg_id"]
+				]
+			);
+		}
+		return true;
+	}
+
+	public function ban($reason = null)
+	{
+		isset($this->pdo) or $this->pdo = DB::pdo();
+		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
+			if (isset($this->data["reply_to"])) {
+				$exe = Exe::kickChatMember(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"user_id" => $this->data["reply_to"]["from"]["id"]
+					]
+				);
+
+				$exe = json_decode($exe["out"], true);
+
+				if ($exe["ok"]) {
+					$exe = Exe::sendMessage(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"text" => Lang::get("admin.banned_success", 
+								[
+									":admin" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
+									":banned_user" => Lang::namelink($this->data["reply_to"]["from"]["id"], $this->data["reply_to"]["from"]["first_name"])
+								]
+							),
+							"parse_mode" => "HTML"
+						]
+					);	
+				} else {
+					Exe::sendMessage(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"text" => 
+								"<b>An error occured!</b>\n\n"
+									."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
+									."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+							"parse_mode" => "HTML",
+							"reply_to_message_id" => $this->data["msg_id"]
+						]
+					);
+				}
 			} else {
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => 
-							"<b>An error occured!</b>\n\n"
-								."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
-								."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+						"text" => Lang::get("admin.need_reply"),
 						"parse_mode" => "HTML",
 						"reply_to_message_id" => $this->data["msg_id"]
 					]
@@ -141,40 +200,74 @@ class Admin extends ResponseFoundation
 		return true;
 	}
 
-	public function ban($reason = null)
+	public function kick($reason = null)
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
-		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin())) {
-			$exe = Exe::kickChatMember(
-				[
-					"chat_id" => $this->data["chat_id"],
-					"user_id" => $this->data["reply_to"]["from"]["id"]
-				]
-			);
-
-			$exe = json_decode($exe["out"], true);
-
-			if ($exe["ok"]) {
-				$exe = Exe::sendMessage(
+		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
+			if (isset($this->data["reply_to"])) {
+				$exe = Exe::kickChatMember(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => Lang::get("admin.banned_success", 
-							[
-								":admin" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
-								":banned_user" => Lang::namelink($this->data["reply_to"]["from"]["id"], $this->data["reply_to"]["from"]["first_name"])
-							]
-						),
-						"parse_mode" => "HTML"
+						"user_id" => $this->data["reply_to"]["from"]["id"]
 					]
-				);	
+				);
+
+				$exe = json_decode($exe["out"], true);
+
+				if ($exe["ok"]) {
+					$exe = Exe::kickChatMember(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"user_id" => $this->data["reply_to"]["from"]["id"]
+						]
+					);
+
+					$exe = json_decode($exe["out"], true);
+
+					if ($exe["ok"]) {
+						$exe = Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => Lang::get("admin.kicked_success", 
+									[
+										":admin" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
+										":kicked_user" => Lang::namelink($this->data["reply_to"]["from"]["id"], $this->data["reply_to"]["from"]["first_name"])
+									]
+								),
+								"parse_mode" => "HTML"
+							]
+						);	
+					} else {
+						Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => 
+									"<b>An error occured!</b>\n\n"
+										."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
+										."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+								"parse_mode" => "HTML",
+								"reply_to_message_id" => $this->data["msg_id"]
+							]
+						);
+					}
+				} else {
+					Exe::sendMessage(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"text" => 
+								"<b>An error occured!</b>\n\n"
+									."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
+									."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+							"parse_mode" => "HTML",
+							"reply_to_message_id" => $this->data["msg_id"]
+						]
+					);
+				}
 			} else {
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => 
-							"<b>An error occured!</b>\n\n"
-								."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
-								."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+						"text" => Lang::get("admin.need_reply"),
 						"parse_mode" => "HTML",
 						"reply_to_message_id" => $this->data["msg_id"]
 					]
