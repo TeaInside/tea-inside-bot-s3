@@ -98,7 +98,7 @@ class Admin extends ResponseFoundation
 			Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => $exe["out"]
+						"text" => $exe["out"],
 						"parse_mode" => "HTML"
 					]
 				);	
@@ -114,7 +114,7 @@ class Admin extends ResponseFoundation
 						"parse_mode" => "HTML"
 					]
 				);	
-				
+
 			} else {
 				Exe::sendMessage(
 					[
