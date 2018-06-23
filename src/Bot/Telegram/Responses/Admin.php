@@ -383,7 +383,7 @@ class Admin extends ResponseFoundation
 			$query = "SELECT `id`,`first_name`,`last_name`,`username` FROM `users` WHERE ";
 			foreach($this->data["entities"] as $key => $ent) {
 				if (isset($ent["type"]) && $ent["type"] == "mention") {
-					$query = "`username` LIKE :username{$key} OR";
+					$query .= "`username` LIKE :username{$key} OR";
 					$username = substr($this->data["text"], $ent["offset"] + 1, $ent["length"]);
 					$queryData[":username{$key}"] = $username;
 					$mentioned_username[strtolower($username)] = 1;
