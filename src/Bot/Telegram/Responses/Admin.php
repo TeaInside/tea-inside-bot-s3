@@ -103,10 +103,18 @@ class Admin extends ResponseFoundation
 					":group_id" => $this->data["chat_id"]
 				]
 			);
+			$exe = Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => $msg,
+					"parse_mode" => "HTML"
+				]
+			);
+
 			Exe::sendMessage(
 				[
 					"chat_id" => $this->data["chat_id"],
-					"text" => Lang::get("welcome.set_success")
+					"text" => $exe["out"] // Lang::get("welcome.set_success")
 				]
 			);
 		}
