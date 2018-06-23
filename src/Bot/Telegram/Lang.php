@@ -68,7 +68,7 @@ final class Lang
 			$key = explode(".", $key);
 			return str_replace(array_keys($bind), array_values($bind), ($noBind ? $r::$map[$key[1]] : self::bind($r::$map[$key[1]])));
 		} else {
-			return "";
+			throw new \Error("");
 		}
 	}
 
