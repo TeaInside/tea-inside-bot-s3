@@ -111,12 +111,27 @@ class Admin extends ResponseFoundation
 				]
 			);
 
-			Exe::sendMessage(
-				[
-					"chat_id" => $this->data["chat_id"],
-					"text" => $exe["out"] // Lang::get("welcome.set_success")
-				]
-			);
+			$exe = json_decode($exe["out"], true);
+			if ($exe["ok"]) {
+				Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => Lang::get("welcome.set_success"),
+						"reply_to_message_id" => $this->data["msg_id"]
+					]
+				);
+			} else {
+				Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => 
+								"**An error occured!**\n\n"
+								."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
+								."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
+						"reply_to_message_id" => $this->data["msg_id"]
+					]
+				);
+			}
 		}
 	}
 }
