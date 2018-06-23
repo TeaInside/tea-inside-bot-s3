@@ -87,6 +87,7 @@ class Admin extends ResponseFoundation
 		isset($this->pdo) or $this->pdo = DB::pdo();
 		var_dump($this->data["reply_to"]);
 		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin())) {
+			var_dump(isset($this->data["reply_to"]), 1, 2);
 			$exe = Exe::promoteChatMember(
 				[
 					"chat_id" => $this->data["chat_id"],
