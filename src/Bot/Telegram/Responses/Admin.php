@@ -77,11 +77,17 @@ class Admin extends ResponseFoundation
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function warn()
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function promote()
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
@@ -144,6 +150,10 @@ class Admin extends ResponseFoundation
 		return true;
 	}
 
+	/**
+	 * @param string $reason
+	 * @return bool
+	 */
 	public function ban($reason = null)
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
@@ -206,6 +216,10 @@ class Admin extends ResponseFoundation
 		return true;
 	}
 
+	/**
+	 * @param string $reason
+	 * @return bool
+	 */
 	public function kick($reason = null)
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
@@ -291,6 +305,10 @@ class Admin extends ResponseFoundation
 		return true;
 	}
 
+	/**
+	 * @param string $msg
+	 * @return bool
+	 */
 	public function setWelcome($msg)
 	{
 		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
@@ -348,5 +366,6 @@ class Admin extends ResponseFoundation
 				]
 			);
 		}
+		return true;
 	}
 }
