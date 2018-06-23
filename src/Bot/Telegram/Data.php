@@ -172,7 +172,7 @@ final class Data implements ArrayAccess, JsonSerializable
 	 */
 	public function offsetExists($offset)
 	{
-		return array_key_exists($offset, $this->container);
+		return array_key_exists($offset, $this->container) && !is_null($this->container[$offset]);
 	}
 
 	/**
