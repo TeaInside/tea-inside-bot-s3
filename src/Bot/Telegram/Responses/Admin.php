@@ -95,14 +95,7 @@ class Admin extends ResponseFoundation
 	public function setWelcome($msg)
 	{
 		if ($this->isAdmin()) {
-			$this->pdo->prepare(
-				"UPDATE `group_settings` SET `welcome_message`=:welcome_message WHERE `group_id`=:group_id LIMIT 1;"
-			)->execute(
-				[
-					":welcome_message" => $msg,
-					":group_id" => $this->data["chat_id"]
-				]
-			);
+
 			$exe = Exe::sendMessage(
 				[
 					"chat_id" => $this->data["chat_id"],
@@ -113,11 +106,25 @@ class Admin extends ResponseFoundation
 
 			$exe = json_decode($exe["out"], true);
 			if ($exe["ok"]) {
+				$this->pdo->prepare(
+					"UPDATE `group_settings` SET `welcome_message`=:welcome_message WHERE `group_id`=:group_id LIMIT 1;"
+				)->execute(
+					[
+						":welcome_message" => $msg,
+						":group_id" => $this->data["chat_id"]
+					]
+				);
 				Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
 						"text" => Lang::get("welcome.set_success"),
 						"reply_to_message_id" => $this->data["msg_id"]
+					]
+				);
+				Exe::deleteMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"message_id" => $exe["result"]["message_id"]
 					]
 				);
 			} else {
