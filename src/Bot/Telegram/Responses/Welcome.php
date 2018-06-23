@@ -38,6 +38,7 @@ class Welcome extends ResponseFoundation
 				);
 			}
 		}
+		var_dump($st);
 		return true;
 	}
 }
