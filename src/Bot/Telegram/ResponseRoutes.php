@@ -78,6 +78,13 @@ trait ResponseRoutes
 		}, "Admin@ban");
 
 		$this->set(function($d){
+			if (preg_match("/^(\/|!|~)kick(\s.+)?$/", $d["text"], $m)) {
+				isset($m[2]) or $m[2] = "";
+				return [true, [$m[2]]];
+			}
+		}, "Admin@kick");
+
+		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?t(r|l)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})(.*)$/Usi", $d["text"], $m)) {
 				return [true, [trim($m[5]), trim($m[3]), trim($m[4])]];
 			}
