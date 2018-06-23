@@ -1,6 +1,6 @@
 <?php
 
-define("test_json", 
+define("test_json_1", 
 	'{
     "update_id": 69829664,
     "message": {
@@ -44,6 +44,42 @@ define("test_json",
                 "file_size": 179215,
                 "width": 1280,
                 "height": 800
+            }
+        ]
+    }
+}');
+
+
+
+define("test_json_2", '{
+    "update_id": 344872640,
+    "message": {
+        "message_id": 8293,
+        "from": {
+            "id": 243692601,
+            "is_bot": false,
+            "first_name": "Ammar",
+            "last_name": "F.",
+            "username": "ammarfaizi2",
+            "language_code": "en-US"
+        },
+        "chat": {
+            "id": -1001128970273,
+            "title": "Private Cloud",
+            "type": "supergroup"
+        },
+        "date": 1529763832,
+        "text": "/debug @czxasdPPrt",
+        "entities": [
+            {
+                "offset": 0,
+                "length": 6,
+                "type": "bot_command"
+            },
+            {
+                "offset": 7,
+                "length": 11,
+                "type": "mention"
             }
         ]
     }

@@ -161,7 +161,10 @@ class Admin extends ResponseFoundation
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
 		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
-			if (isset($this->data["reply_to"])) {
+
+			$mentioned_users = $this->getMentionedUsers();
+
+			if (isset($this->data["reply_to"]) || (count($mentioned_users) > 0)) {
 				$exe = Exe::kickChatMember(
 					[
 						"chat_id" => $this->data["chat_id"],
@@ -370,5 +373,56 @@ class Admin extends ResponseFoundation
 			);
 		}
 		return true;
+	}
+
+
+	private function getMentionedUsers()
+	{
+		$mentioned_username = $queryData = $unknown = $mentioned_users = [];
+		if (isset($this->data["entities"])) {
+			$query = "SELECT `id`,`first_name`,`last_name`,`username` FROM `users` WHERE ";
+			foreach($this->data["entities"] as $key => $ent) {
+				if (isset($ent["type"]) && $ent["type"] == "mention") {
+					$query = "`username` LIKE :username{$key} OR";
+					$username = substr($data["text"], $ent["offset"] + 1, $ent["length"]);
+					$queryData[":username{$key}"] = $username
+					$mentioned_username[strtolower($username)] = 1;
+				} elseif (isset($ent["type"]) && isset($ent["user"]["id"]) && $ent["type"] == "text_mention") {
+					$mentioned_users[] = [
+						"user_id" => $ent["user"]["id"],
+						"first_name" => $ent["user"]["first_name"],
+						"last_name" => $ent["user"]["last_name"],
+					];
+				}
+			}
+			if (count($queryData) > 0) {
+				isset($this->pdo) or $this->pdo = DB::pdo();
+				$st = $this->pdo->prepare(trim($query, "OR").";");
+				$st->execute($queryData);
+				while ($r = $st->fetch(PDO::FETCH_NUM)) {
+					unset($mentioned_username[strtolower($r[3])]);
+					$mentioned_users[] = [
+						"user_id" => $r[0],
+						"first_name" => $r[1],
+						"last_name" => $r[2]
+					];
+				}
+
+				$unknown = array_keys($mentioned_username);
+			}
+		}
+
+		var_dump(
+			"unknown", $unknown, "\n",
+			"mentioned_users", $mentioned_users, "\n",
+			"mentioned_username", $mentioned_username, "\n",
+			"query", $query, "\n",
+			"queryData", $queryData, "\n"
+		);
+
+		return [
+			"mentioned_users" => $mentioned_users,
+			"unknown" => $unknown
+		];
 	}
 }
