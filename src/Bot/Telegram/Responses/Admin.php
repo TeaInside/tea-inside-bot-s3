@@ -3,6 +3,7 @@
 namespace Bot\Telegram\Responses;
 
 use DB;
+use PDO;
 use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Logger\AdminLogger;
@@ -14,7 +15,31 @@ use Bot\Telegram\Logger\AdminLogger;
  * @since 0.0.1
  */
 class Admin extends ResponseFoundation
-{
+{	
+	/**
+	 * @var \PDO
+	 */
+	private $pdo;
+
+	/**
+	 * @return bool
+	 */
+	private function isAdmin(): bool
+	{
+		isset($this->pdo) or $this->pdo = DB::pdo();
+		$st = $pdo->prepare(
+			"SELECT `user_id` FROM `group_admins` WHERE `user_id`=:user_id AND `group_id`=:group_id LIMIT 1;"
+		);
+		$st->execute(
+			[
+				":user_id" => $this->data["user_id"],
+				":group_id" => $this->data["chat_id"]
+			]
+		);
+
+		return (bool) $st->fetch(PDO::FETCH_NUM);
+	}
+
 	/**
 	 * @return bool
 	 */
@@ -53,7 +78,7 @@ class Admin extends ResponseFoundation
 
 	public function ban($reason = null)
 	{
-		$pdo = DB::pdo();
+		isset($this->pdo) or $this->pdo = DB::pdo();
 		if (in_array($this->data["user_id"], SUDOERS)) {
 			Exe::kickChatMember(
 				[
@@ -62,7 +87,21 @@ class Admin extends ResponseFoundation
 				]
 			);
 		} else {
-			$st = $pdo->prepare("SELECT `user_id`,`role` FROM `group_admins` WHERE `group_id`=:group_id LIMIT 1;");
+
+		}
+	}
+
+	public function setWelcome($msg)
+	{
+		if ($this->isAdmin()) {
+			$this->pdo->prepare(
+				"UPDATE `group_settings` SET `welcome_message`=:welcome_message WHERE `group_id`=:group_id LIMIT 1;"
+			)->execute(
+				[
+					":welcome_message" => $msg,
+					":group_id" => $this->data["chat_id"]
+				]
+			);
 		}
 	}
 }

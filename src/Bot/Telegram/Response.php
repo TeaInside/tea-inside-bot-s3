@@ -31,6 +31,7 @@ final class Response
 	public function __construct(Data $data)
 	{
 		$this->data = $data;
+		Lang::init($data);
 	}
 
 	/**
