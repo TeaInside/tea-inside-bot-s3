@@ -42,8 +42,8 @@ final class Response
 		if (in_array($this->data["msg_type"], ["text", "photo", "new_chat_members"])) {
 			$this->buildRoutes();
 			$this->action();
+			$this->saveResponse();
 		}
-		$this->saveResponse();
 	}
 
 	/**

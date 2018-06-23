@@ -22,7 +22,9 @@ class Welcome extends ResponseFoundation
 	{
 		$pdo = DB::pdo();
 
-		$st = $pdo->prepare("SELECT `welcome_message`,`mute` FROM `group_settings` WHERE `group_id`=:group_id LIMIT 1;");
+		$st = $pdo->prepare(
+			"SELECT `welcome_message`,`mute` FROM `group_settings` WHERE `group_id`=:group_id LIMIT 1;"
+		);
 		$st->execute([":group_id" => $this->data["chat_id"]]);
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
 			if ($st[1] !== "on") {
