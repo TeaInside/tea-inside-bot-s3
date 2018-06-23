@@ -29,6 +29,12 @@ trait ResponseRoutes
 		}, "Solid@run");
 
 		$this->set(function($d){
+			if (preg_match("/^(\/|!|~)welcome\s(.*)$/Usi", $d["text"], $m)) {
+				return [true, [$m[2]]];
+			}
+		}, "Admin@setWelcome");
+
+		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?sh\s(.*)$/Usi", $d["text"], $m)) {
 				return [true, [$m[2]]];
 			}
