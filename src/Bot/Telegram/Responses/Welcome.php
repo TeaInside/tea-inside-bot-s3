@@ -13,7 +13,7 @@ use Bot\Telegram\ResponseFoundation;
  * @license MIT
  * @since 0.0.1
  */
-class Debug extends ResponseFoundation
+class Welcome extends ResponseFoundation
 {
 	/**
 	 * @return bool
