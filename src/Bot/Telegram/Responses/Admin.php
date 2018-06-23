@@ -85,7 +85,6 @@ class Admin extends ResponseFoundation
 	public function promote()
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
-		var_dump($this->data["reply_to"]);
 		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
 			if (isset($this->data["reply_to"])) {
 				$exe = Exe::promoteChatMember(
@@ -124,7 +123,14 @@ class Admin extends ResponseFoundation
 					);
 				}
 			} else {
-
+				Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => Lang::get("admin.need_reply"),
+						"parse_mode" => "HTML",
+						"reply_to_message_id" => $this->data["msg_id"]
+					]
+				);
 			}
 		} else {
 			Exe::sendMessage(
