@@ -384,7 +384,7 @@ class Admin extends ResponseFoundation
 			foreach($this->data["entities"] as $key => $ent) {
 				if (isset($ent["type"]) && $ent["type"] == "mention") {
 					$query = "`username` LIKE :username{$key} OR";
-					$username = substr($data["text"], $ent["offset"] + 1, $ent["length"]);
+					$username = substr($this->data["text"], $ent["offset"] + 1, $ent["length"]);
 					$queryData[":username{$key}"] = $username;
 					$mentioned_username[strtolower($username)] = 1;
 				} elseif (isset($ent["type"]) && isset($ent["user"]["id"]) && $ent["type"] == "text_mention") {
