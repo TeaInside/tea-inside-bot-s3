@@ -221,7 +221,7 @@ class Admin extends ResponseFoundation
 				$exe = json_decode($exe["out"], true);
 
 				if ($exe["ok"]) {
-					$exe = Exe::kickChatMember(
+					$exe = Exe::unbanChatMember(
 						[
 							"chat_id" => $this->data["chat_id"],
 							"user_id" => $this->data["reply_to"]["from"]["id"]
