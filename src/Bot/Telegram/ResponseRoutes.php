@@ -53,10 +53,16 @@ trait ResponseRoutes
 		}, "Debug@run");
 
 		$this->set(function($d){
-			if (preg_match("/^(\/|!|~)admin/Usi", $d["text"])) {
+			if (preg_match("/^(\/|!|~)admin(\s.*)?/Usi", $d["text"])) {
 				return [true, []];
 			}
 		}, "Admin@show");
+
+		$this->set(function($d){
+			if (preg_match("/^(\/|!|~)promote(\s.*)?/Usi", $d["text"])) {
+				return [true, []];
+			}
+		}, "Admin@promote");
 
 		$this->set(function($d){
 			if (preg_match("/\@admin/Usi", $d["text"])) {
