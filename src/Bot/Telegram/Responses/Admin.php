@@ -162,9 +162,9 @@ class Admin extends ResponseFoundation
 		isset($this->pdo) or $this->pdo = DB::pdo();
 		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
 
-			$mentioned_users = $this->getMentionedUsers();
+			// $mentioned_users = $this->getMentionedUsers();
 
-			if (isset($this->data["reply_to"]) || (count($mentioned_users) > 0)) {
+			if (isset($this->data["reply_to"])) {
 				$exe = Exe::kickChatMember(
 					[
 						"chat_id" => $this->data["chat_id"],
