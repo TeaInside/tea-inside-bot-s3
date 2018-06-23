@@ -29,6 +29,12 @@ trait ResponseRoutes
 		}, "Solid@run");
 
 		$this->set(function($d){
+			if ($this->data["msg_type"] === "new_chat_members") {
+				return [true, []];
+			}
+		}, "Welcome@run");
+
+		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)welcome\s(.*)$/Usi", $d["text"], $m)) {
 				return [true, [$m[2]]];
 			}

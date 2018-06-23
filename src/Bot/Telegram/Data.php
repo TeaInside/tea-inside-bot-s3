@@ -49,7 +49,11 @@ final class Data implements ArrayAccess, JsonSerializable
 	 */
 	private function buildContainer()
 	{
-		if (isset($this->in["message"]["text"])) {
+		if (isset($this->in["message"]["new_chat_members"])) {
+			$this["msg_type"] = "new_chat_members";
+			$this["new_chat_members"] = $this->in["message"]["new_chat_members"];
+			$this["msg_id"] = $this->in["message"]["message_id"];
+		} else if (isset($this->in["message"]["text"])) {
 			$this["msg_type"] = "text";
 			if ($this->in["message"]["chat"]["type"] === "private") {
 				$this["chat_type"] = "private";
