@@ -125,7 +125,7 @@ class Admin extends ResponseFoundation
 					[
 						"chat_id" => $this->data["chat_id"],
 						"text" => 
-								"**An error occured!**\n\n"
+								"<b>An error occured!</b>\n\n"
 								."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
 								."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 						"reply_to_message_id" => $this->data["msg_id"],
