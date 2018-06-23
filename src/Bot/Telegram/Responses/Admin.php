@@ -85,7 +85,7 @@ class Admin extends ResponseFoundation
 	public function promote()
 	{
 		isset($this->pdo) or $this->pdo = DB::pdo();
-		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS))) {
+		if (isset($this->data["reply_to"]) && (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin())) {
 			$exe = Exe::promoteChatMember(
 				[
 					"chat_id" => $this->data["chat_id"],
@@ -99,28 +99,21 @@ class Admin extends ResponseFoundation
 				]
 			);
 
-			// $exe = json_decode($exe["out"], true);
-
-			Exe::sendMessage(
-					[
-						"chat_id" => $this->data["chat_id"],
-						"text" => $exe["out"],
-						"parse_mode" => "HTML"
-					]
-				);	
-
-			return;
+			$exe = json_decode($exe["out"], true);			
 
 
 			if ($exe["ok"]) {
 				$exe = Exe::sendMessage(
 					[
 						"chat_id" => $this->data["chat_id"],
-						"text" => $exe,
+						"text" => Lang::get("admin.promote_success",
+							[
+								":promotor" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
+								":new_admin" => Lang::namelink($this->data["reply_to"]["from"]["id"], $this->data["reply_to"]["from"]["first_name"])
+							]),
 						"parse_mode" => "HTML"
 					]
-				);	
-
+				);
 			} else {
 				Exe::sendMessage(
 					[
@@ -134,7 +127,16 @@ class Admin extends ResponseFoundation
 					]
 				);
 			}
+		} else {
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => Lang::get("admin.command_not_allowed"),
+					"reply_to_message_id" => $this->data["msg_id"]
+				]
+			);
 		}
+		return true;
 	}
 
 	public function ban($reason = null)
@@ -176,7 +178,16 @@ class Admin extends ResponseFoundation
 					]
 				);
 			}
+		} else {
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => Lang::get("admin.command_not_allowed"),
+					"reply_to_message_id" => $this->data["msg_id"]
+				]
+			);
 		}
+		return true;
 	}
 
 	public function setWelcome($msg)
@@ -227,6 +238,14 @@ class Admin extends ResponseFoundation
 					]
 				);
 			}
+		} else {
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => Lang::get("admin.command_not_allowed"),
+					"reply_to_message_id" => $this->data["msg_id"]
+				]
+			);
 		}
 	}
 }

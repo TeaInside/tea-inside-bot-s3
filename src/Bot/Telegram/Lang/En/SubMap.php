@@ -6,6 +6,7 @@ final class SubMap
 {
 	public static $subMap = [
 		"welcome.set_success" => "Welcome",
-		"admin.banned_success" => "Admin"
+		"admin.banned_success" => "Admin",
+		"admin.promote_success" => "Admin"
 	];
 }
