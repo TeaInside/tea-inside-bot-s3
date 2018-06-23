@@ -89,7 +89,13 @@ class Admin extends ResponseFoundation
 			$exe = Exe::promoteChatMember(
 				[
 					"chat_id" => $this->data["chat_id"],
-					"user_id" => $this->data["reply_to"]["from"]["id"]
+					"user_id" => $this->data["reply_to"]["from"]["id"],
+					"can_change_info" => 1,
+					"can_restrict_members" => 1,
+					"can_pin_messages" => 1,
+					"can_promote_members" => 1,
+					"can_delete_messages" => 1,
+					"can_invite_users" => 1
 				]
 			);
 
