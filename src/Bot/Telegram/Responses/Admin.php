@@ -94,7 +94,7 @@ class Admin extends ResponseFoundation
 
 	public function setWelcome($msg)
 	{
-		if ($this->isAdmin()) {
+		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
 
 			$exe = Exe::sendMessage(
 				[

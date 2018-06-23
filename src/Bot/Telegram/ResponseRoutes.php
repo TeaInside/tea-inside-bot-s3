@@ -47,6 +47,12 @@ trait ResponseRoutes
 		}, "ShellExec@run");
 
 		$this->set(function($d){
+			if (preg_match("/^(\/|!|~)?debug(.+)?/Usi", $d["text"], $m)) {
+				return [true, []];
+			}
+		}, "Debug@run");
+
+		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)admin/Usi", $d["text"])) {
 				return [true, []];
 			}
@@ -63,12 +69,6 @@ trait ResponseRoutes
 				return [true, [$m[2]]];
 			}
 		}, "Admin@ban");
-
-		$this->set(function($d){
-			if (preg_match("/^(\/|!|~)debug\s(.*)$/", $d["text"])) {
-				return [true, []];
-			}
-		}, "Debug@run");
 
 		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?t(r|l)\s([a-zA-Z]{2,5}|auto)\s([a-zA-Z]{2,5})(.*)$/Usi", $d["text"], $m)) {

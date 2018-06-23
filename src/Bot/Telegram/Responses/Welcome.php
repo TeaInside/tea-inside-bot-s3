@@ -28,17 +28,18 @@ class Welcome extends ResponseFoundation
 		$st->execute([":group_id" => $this->data["chat_id"]]);
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
 			if ($st[0] !== null && $st[1] !== "on") {
-				Exe::sendMessage(
-					[
-						"chat_id" => $this->data["chat_id"],
-						"text" => $st[0],
-						"parse_mode" => "HTML",
-						"reply_to_message_id" => $this->data["msg_id"]
-					]
-				);
+				foreach ($this->data["new_chat_members"] as $v) {
+					Exe::sendMessage(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"text" => $st[0],
+							"parse_mode" => "HTML",
+							"reply_to_message_id" => $this->data["msg_id"]
+						]
+					);
+				}
 			}
 		}
-		var_dump($st);
 		return true;
 	}
 }
