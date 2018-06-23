@@ -84,7 +84,7 @@ class Admin extends ResponseFoundation
 			$exe = Exe::kickChatMember(
 				[
 					"chat_id" => $this->data["chat_id"],
-					"user_id" => $this->data["reply_to"]["from"]
+					"user_id" => $this->data["reply_to"]["from"]["id"]
 				]
 			);
 

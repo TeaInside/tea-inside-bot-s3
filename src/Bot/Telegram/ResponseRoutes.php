@@ -66,6 +66,7 @@ trait ResponseRoutes
 
 		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)ban(\s.+)?$/", $d["text"], $m)) {
+				isset($m[2]) or $m[2] = "";
 				return [true, [$m[2]]];
 			}
 		}, "Admin@ban");
