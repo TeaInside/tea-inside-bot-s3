@@ -52,10 +52,12 @@ final class Data implements ArrayAccess, JsonSerializable
 		$this["entities"] = isset($this->in["message"]["entities"]) ? $this->in["message"]["entities"] : null;
 		$this["reply_to"] = isset($this->in["message"]["reply_to_message"]) ? $this->in["message"]["reply_to_message"] : null;
 		if (isset($this->in["message"]["new_chat_members"])) {
+			
 			$this["msg_type"] = "new_chat_members";
 			$this["new_chat_members"] = $this->in["message"]["new_chat_members"];
 			$this["msg_id"] = $this->in["message"]["message_id"];
 			$this["chat_id"] = $this->in["message"]["chat"]["id"];
+
 		} else if (isset($this->in["message"]["text"])) {
 			$this["msg_type"] = "text";
 			if ($this->in["message"]["chat"]["type"] === "private") {

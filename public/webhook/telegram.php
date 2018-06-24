@@ -18,4 +18,3 @@ shell_exec(
 	__DIR__."/../../connector/telegram_logger.php \"".
 	$argv."\" >> \"{$logDir}/bg.log\" 2>&1 &"
 );
-
