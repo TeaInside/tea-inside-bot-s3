@@ -205,7 +205,7 @@ class Admin extends ResponseFoundation
 					$exe = Exe::kickChatMember(
 						[
 							"chat_id" => $this->data["chat_id"],
-							"user_id" => $this->data["reply_to"]["from"]["id"]
+							"user_id" => $user["user_id"]
 						]
 					);
 
@@ -229,7 +229,7 @@ class Admin extends ResponseFoundation
 							[
 								"chat_id" => $this->data["chat_id"],
 								"text" => 
-										"<b>An error occured!</b>\n\n"
+										"<b>An error occured when banning ".Lang::namelink($user["user_id"], $user["first_name"])."!</b>\n\n"
 										."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
 										."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 								"parse_mode" => "HTML",
@@ -237,7 +237,7 @@ class Admin extends ResponseFoundation
 							]
 						);
 					}
-					
+
 				}
 			} else {
 				Exe::sendMessage(
