@@ -40,7 +40,7 @@ class Ask extends ResponseFoundation
 			$maxPos = array_search(max($similarity), $similarity);	
 		}
 
-		if (! isset($st[$maxPos]["content"]) || ! isset($st[$maxPos]["responses"][0]["content"])) {
+		if (isset($st[$maxPos]["content"]) && isset($st[$maxPos]["responses"][0]["content"])) {
 			$fQuery = $st[$maxPos]["content"];
 			$answer = $st[$maxPos]["responses"][0]["content"];
 			$r = "<b>The most similar questions:</b>\n".trim(htmlspecialchars(str_replace("<br />", "\n", $fQuery)))."\n\n<b>The answer:</b>\n".trim(htmlspecialchars(str_replace("<br />", "\n", $answer)));
