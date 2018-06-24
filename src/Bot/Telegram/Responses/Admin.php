@@ -342,7 +342,7 @@ class Admin extends ResponseFoundation
 						]
 					);
 				}
-			}  else if (count($mm["mentioned_users"]) > 0 || count($mm["unknown"]) > 0) {
+			} else if (count($mm["mentioned_users"]) > 0 || count($mm["unknown"]) > 0) {
 				foreach ($mm["mentioned_users"] as $user) {
 					$exe = Exe::kickChatMember(
 						[
@@ -405,8 +405,16 @@ class Admin extends ResponseFoundation
 					}
 
 				}
+			} else {
+				Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => Lang::get("admin.need_reply_or_mention"),
+						"parse_mode" => "HTML",
+						"reply_to_message_id" => $this->data["msg_id"]
+					]
+				);
 			}
-
 		} else {
 			Exe::sendMessage(
 				[
