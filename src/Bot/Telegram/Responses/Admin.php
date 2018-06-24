@@ -187,29 +187,6 @@ class Admin extends ResponseFoundation
 							"parse_mode" => "HTML"
 						]
 					);	
-				} else if (count($mm["mentioned_users"]) > 0 || count($mm["unknown"]) > 0) {
-					foreach ($mm["mentioned_users"] as $user) {
-						$exe = Exe::kickChatMember(
-							[
-								"chat_id" => $this->data["chat_id"],
-								"user_id" => $this->data["reply_to"]["from"]["id"]
-							]
-						);
-						if ($exe["ok"]) {
-							$exe = Exe::sendMessage(
-								[
-									"chat_id" => $this->data["chat_id"],
-									"text" => Lang::get("admin.banned_success", 
-										[
-											":admin" => Lang::namelink($this->data["user_id"], $this->data["first_name"]), 
-											":banned_user" => Lang::namelink($user["user_id"], $user["first_name"])
-										]
-									),
-									"parse_mode" => "HTML"
-								]
-							);	
-						}
-					}
 				} else {
 					Exe::sendMessage(
 						[
@@ -222,6 +199,29 @@ class Admin extends ResponseFoundation
 							"reply_to_message_id" => $this->data["msg_id"]
 						]
 					);
+				}
+			} else if (count($mm["mentioned_users"]) > 0 || count($mm["unknown"]) > 0) {
+				foreach ($mm["mentioned_users"] as $user) {
+					$exe = Exe::kickChatMember(
+						[
+							"chat_id" => $this->data["chat_id"],
+							"user_id" => $this->data["reply_to"]["from"]["id"]
+						]
+					);
+					if ($exe["ok"]) {
+						$exe = Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => Lang::get("admin.banned_success", 
+									[
+										":admin" => Lang::namelink($this->data["user_id"], $this->data["first_name"]), 
+										":banned_user" => Lang::namelink($user["user_id"], $user["first_name"])
+									]
+								),
+								"parse_mode" => "HTML"
+							]
+						);	
+					}
 				}
 			} else {
 				Exe::sendMessage(
@@ -302,67 +302,6 @@ class Admin extends ResponseFoundation
 							]
 						);
 					}
-				} else if (count($mm["mentioned_users"]) > 0 || count($mm["unknown"]) > 0) {
-					foreach ($mm["mentioned_users"] as $user) {
-						$exe = Exe::kickChatMember(
-							[
-								"chat_id" => $this->data["chat_id"],
-								"user_id" => $user["user_id"]
-							]
-						);
-
-						$exe = json_decode($exe["out"], true);
-
-						if ($exe["ok"]) {
-							$exe = Exe::unbanChatMember(
-								[
-									"chat_id" => $this->data["chat_id"],
-									"user_id" => $user["user_id"]
-								]
-							);
-
-							$exe = json_decode($exe["out"], true);
-
-							if ($exe["ok"]) {
-								$exe = Exe::sendMessage(
-									[
-										"chat_id" => $this->data["chat_id"],
-										"text" => Lang::get("admin.kicked_success", 
-											[
-												":admin" => Lang::namelink($this->data["user_id"],$this->data["first_name"]), 
-												":kicked_user" => Lang::namelink($user["user_id"], $user["first_name"])
-											]
-										),
-										"parse_mode" => "HTML"
-									]
-								);	
-							} else {
-								Exe::sendMessage(
-									[
-										"chat_id" => $this->data["chat_id"],
-										"text" => 
-												"<b>An error occured!</b>\n\n"
-												."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
-												."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
-										"parse_mode" => "HTML",
-										"reply_to_message_id" => $this->data["msg_id"]
-									]
-								);
-							}
-						} else {
-							Exe::sendMessage(
-								[
-									"chat_id" => $this->data["chat_id"],
-									"text" => 
-											"<b>An error occured!</b>\n\n"
-											."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
-											."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
-									"parse_mode" => "HTML",
-									"reply_to_message_id" => $this->data["msg_id"]
-								]
-							);
-						}
-					}
 				} else {
 					Exe::sendMessage(
 						[
@@ -376,16 +315,8 @@ class Admin extends ResponseFoundation
 						]
 					);
 				}
-			} else {
-				Exe::sendMessage(
-					[
-						"chat_id" => $this->data["chat_id"],
-						"text" => Lang::get("admin.need_reply_or_mention"),
-						"parse_mode" => "HTML",
-						"reply_to_message_id" => $this->data["msg_id"]
-					]
-				);
-			}
+			} 
+			
 		} else {
 			Exe::sendMessage(
 				[
