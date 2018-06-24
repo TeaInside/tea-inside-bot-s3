@@ -93,6 +93,7 @@ class Message implements LoggerInterface
 		$lastInsertId = $this->pdo->lastInsertId();
 
 		$st = $this->pdo->prepare("INSERT INTO `group_messages_data` (`message_id`, `text`, `file`, `type`) VALUES (:message_id, :text, :file, :type);");
+		var_dump($this->data["msg_type"]);
 		switch ($this->data["msg_type"]) {
 			case "text":
 				$st->execute(
@@ -100,7 +101,7 @@ class Message implements LoggerInterface
 						":message_id" => $lastInsertId,
 						":text" => $this->data["text"],
 						":file" => null,
-						":type" => "text"
+						":type" => $this->data["msg_type"]
 					]
 				);
 				break;
@@ -109,8 +110,8 @@ class Message implements LoggerInterface
 					[
 						":message_id" => $lastInsertId,
 						":text" => $this->data["text"],
-						":file" => $this->data['photo'][count($this->data['photo']) - 1],
-						":type" => "text"
+						":file" => $this->data['photo'][count($this->data['photo']) - 1]["file_id"],
+						":type" => $this->data["msg_type"]
 					]
 				);
 				break;
