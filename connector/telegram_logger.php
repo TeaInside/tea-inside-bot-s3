@@ -1,5 +1,6 @@
 <?php
 
+use Bot\Telegram\Data;
 use Bot\Telegram\Logger\User;
 use Bot\Telegram\Logger\Group;
 use Bot\Telegram\Logger\Message;
