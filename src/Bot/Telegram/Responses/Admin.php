@@ -243,7 +243,7 @@ class Admin extends ResponseFoundation
 					Exe::sendMessage(
 						[
 							"chat_id" => $this->data["chat_id"],
-							"text" => Lang::get("admin.unable_to_reach")
+							"text" => Lang::get("admin.unable_to_reach"),
 							"parse_mode" => "HTML",
 							"reply_to_message_id" => $this->data["msg_id"]
 						]
