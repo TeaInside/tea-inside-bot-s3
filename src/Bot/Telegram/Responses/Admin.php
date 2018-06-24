@@ -528,13 +528,13 @@ class Admin extends ResponseFoundation
 			}
 		}
 
-		var_dump(
-			"unknown", $unknown, "\n",
-			"mentioned_users", $mentioned_users, "\n",
-			"mentioned_username", $mentioned_username, "\n",
-			"query", $query, "\n",
-			"queryData", $queryData, "\n"
-		);
+		// var_dump(
+		// 	"unknown", $unknown, "\n",
+		// 	"mentioned_users", $mentioned_users, "\n",
+		// 	"mentioned_username", $mentioned_username, "\n",
+		// 	"query", $query, "\n",
+		// 	"queryData", $queryData, "\n"
+		// );
 
 		return [
 			"mentioned_users" => $mentioned_users,
