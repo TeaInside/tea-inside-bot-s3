@@ -47,6 +47,12 @@ trait ResponseRoutes
 		}, "ShellExec@run");
 
 		$this->set(function($d){
+			if (preg_match("/^(\/|!|~|\#)?ask\s(.*)$/Usi", $d["text"], $m)) {
+				return [true, [$m[2]]];
+			}
+		}, "Ask@brainly");
+
+		$this->set(function($d){
 			if (preg_match("/^(\/|!|~)?debug(.+)?/Usi", $d["text"], $m)) {
 				return [true, []];
 			}
