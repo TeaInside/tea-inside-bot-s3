@@ -96,6 +96,7 @@ class Message implements LoggerInterface
 				);
 				break;
 			case "voice":
+			var_dump(123);
 				$file_id = $this->data["voice"]["file_id"];
 				unset($this->data["voice"]["file_id"]);
 				$st->execute(
@@ -172,6 +173,7 @@ class Message implements LoggerInterface
 				);
 				break;
 			case "voice":
+			var_dump(123);
 				$file_id = $this->data["voice"]["file_id"];
 				unset($this->data["voice"]["file_id"]);
 				$st->execute(

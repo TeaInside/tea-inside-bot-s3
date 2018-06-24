@@ -191,6 +191,7 @@ final class Data implements ArrayAccess, JsonSerializable
 			$this["date"] = $this->in["message"]["date"];
 
 		} else if (isset($this->in["message"]["voice"])) {
+			var_dump("voice");
 			$this["msg_type"] = "voice";
 			$this["voice"] = $this->in["message"]["voice"]["file_id"];
 			$this["text"] = null;
