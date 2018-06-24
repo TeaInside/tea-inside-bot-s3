@@ -35,9 +35,10 @@ class Ask extends ResponseFoundation
 				$similarity[$k] = $n;
 			}
 		}
-
-		var_dump($similarity);
-		$maxPos = array_search(max($similarity), $similarity);
+		$maxPos = -1000;
+		if (count($similarity) > 0) {
+			$maxPos = array_search(max($similarity), $similarity);	
+		}
 
 		if (! isset($st[$maxPos]["content"]) || ! isset($st[$maxPos]["responses"][0]["content"])) {
 			$fQuery = $st[$maxPos]["content"];
