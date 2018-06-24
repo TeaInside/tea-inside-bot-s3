@@ -417,8 +417,8 @@ class Admin extends ResponseFoundation
 			$query = "SELECT `id`,`first_name`,`last_name`,`username` FROM `users` WHERE ";
 			foreach($this->data["entities"] as $key => $ent) {
 				if (isset($ent["type"]) && $ent["type"] == "mention") {
-					$query .= "`username` LIKE :username{$key} OR";
-					$username = substr($this->data["text"], $ent["offset"] + 1, $ent["length"]);
+					$query .= "`username` LIKE :username{$key} OR ";
+					$username = trim(substr($this->data["text"], $ent["offset"] + 1, $ent["length"]));
 					$queryData[":username{$key}"] = $username;
 					$mentioned_username[strtolower($username)] = 1;
 				} elseif (isset($ent["type"]) && isset($ent["user"]["id"]) && $ent["type"] == "text_mention") {
@@ -431,7 +431,7 @@ class Admin extends ResponseFoundation
 			}
 			if (count($queryData) > 0) {
 				isset($this->pdo) or $this->pdo = DB::pdo();
-				$st = $this->pdo->prepare(trim($query, "OR").";");
+				$st = $this->pdo->prepare(trim(trim($query), "OR").";");
 				$st->execute($queryData);
 				while ($r = $st->fetch(PDO::FETCH_NUM)) {
 					unset($mentioned_username[strtolower($r[3])]);
