@@ -83,6 +83,16 @@ class Message implements LoggerInterface
 					]
 				);
 				break;
+			case "sticker":
+				$st->execute(
+					[
+						":message_id" => $lastInsertId,
+						":text" => $this->data["text"],
+						":file" => $this->data["sticker"]["file_id"],
+						":type" => $this->data["msg_type"]
+					]
+				);
+				break;
 			default:
 				$st->execute(
 					[
@@ -131,6 +141,16 @@ class Message implements LoggerInterface
 						":message_id" => $lastInsertId,
 						":text" => $this->data["text"],
 						":file" => $this->data['photo'][count($this->data['photo']) - 1]["file_id"],
+						":type" => $this->data["msg_type"]
+					]
+				);
+				break;
+			case "sticker":
+				$st->execute(
+					[
+						":message_id" => $lastInsertId,
+						":text" => $this->data["text"],
+						":file" => $this->data["sticker"]["file_id"],
 						":type" => $this->data["msg_type"]
 					]
 				);
