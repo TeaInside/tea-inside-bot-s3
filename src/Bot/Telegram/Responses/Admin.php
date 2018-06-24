@@ -445,6 +445,7 @@ class Admin extends ResponseFoundation
 
 			$exe = json_decode($exe["out"], true);
 			if ($exe["ok"]) {
+				isset($this->pdo) or $this->pdo = DB::pdo();
 				$this->pdo->prepare(
 					"UPDATE `group_settings` SET `welcome_message`=:welcome_message WHERE `group_id`=:group_id LIMIT 1;"
 				)->execute(
