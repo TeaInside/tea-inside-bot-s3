@@ -24,7 +24,7 @@ class Ask extends ResponseFoundation
 	public function brainly($query)
 	{
 		$st = new Brainly($query);
-		$st->limit(100);
+		$st->limit(10);
 		$st = $st->exec();
 
 		$similarity = [];
@@ -35,6 +35,8 @@ class Ask extends ResponseFoundation
 				$similarity[$k] = $n;
 			}
 		}
+
+		var_dump($similarity);
 		$maxPos = array_search(max($similarity), $similarity);
 		$fQuery = $st[$maxPos]["content"];
 		$answer = $st[$maxPos]["responses"][0]["content"];
