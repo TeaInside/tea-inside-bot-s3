@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "ammarfaizi2/googletranslate": "dev-master"
+        "ammarfaizi2/googletranslate": "dev-master",
+        "ammarfaizi2/brainly": "dev-master"
     },
     "autoload": {
         "psr-4": {
