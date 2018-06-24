@@ -354,7 +354,7 @@ class Admin extends ResponseFoundation
 				);
 
 				$exe = json_decode($exe["out"], true);
-
+				var_dump($exe);
 				if ($exe["ok"]) {
 
 					$exe = Exe::unbanChatMember(
@@ -382,7 +382,7 @@ class Admin extends ResponseFoundation
 							[
 								"chat_id" => $this->data["chat_id"],
 								"text" => 
-										"<b>An error occured when banning</b> ".Lang::namelink($user["user_id"], $user["first_name"])."!\n\n"
+										"<b>An error occured when kicking</b> ".Lang::namelink($user["user_id"], $user["first_name"])."!\n\n"
 										."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
 										."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 								"parse_mode" => "HTML",
@@ -395,7 +395,7 @@ class Admin extends ResponseFoundation
 						[
 							"chat_id" => $this->data["chat_id"],
 							"text" => 
-									"<b>An error occured when banning</b> ".Lang::namelink($user["user_id"], $user["first_name"])."!\n\n"
+									"<b>An error occured when kicking</b> ".Lang::namelink($user["user_id"], $user["first_name"])."!\n\n"
 									."<b>Error Code:</b> <code>".htmlspecialchars($exe["error_code"], ENT_QUOTES, "UTF-8")."</code>"
 									."\n<b>Description:</b> <code>".htmlspecialchars($exe["description"], ENT_QUOTES, "UTF-8")."</code>",
 							"parse_mode" => "HTML",
