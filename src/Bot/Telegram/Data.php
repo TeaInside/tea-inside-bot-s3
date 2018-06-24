@@ -189,6 +189,46 @@ final class Data implements ArrayAccess, JsonSerializable
 			);
 			$this["is_bot"] = $this->in["message"]["from"]["is_bot"];
 			$this["date"] = $this->in["message"]["date"];
+
+		} else if (isset($this->in["message"]["voice"]) {
+			$this["msg_type"] = "voice";
+			$this["voice"] = $this->in["message"]["voice"]["file_id"];
+			$this["text"] = null;
+			if ($this->in["message"]["chat"]["type"] === "private") {
+				$this["chat_type"] = "private";
+			} else {
+				$this["chat_type"] = "group";
+				$this["group_id"] = $this->in["message"]["chat"]["id"];
+				$this["group_name"] = $this->in["message"]["chat"]["title"];
+				$this["group_type"] = $this->in["message"]["chat"]["type"];
+				$this["group_username"] = isset($this->in["message"]["chat"]["username"]) ? $this->in["message"]["chat"]["username"] : null;
+			}
+				$this["update_id"] = $this->in["update_id"];
+			$this["msg_id"] = $this->in["message"]["message_id"];
+			$this["chat_id"] = $this->in["message"]["chat"]["id"];
+			$this["user_id"] = $this->in["message"]["from"]["id"];
+			$this["first_name"] = $this->in["message"]["from"]["first_name"];
+			$this["last_name"] = (
+				isset($this->in["message"]["from"]["last_name"]) ? 
+					$this->in["message"]["from"]["last_name"] : null
+			);
+			$this["name"] = (
+				$this["first_name"] . (
+					isset($this["last_name"]) ?
+						" ".$this["last_name"] :
+							""
+				)
+			);
+			$this["username"] = (
+				isset($this->in["message"]["from"]["username"]) ?
+					$this->in["message"]["from"]["username"] : null
+			);
+			$this["language_code"] = (
+				isset($this->in["message"]["from"]["language_code"]) ?
+					$this->in["message"]["from"]["language_code"] : null
+			);
+			$this["is_bot"] = $this->in["message"]["from"]["is_bot"];
+			$this["date"] = $this->in["message"]["date"];
 		}
 	}
 

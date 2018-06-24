@@ -84,11 +84,25 @@ class Message implements LoggerInterface
 				);
 				break;
 			case "sticker":
+				$file_id = $this->data["sticker"]["file_id"];
+				unset($this->data["sticker"]["file_id"]);
 				$st->execute(
 					[
 						":message_id" => $lastInsertId,
-						":text" => $this->data["text"],
-						":file" => $this->data["sticker"]["file_id"],
+						":text" => json_encode($this->data["sticker"]),
+						":file" => $file_id,
+						":type" => $this->data["msg_type"]
+					]
+				);
+				break;
+			case "voice":
+				$file_id = $this->data["voice"]["file_id"];
+				unset($this->data["voice"]["file_id"]);
+				$st->execute(
+					[
+						":message_id" => $lastInsertId,
+						":text" => json_encode($this->data["voice"]),
+						":file" => $file_id,
 						":type" => $this->data["msg_type"]
 					]
 				);
@@ -146,11 +160,25 @@ class Message implements LoggerInterface
 				);
 				break;
 			case "sticker":
+				$file_id = $this->data["sticker"]["file_id"];
+				unset($this->data["sticker"]["file_id"]);
 				$st->execute(
 					[
 						":message_id" => $lastInsertId,
-						":text" => $this->data["text"],
-						":file" => $this->data["sticker"]["file_id"],
+						":text" => json_encode($this->data["sticker"]),
+						":file" => $file_id,
+						":type" => $this->data["msg_type"]
+					]
+				);
+				break;
+			case "voice":
+				$file_id = $this->data["voice"]["file_id"];
+				unset($this->data["voice"]["file_id"]);
+				$st->execute(
+					[
+						":message_id" => $lastInsertId,
+						":text" => json_encode($this->data["voice"]),
+						":file" => $file_id,
 						":type" => $this->data["msg_type"]
 					]
 				);
