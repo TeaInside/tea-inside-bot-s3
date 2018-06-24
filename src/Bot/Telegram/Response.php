@@ -78,7 +78,7 @@ final class Response
 		shell_exec(
 			"nohup ".
 			PHP_BINARY.
-			" "__DIR__."/../../../connector/telegram_logger.php \"".
+			" ".__DIR__."/../../../connector/telegram_logger.php \"".
 			rawurlencode(json_encode($this->data->in)).
 			"\" >> ".
 			logs."/telegram/logger.log 2>&1 &"
