@@ -15,7 +15,7 @@ use Bot\Telegram\Plugins\Brainly\Brainly;
  * @license MIT
  * @since 0.0.1
  */
-class Welcome extends ResponseFoundation
+class Ask extends ResponseFoundation
 {
 	/**
 	 * @param string $query
