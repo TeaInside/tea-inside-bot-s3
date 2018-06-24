@@ -53,7 +53,7 @@ class Welcome extends ResponseFoundation
 						isset($v["last_name"]) ? htmlspecialchars($v["last_name"], ENT_QUOTES, "UTF-8") : "",
 						$this->data["chat_id"],
 						htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8"),
-						isset($this->data["group_username"]) ? "<a href=\"https://t.me/".$this->data["group_username"]."\">".htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8")."</a>"
+						isset($this->data["group_username"]) ? "<a href=\"https://t.me/".$this->data["group_username"]."\">".htmlspecialchars($this->data["group_name"], ENT_QUOTES, "UTF-8")."</a>" : "",
 						$this->data["group_username"]
 					];
 
