@@ -352,15 +352,17 @@ class Admin extends ResponseFoundation
 					);
 
 					$exe = json_decode($exe["out"], true);
-					var_dump($exe);
+					
 					if ($exe["ok"]) {
 
 						$exe = Exe::unbanChatMember(
 							[
 								"chat_id" => $this->data["chat_id"],
-								"user_id" => $this->data["reply_to"]["from"]["id"]
+								"user_id" => $user["user_id"]
 							]
 						);
+
+						$exe = json_decode($exe["out"], true);
 
 						if ($exe["ok"]) {
 							$exe = Exe::sendMessage(
