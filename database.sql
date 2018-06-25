@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.6.2 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `group_admins`;
 CREATE TABLE `group_admins` (
   `group_id` varchar(64) NOT NULL,
   `user_id` varchar(64) NOT NULL,
-  `role` enum('creator','administrator') NOT NULL,
+  `role` varchar(64) NOT NULL,
   `created_at` datetime NOT NULL,
   KEY `group_id` (`group_id`),
   KEY `user_id` (`user_id`),
@@ -90,6 +90,7 @@ CREATE TABLE `group_settings` (
   `welcome_message` text,
   `max_warns` int(11) NOT NULL DEFAULT '3',
   `mute` enum('on','off') NOT NULL DEFAULT 'off',
+  `ask` enum('on','off') NOT NULL DEFAULT 'on',
   `shell` enum('on','off') NOT NULL DEFAULT 'off',
   `virtualizor` enum('on','off') NOT NULL DEFAULT 'off',
   `translate` enum('on','off') NOT NULL DEFAULT 'on',
@@ -147,6 +148,7 @@ CREATE TABLE `users` (
   `photo` varchar(255) DEFAULT NULL,
   `private_message_count` bigint(20) NOT NULL DEFAULT '0',
   `group_message_count` bigint(20) NOT NULL DEFAULT '0',
+  `is_bot` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
   `last_seen` datetime DEFAULT NULL,
@@ -177,4 +179,22 @@ CREATE TABLE `users_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
--- 2018-06-04 18:24:55
+DROP TABLE IF EXISTS `user_warning`;
+CREATE TABLE `user_warning` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `group_id` varchar(64) NOT NULL,
+  `user_id` varchar(64) NOT NULL,
+  `warned_by` varchar(64) DEFAULT NULL,
+  `reason` text,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `warned_by` (`warned_by`),
+  KEY `group_id` (`group_id`),
+  CONSTRAINT `user_warning_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_warning_ibfk_3` FOREIGN KEY (`warned_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `user_warning_ibfk_4` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+-- 2018-06-25 06:45:35
