@@ -45,7 +45,7 @@ class Ask extends ResponseFoundation
 			$r = "";
 
 			foreach ($st as $k => $v) {
-				$r .= "<a href=\"".$v["link"]."\">".$v["title"]."</a>"."\n".substr(strip_tags($v["desc"]), 0, 60)."\n\n";
+				$r .= ($k+1).".<a href=\"".$v["link"]."\">".$v["title"]."</a>"."\n".substr(strip_tags($v["desc"]), 0, 60)."...\n\n";
 			}
 
 			if ($r === "") {
@@ -61,7 +61,7 @@ class Ask extends ResponseFoundation
 				"chat_id" => $this->data["chat_id"],
 				"reply_to_message_id" => $this->data["msg_id"],
 				"text" => $r,
-				// "parse_mode" => "HTML"
+				"parse_mode" => "HTML"
 			]
 		);
 
