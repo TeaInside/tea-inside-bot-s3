@@ -47,7 +47,7 @@ trait ResponseRoutes
 		}, "ShellExec@run");
 
 		$this->set(function($d){
-			if (preg_match("/^(\/|!|~|\#)?ask2\s(.*)$/Usi", $d["text"], $m)) {
+			if (preg_match("/^(\/|!|~|\#)?(ask2|stackoverflow)\s(.*)$/Usi", $d["text"], $m)) {
 				return [true, [$m[2]]];
 			}
 		}, "Ask@stackoverflow");

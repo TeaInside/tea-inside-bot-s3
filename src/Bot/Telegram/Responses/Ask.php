@@ -61,7 +61,8 @@ class Ask extends ResponseFoundation
 				"chat_id" => $this->data["chat_id"],
 				"reply_to_message_id" => $this->data["msg_id"],
 				"text" => $r,
-				"parse_mode" => "HTML"
+				"parse_mode" => "HTML",
+				"disable_web_page_preview" => 1
 			]
 		);
 
@@ -132,7 +133,8 @@ class Ask extends ResponseFoundation
 				"chat_id" => $this->data["chat_id"],
 				"reply_to_message_id" => $this->data["msg_id"],
 				"text" => $r,
-				"parse_mode" => "HTML"
+				"parse_mode" => "HTML",
+				"disable_web_page_preview" => 1
 			]
 		);
 
