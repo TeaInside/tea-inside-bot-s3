@@ -48,7 +48,7 @@ trait ResponseRoutes
 
 		$this->set(function($d){
 			if (preg_match("/^(\/|!|~|\#)?(ask2|stackoverflow)\s(.*)$/Usi", $d["text"], $m)) {
-				return [true, [$m[2]]];
+				return [true, [$m[3]]];
 			}
 		}, "Ask@stackoverflow");
 
