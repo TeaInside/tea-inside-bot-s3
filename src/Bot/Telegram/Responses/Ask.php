@@ -32,14 +32,14 @@ class Ask extends ResponseFoundation
 					":group_id" => $this->data["chat_id"]
 				]
 			);
-			if ($st = $st->fecth(PDO::FETCH_NUM)) {
+			if ($st = $st->fetch(PDO::FETCH_NUM)) {
 				if ($st["ask"] === "off") {
 					var_dump("ask off");
 					return;
 				}
 			}
 		}
-		
+
 		$st = new Stackoverflow($query);
 		if (count($st = $st->exec()) > 0) {
 			$r = "";
@@ -94,7 +94,7 @@ class Ask extends ResponseFoundation
 					":group_id" => $this->data["chat_id"]
 				]
 			);
-			if ($st = $st->fecth(PDO::FETCH_NUM)) {
+			if ($st = $st->fetch(PDO::FETCH_NUM)) {
 				if ($st["ask"] === "off") {
 					var_dump("ask off");
 					return;
