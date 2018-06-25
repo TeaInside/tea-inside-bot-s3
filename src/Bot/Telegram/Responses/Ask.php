@@ -24,6 +24,22 @@ class Ask extends ResponseFoundation
 	 */
 	public function stackoverflow($query)
 	{
+		if ($this->data["chat_type"] !== "private") {
+			$pdo = DB::pdo();
+			$st = $pdo->prepare("SELECT `ask` FROM `group_settings` WHERE `group_id`=:group_id LIMIT 1;");
+			$st->execute(
+				[
+					":group_id" => $this->data["chat_id"]
+				]
+			);
+			if ($st = $st->fecth(PDO::FETCH_NUM)) {
+				if ($st["ask"] === "off") {
+					var_dump("ask off");
+					return;
+				}
+			}
+		}
+		
 		$st = new Stackoverflow($query);
 		if (count($st = $st->exec()) > 0) {
 			$r = "";
@@ -45,7 +61,7 @@ class Ask extends ResponseFoundation
 				"chat_id" => $this->data["chat_id"],
 				"reply_to_message_id" => $this->data["msg_id"],
 				"text" => $r,
-				"parse_mode" => "HTML"
+				// "parse_mode" => "HTML"
 			]
 		);
 
@@ -70,6 +86,22 @@ class Ask extends ResponseFoundation
 	 */
 	public function brainly($query)
 	{
+		if ($this->data["chat_type"] !== "private") {
+			$pdo = DB::pdo();
+			$st = $pdo->prepare("SELECT `ask` FROM `group_settings` WHERE `group_id`=:group_id LIMIT 1;");
+			$st->execute(
+				[
+					":group_id" => $this->data["chat_id"]
+				]
+			);
+			if ($st = $st->fecth(PDO::FETCH_NUM)) {
+				if ($st["ask"] === "off") {
+					var_dump("ask off");
+					return;
+				}
+			}
+		}
+
 		$st = new Brainly($query);
 		$st->limit(10);
 		$st = $st->exec();
