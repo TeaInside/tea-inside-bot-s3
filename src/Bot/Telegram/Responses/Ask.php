@@ -8,6 +8,7 @@ use Bot\Telegram\Exe;
 use Bot\Telegram\Lang;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Plugins\Brainly\Brainly;
+use Bot\Telegram\Plugins\Stackoverflow\Stackoverflow;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -17,6 +18,52 @@ use Bot\Telegram\Plugins\Brainly\Brainly;
  */
 class Ask extends ResponseFoundation
 {
+	/**
+	 * @param string $query
+	 * @return bool
+	 */
+	public function stackoverflow($query)
+	{
+		$st = new Stackoverflow($query);
+		if (count($st = $st->exec()) > 0) {
+			$r = "";
+
+			foreach ($st as $k => $v) {
+				$r .= "<a href=\"".$v["link"]."\">".$v["title"]."</a>"."\n".substr($v["desc"], 0, 60)."\n\n";
+			}
+
+			if ($r === "") {
+				$r = "<b>Not found</b>";
+			}
+
+		} else {
+			$r = "<b>Not found</b>";
+		}
+
+		$exe = Exe::sendMessage(
+			[
+				"chat_id" => $this->data["chat_id"],
+				"reply_to_message_id" => $this->data["msg_id"],
+				"text" => $r,
+				"parse_mode" => "HTML"
+			]
+		);
+
+		$exe = json_decode($exe["out"], true);
+
+		if (! $exe["ok"]) {
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"reply_to_message_id" => $this->data["msg_id"],
+					"text" => "An error occured: ".json_encode($exe)
+				]
+			);
+		}
+
+		return true;
+	}
+
 	/**
 	 * @param string $query
 	 * @return bool
