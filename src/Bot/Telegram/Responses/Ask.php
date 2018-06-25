@@ -45,7 +45,7 @@ class Ask extends ResponseFoundation
 			$r = "";
 
 			foreach ($st as $k => $v) {
-				$r .= ($k+1).".<a href=\"".$v["link"]."\">".$v["title"]."</a>"."\n".substr(strip_tags($v["desc"]), 0, 60)."...\n\n";
+				$r .= ($k+1).".<a href=\"https://stackoverflow.com/".$v["link"]."\">".$v["title"]."</a>"."\n".substr(strip_tags($v["desc"]), 0, 60)."...\n\n";
 			}
 
 			if ($r === "") {
