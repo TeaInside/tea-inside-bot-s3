@@ -62,6 +62,7 @@ class Message implements LoggerInterface
 			]
 		);
 		$lastInsertId = $this->pdo->lastInsertId();
+		$st = $this->pdo->prepare("INSERT INTO `private_messages_data` (`message_id`, `text`, `file`, `type`) VALUES (:message_id, :text, :file, :type);");
 		switch ($this->data["msg_type"]) {
 			case "text":
 				$st->execute(
