@@ -33,7 +33,7 @@ class Ask extends ResponseFoundation
 				]
 			);
 			if ($st = $st->fetch(PDO::FETCH_NUM)) {
-				if ($st["ask"] === "off") {
+				if ($st[0] === "off") {
 					var_dump("ask off");
 					return;
 				}
@@ -45,7 +45,7 @@ class Ask extends ResponseFoundation
 			$r = "";
 
 			foreach ($st as $k => $v) {
-				$r .= "<a href=\"".$v["link"]."\">".$v["title"]."</a>"."\n".substr($v["desc"], 0, 60)."\n\n";
+				$r .= "<a href=\"".$v["link"]."\">".$v["title"]."</a>"."\n".substr(strip_tags($v["desc"]), 0, 60)."\n\n";
 			}
 
 			if ($r === "") {
@@ -95,7 +95,7 @@ class Ask extends ResponseFoundation
 				]
 			);
 			if ($st = $st->fetch(PDO::FETCH_NUM)) {
-				if ($st["ask"] === "off") {
+				if ($st[0] === "off") {
 					var_dump("ask off");
 					return;
 				}
