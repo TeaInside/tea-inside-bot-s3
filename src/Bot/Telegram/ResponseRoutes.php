@@ -59,7 +59,7 @@ trait ResponseRoutes
 		}, "Ask@brainly");
 
 		$this->set(function($d){
-			if (preg_match("/^(\/|!|~)?debug(.+)?/Usi", $d["text"], $m)) {
+			if (preg_match("/^(\/|!|~)debug(.+)?/Usi", $d["text"], $m)) {
 				return [true, []];
 			}
 		}, "Debug@run");
