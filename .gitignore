@@ -5,3 +5,5 @@
 /.phpintel
 /node_modules/
 /package-lock.json
+/storage/branily/
+/.phpunit.result.cache

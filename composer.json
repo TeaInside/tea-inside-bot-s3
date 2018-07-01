@@ -13,7 +13,8 @@
     "require": {
         "ammarfaizi2/googletranslate": "dev-master",
         "ammarfaizi2/brainly": "dev-master",
-        "ammarfaizi2/stackoverflow-query": "dev-master"
+        "ammarfaizi2/stackoverflow-query": "dev-master",
+        "mpdf/mpdf": "dev-master"
     },
     "autoload": {
         "psr-4": {
