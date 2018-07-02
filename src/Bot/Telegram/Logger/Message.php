@@ -57,7 +57,7 @@ class Message implements LoggerInterface
 		$fileid = $p['file_id'];
 		unset($p["file_id"]);
 	    $a = json_decode(Exe::getFile([
-	        "file_id" => 
+	        "file_id" => $fileid
 	    ])["out"], true);
 	    if (isset($a["result"]["file_path"])) {
 	        $ch = curl_init("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
