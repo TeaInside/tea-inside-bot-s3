@@ -175,7 +175,7 @@ class Message implements LoggerInterface
 	    }
 	}
 
-		/**
+	/**
 	 * @return int
 	 */
 	private function saveVoice()
@@ -279,14 +279,8 @@ class Message implements LoggerInterface
 				$st->execute($data);
 				break;
 			default:
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => $this->data["text"],
-						":file" => null,
-						":type" => "unknown"
-					]
-				);
+				$data[":type"] = "unknown";
+				$st->execute($data);
 				break;
 		}
 	}
@@ -332,14 +326,8 @@ class Message implements LoggerInterface
 				$st->execute($data);
 				break;
 			default:
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => $this->data["text"],
-						":file" => null,
-						":type" => "unknown"
-					]
-				);
+				$data[":type"] = "unknown";
+				$st->execute($data);
 				break;
 		}
 	}
