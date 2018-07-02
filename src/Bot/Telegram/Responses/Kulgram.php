@@ -139,7 +139,7 @@ class Kulgram extends ResponseFoundation
 				$pdo = DB::pdo();			
 				$st = $pdo->prepare(
 					"SELECT 
-						`b`.`text`,`b`.`file`,`b`.`type`,`a`.`created_at`,`c`.`first_name`,
+						`b`.`text`,`b`.`file`,`b`.`msg_type`,`a`.`created_at`,`c`.`first_name`,
 						`c`.`last_name`,`c`.`username`,`c`.`id`
 					FROM `group_messages` AS `a`
 					INNER JOIN `group_messages_data` AS `b` ON `a`.`id`=`b`.`message_id`
