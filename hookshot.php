@@ -1,9 +1,9 @@
 <?php
 
 $a = '{
-    "update_id": 344895242,
+    "update_id": 344895318,
     "message": {
-        "message_id": 9395,
+        "message_id": 60732,
         "from": {
             "id": 243692601,
             "is_bot": false,
@@ -13,11 +13,22 @@ $a = '{
             "language_code": "en-US"
         },
         "chat": {
-            "id": -1001128970273,
-            "title": "Private Cloud",
-            "type": "supergroup"
+            "id": 243692601,
+            "first_name": "Ammar",
+            "last_name": "F.",
+            "username": "ammarfaizi2",
+            "type": "private"
         },
-        "date": 1530514184,
+        "date": 1530517681,
+        "forward_from": {
+            "id": 243692601,
+            "is_bot": false,
+            "first_name": "Ammar",
+            "last_name": "F.",
+            "username": "ammarfaizi2",
+            "language_code": "en-US"
+        },
+        "forward_date": 1530514184,
         "photo": [
             {
                 "file_id": "AgADBQADHrExG-zz0VV6saCUHRVV3fZN1TIABHfEZJKkQGwp76MBAAEC",
@@ -41,6 +52,7 @@ $a = '{
             {
                 "file_id": "AgADBQADHrExG-zz0VV6saCUHRVV3fZN1TIABH5qw_SdDVtX7qMBAAEC",
                 "file_size": 105548,
+                "file_path": "photos/file_9933.jpg",
                 "width": 954,
                 "height": 525
             }

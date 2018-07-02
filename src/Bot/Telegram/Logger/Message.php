@@ -3,6 +3,7 @@
 namespace Bot\Telegram\Logger;
 
 use DB;
+use PDO;
 use Bot\Telegram\Exe;
 use Bot\Telegram\Data;
 use Bot\Telegram\Contracts\LoggerInterface;
@@ -55,6 +56,13 @@ class Message implements LoggerInterface
 	{
 		$p = $this->data['photo'][count($this->data['photo']) - 1];
 		$fileid = $p['file_id'];
+		$st = $this->pdo->prepare(
+			"SELECT `id` FROM `files` WHERE `telegram_file_id`=:file_id LIMIT 1;"
+		);
+		$st->execute([":file_id" => $fileid]);
+		if ($st = $st->fetch(PDO::FETCH_NUM)) {
+			return $st[0];
+		}
 		unset($p["file_id"]);
 	    $a = json_decode(Exe::getFile([
 	        "file_id" => $fileid
@@ -81,12 +89,12 @@ class Message implements LoggerInterface
 	        	(:type, :md5_checksum, :sha1_checksum, :filesize, :hit_count, :telegram_file_id, :info, :created_at, :last_hit);"
 	        )->execute(
 	        	[
-	        		":tyoe" => "photo",
+	        		":type" => "photo",
 	        		":md5_checksum" => $md5,
-	        		":sha1_checksum" => $sha1_checksum,
+	        		":sha1_checksum" => $sha1,
 	        		":filesize" => strlen($binary),
 	        		":hit_count" => 1,
-	        		":telegram_file_id" => $p["file_id"],
+	        		":telegram_file_id" => $fileid,
 	        		":info" => json_encode($p),
 	        		":created_at" => $now,
 	        		":last_hit" => $now
@@ -111,7 +119,7 @@ class Message implements LoggerInterface
 			]
 		);
 		$lastInsertId = $this->pdo->lastInsertId();
-		$st = $this->pdo->prepare("INSERT INTO `private_messages_data` (`message_id`, `text`, `file`, `type`) VALUES (:message_id, :text, :file, :type);");
+		$st = $this->pdo->prepare("INSERT INTO `private_messages_data` (`message_id`, `text`, `file`, `msg_type`) VALUES (:message_id, :text, :file, :type);");
 		$data =	[
 			":message_id" => $lastInsertId,
 			":text" => $this->data["text"],
@@ -140,7 +148,6 @@ class Message implements LoggerInterface
 				);
 				break;
 			case "voice":
-			var_dump(123);
 				$file_id = $this->data["voice"]["file_id"];
 				unset($this->data["voice"]["file_id"]);
 				$st->execute(
@@ -182,27 +189,21 @@ class Message implements LoggerInterface
 		);
 		$lastInsertId = $this->pdo->lastInsertId();
 
-		$st = $this->pdo->prepare("INSERT INTO `group_messages_data` (`message_id`, `text`, `file`, `type`) VALUES (:message_id, :text, :file, :type);");
+		$st = $this->pdo->prepare("INSERT INTO `group_messages_data` (`message_id`, `text`, `file`, `msg_type`) VALUES (:message_id, :text, :file, :type);");
+		$data =	[
+			":message_id" => $lastInsertId,
+			":text" => $this->data["text"],
+			":file" => null,
+			":type" => $this->data["msg_type"]
+		];
 		switch ($this->data["msg_type"]) {
 			case "text":
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => $this->data["text"],
-						":file" => null,
-						":type" => $this->data["msg_type"]
-					]
-				);
+				$st->execute($data);
 				break;
 			case "photo":
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => $this->data["text"],
-						":file" => $this->data['photo'][count($this->data['photo']) - 1]["file_id"],
-						":type" => $this->data["msg_type"]
-					]
-				);
+				var_dump(123);
+				$data[":file"] = $this->savePhoto();
+				$st->execute($data);
 				break;
 			case "sticker":
 				$file_id = $this->data["sticker"]["file_id"];
@@ -217,7 +218,6 @@ class Message implements LoggerInterface
 				);
 				break;
 			case "voice":
-			var_dump(123);
 				$file_id = $this->data["voice"]["file_id"];
 				unset($this->data["voice"]["file_id"]);
 				$st->execute(
