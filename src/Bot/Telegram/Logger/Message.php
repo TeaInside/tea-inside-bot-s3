@@ -113,6 +113,132 @@ class Message implements LoggerInterface
 	}
 
 	/**
+	 * @return int
+	 */
+	private function saveSticker()
+	{
+		$p = $this->data["sticker"];
+		$fileid = $this->data["sticker"]["file_id"];
+		$st = $this->pdo->prepare(
+			"SELECT `id` FROM `files` WHERE `telegram_file_id`=:file_id LIMIT 1;"
+		);
+		$st->execute([":file_id" => $fileid]);
+		if ($st = $st->fetch(PDO::FETCH_NUM)) {
+			$this->pdo->prepare(
+				"UPDATE `files` SET `hit_count`=`hit_count`+1, `last_hit`=:last_hit WHERE `telegram_file_id`=:telegram_file_id LIMIT 1;"
+			)->execute(
+				[
+					":last_hit" => date("Y-m-d H:i:s"),
+					":telegram_file_id" => $fileid
+				]
+			);
+			return $st[0];
+		}
+		unset($p["file_id"]);
+	    $a = json_decode(Exe::getFile([
+	        "file_id" => $fileid
+	    ])["out"], true);
+	    if (isset($a["result"]["file_path"])) {
+	        $ch = curl_init("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
+	        curl_setopt_array($ch,
+	        	[
+	        		CURLOPT_RETURNTRANSFER => true,
+	        		CURLOPT_SSL_VERIFYPEER => false,
+	        		CURLOPT_SSL_VERIFYHOST => false
+	        	]
+	        );
+	        $binary = curl_exec($ch);
+	        $filename = ($sha1 = sha1($binary))."_".($md5 = md5($binary)).".webm";
+	        $handle = fopen(file_storage."/".$filename, "w");
+	        fwrite($handle, $binary);
+	        fclose($handle);
+	        $now = date("Y-m-d H:i:s");
+	        $this->pdo->prepare(
+	        	"INSERT INTO `files` 
+	        	(`type`, `md5_checksum`, `sha1_checksum`, `filesize`, `hit_count`, `telegram_file_id`, `info`, `created_at`, `last_hit`) 
+	        	VALUES
+	        	(:type, :md5_checksum, :sha1_checksum, :filesize, :hit_count, :telegram_file_id, :info, :created_at, :last_hit);"
+	        )->execute(
+	        	[
+	        		":type" => "sticker",
+	        		":md5_checksum" => $md5,
+	        		":sha1_checksum" => $sha1,
+	        		":filesize" => strlen($binary),
+	        		":hit_count" => 1,
+	        		":telegram_file_id" => $fileid,
+	        		":info" => json_encode($p),
+	        		":created_at" => $now,
+	        		":last_hit" => $now
+	        	]
+	        );
+	        return $this->pdo->lastInsertId();
+	    }
+	}
+
+		/**
+	 * @return int
+	 */
+	private function saveVoice()
+	{
+		$p = $this->data["voice"];
+		$fileid = $this->data["voice"]["file_id"];
+		$st = $this->pdo->prepare(
+			"SELECT `id` FROM `files` WHERE `telegram_file_id`=:file_id LIMIT 1;"
+		);
+		$st->execute([":file_id" => $fileid]);
+		if ($st = $st->fetch(PDO::FETCH_NUM)) {
+			$this->pdo->prepare(
+				"UPDATE `files` SET `hit_count`=`hit_count`+1, `last_hit`=:last_hit WHERE `telegram_file_id`=:telegram_file_id LIMIT 1;"
+			)->execute(
+				[
+					":last_hit" => date("Y-m-d H:i:s"),
+					":telegram_file_id" => $fileid
+				]
+			);
+			return $st[0];
+		}
+		unset($p["file_id"]);
+	    $a = json_decode(Exe::getFile([
+	        "file_id" => $fileid
+	    ])["out"], true);
+	    if (isset($a["result"]["file_path"])) {
+	        $ch = curl_init("https://api.telegram.org/file/bot".TOKEN."/".$a['result']['file_path']);
+	        curl_setopt_array($ch,
+	        	[
+	        		CURLOPT_RETURNTRANSFER => true,
+	        		CURLOPT_SSL_VERIFYPEER => false,
+	        		CURLOPT_SSL_VERIFYHOST => false
+	        	]
+	        );
+	        $binary = curl_exec($ch);
+	        $filename = ($sha1 = sha1($binary))."_".($md5 = md5($binary)).".ogg";
+	        $handle = fopen(file_storage."/".$filename, "w");
+	        fwrite($handle, $binary);
+	        fclose($handle);
+	        $now = date("Y-m-d H:i:s");
+	        $this->pdo->prepare(
+	        	"INSERT INTO `files` 
+	        	(`type`, `md5_checksum`, `sha1_checksum`, `filesize`, `hit_count`, `telegram_file_id`, `info`, `created_at`, `last_hit`) 
+	        	VALUES
+	        	(:type, :md5_checksum, :sha1_checksum, :filesize, :hit_count, :telegram_file_id, :info, :created_at, :last_hit);"
+	        )->execute(
+	        	[
+	        		":type" => "sticker",
+	        		":md5_checksum" => $md5,
+	        		":sha1_checksum" => $sha1,
+	        		":filesize" => strlen($binary),
+	        		":hit_count" => 1,
+	        		":telegram_file_id" => $fileid,
+	        		":info" => json_encode($p),
+	        		":created_at" => $now,
+	        		":last_hit" => $now
+	        	]
+	        );
+	        return $this->pdo->lastInsertId();
+	    }
+	}
+
+	/**
 	 * @return void
 	 */
 	private function savePrivateMessage()
@@ -144,28 +270,12 @@ class Message implements LoggerInterface
 				$st->execute($data);
 				break;
 			case "sticker":
-				$file_id = $this->data["sticker"]["file_id"];
-				unset($this->data["sticker"]["file_id"]);
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => json_encode($this->data["sticker"]),
-						":file" => $file_id,
-						":type" => $this->data["msg_type"]
-					]
-				);
+				$data[":file"] = $this->saveSticker();
+				$st->execute($data);
 				break;
 			case "voice":
-				$file_id = $this->data["voice"]["file_id"];
-				unset($this->data["voice"]["file_id"]);
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => json_encode($this->data["voice"]),
-						":file" => $file_id,
-						":type" => $this->data["msg_type"]
-					]
-				);
+				$data[":file"] = $this->saveVoice();
+				$st->execute($data);
 				break;
 			default:
 				$st->execute(
@@ -213,28 +323,12 @@ class Message implements LoggerInterface
 				$st->execute($data);
 				break;
 			case "sticker":
-				$file_id = $this->data["sticker"]["file_id"];
-				unset($this->data["sticker"]["file_id"]);
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => json_encode($this->data["sticker"]),
-						":file" => $file_id,
-						":type" => $this->data["msg_type"]
-					]
-				);
+				$data[":file"] = $this->saveSticker();
+				$st->execute($data);
 				break;
 			case "voice":
-				$file_id = $this->data["voice"]["file_id"];
-				unset($this->data["voice"]["file_id"]);
-				$st->execute(
-					[
-						":message_id" => $lastInsertId,
-						":text" => json_encode($this->data["voice"]),
-						":file" => $file_id,
-						":type" => $this->data["msg_type"]
-					]
-				);
+				$data[":file"] = $this->saveVoice();
+				$st->execute($data);
 				break;
 			default:
 				$st->execute(
