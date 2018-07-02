@@ -156,7 +156,7 @@ class Kulgram extends ResponseFoundation
 					var_dump($st->errorInfo()) xor die()
 				);
 
-				$html = "asdfasdfasdf";
+				$html = "";
 				while ($r = $st->fetch(PDO::FETCH_ASSOC)) {
 					$name = htmlspecialchars($r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : ""), ENT_QUOTES, "UTF-8");
 					$text = htmlspecialchars($r["text"]);
