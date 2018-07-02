@@ -29,6 +29,13 @@ trait ResponseRoutes
 		}, "Solid@run");
 
 		$this->set(function($d){
+			$u = bot_username;
+			if (preg_match("/\@/i", $d["text"], $m)) {
+				
+			}
+		}, "Kulgram@start");
+
+		$this->set(function($d){
 			if ($this->data["msg_type"] === "new_chat_members") {
 				return [true, []];
 			}
