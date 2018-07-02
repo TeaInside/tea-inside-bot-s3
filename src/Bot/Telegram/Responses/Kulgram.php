@@ -156,22 +156,23 @@ class Kulgram extends ResponseFoundation
 				) or (
 					var_dump($st->errorInfo()) xor die()
 				);
-
-				$html = "<center><h1>".htmlspecialchars($this->info["current_session"]["title"])."</h1></center><br><br>";
-				while ($r = $st->fetch(PDO::FETCH_ASSOC)) {
-					$name = htmlspecialchars(
-						$r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : "").
-						(isset($r["username"]) ? " (".$r["username"].")" : ""), ENT_QUOTES, "UTF-8"
-					);
-					$text = htmlspecialchars(str_replace("\n", "<br>", $r["text"]));
-					$time = htmlspecialchars($r["created_at"]);
-					$html .= $time." <b>".$name.": </b><br>".$text."<br><br>";
-				}
-
 				$mpdf = new Mpdf(
 					["tempDir" => "/tmp"]
 				);
-				$mpdf->WriteHTML($html);
+				$mpdf->WriteHTML(
+					"<center><h1>".htmlspecialchars($this->info["current_session"]["title"])."</h1></center><br>"
+				);
+				while ($r = $st->fetch(PDO::FETCH_ASSOC)) {
+					$name = htmlspecialchars(
+						$r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : "").
+						(isset($r["username"]) ? " (@".$r["username"].")" : ""), ENT_QUOTES, "UTF-8"
+					);
+					$text = htmlspecialchars(str_replace("\n", "<br>", $r["text"]));
+					$time = htmlspecialchars($r["created_at"]);
+					$mpdf->WriteHTML(
+						"<b>".$name."</b> ".$time."<br>".$text."<br><br>"
+					);
+				}
 				unset($html);
 				ob_start();
 				$mpdf->Output();
