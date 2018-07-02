@@ -48,7 +48,7 @@ class LangTest extends TestCase
 		}
 	}
 
-		public function setUp()
+	public function setUp()
 	{
 		Lang::init(new Data(test_json_1), "en");
 	}
