@@ -30,12 +30,24 @@ trait ResponseRoutes
 
 		if (preg_match("/\@".bot_username."/i", $this->data["text"])) {
 			$this->set(function($d){
-				if (preg_match("/(to?pi?k)\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
-					return [true, [$m[2]]];
+				if (preg_match("/(to?pi?k)\s{1,4}kulgram\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
+					return [true, [$m[3]]];
 				} elseif (preg_match("/ju?du?l\s{1,4}kulgram\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
 					return [true, [$m[2]]];
 				}
+			}, "Kulgram@init");
+
+			$this->set(function($d){
+				if (preg_match("/mu?lai\s{1,4}(nyatet|mencatat|nyatat)/Usi", $d["text"], $m)) {
+					return [true, []];
+				}
 			}, "Kulgram@start");
+
+			$this->set(function($d){
+				if (preg_match("/he?ntika?n\s{1,4}(ca?ta?ta?n|nyatet|mencatat|nyatat)/Usi", $d["text"], $m)) {
+					return [true, []];
+				}
+			}, "Kulgram@stop");
 		}
 
 		$this->set(function($d){
