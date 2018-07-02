@@ -61,6 +61,14 @@ class Message implements LoggerInterface
 		);
 		$st->execute([":file_id" => $fileid]);
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
+			$this->pdo->prepare(
+				"UPDATE `files` SET `hit_count`=`hit_count`+1, `last_hit`=:last_hit WHERE `telegram_file_id`=:telegram_file_id LIMIT 1;"
+			)->execute(
+				[
+					":last_hit" => date("Y-m-d H:i:s"),
+					":telegram_file_id" => $fileid
+				]
+			);
 			return $st[0];
 		}
 		unset($p["file_id"]);
@@ -201,7 +209,6 @@ class Message implements LoggerInterface
 				$st->execute($data);
 				break;
 			case "photo":
-				var_dump(123);
 				$data[":file"] = $this->savePhoto();
 				$st->execute($data);
 				break;
