@@ -27,4 +27,8 @@ abstract class ResponseFoundation
 	{
 		$this->data = $data;
 	}
+
+	public function setUp()
+	{
+	}
 }

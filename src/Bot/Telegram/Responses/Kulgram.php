@@ -14,11 +14,35 @@ use Bot\Telegram\ResponseFoundation;
 class Kulgram extends ResponseFoundation
 {
 	/**
+	 * @param string $judul
 	 * @return bool
 	 */
-	public function start()
+	public function start(string $judul)
 	{
+		if ($this->isStarted()) {
+			
+		} else {
+			$judul = strtoupper($judul);
+
+			var_dump($judul);
+
+			$reply = "<b>".htmlspecialchars($judul)."</b>";
+			
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => $reply,
+					"parse_mode" => "HTML",
+					"reply_to_message_id" => $this->data["msg_id"]
+				]
+			);
+		}
 		return true;
+	}
+
+	private function isStarted()
+	{
+		
 	}
 
 	/**

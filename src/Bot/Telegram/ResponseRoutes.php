@@ -28,12 +28,15 @@ trait ResponseRoutes
 			}
 		}, "Solid@run");
 
-		$this->set(function($d){
-			$u = bot_username;
-			if (preg_match("/\@/i", $d["text"], $m)) {
-				
-			}
-		}, "Kulgram@start");
+		if (preg_match("/\@".bot_username."/i", $this->data["text"])) {
+			$this->set(function($d){
+				if (preg_match("/(to?pi?k)\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
+					return [true, [$m[2]]];
+				} elseif (preg_match("/ju?du?l\s{1,4}kulgram\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
+					return [true, [$m[2]]];
+				}
+			}, "Kulgram@start");
+		}
 
 		$this->set(function($d){
 			if ($this->data["msg_type"] === "new_chat_members") {

@@ -58,6 +58,7 @@ final class Response
 					$route[1] = explode("@", $route[1], 2);
 					$route[1][0] = "\\Bot\\Telegram\\Responses\\".$route[1][0];
 					$st = new $route[1][0]($this->data);
+					$st->setUp();
 					if (call_user_func_array([$st, $route[1][1]], $e[1])) {
 						break;
 					}
