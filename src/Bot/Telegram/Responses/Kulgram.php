@@ -145,7 +145,7 @@ class Kulgram extends ResponseFoundation
 					INNER JOIN `group_messages_data` AS `b` ON `a`.`id`=`b`.`message_id`
 					INNER JOIN `users` AS `c` ON `a`.`user_id` = `c`.`id`
 					WHERE `a`.`group_id`=:group_id AND `a`.`tmsg_id` >= :_start AND `a`.`tmsg_id` <= :_end
-					ORDER BY `a`.`created_at`;"
+					ORDER BY `a`.`tmsg_id` ASC;"
 				);
 				$st->execute(
 					[
