@@ -159,10 +159,13 @@ class Kulgram extends ResponseFoundation
 
 				$html = "";
 				while ($r = $st->fetch(PDO::FETCH_ASSOC)) {
-					$name = htmlspecialchars($r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : ""), ENT_QUOTES, "UTF-8");
-					$text = htmlspecialchars($r["text"]);
+					$name = htmlspecialchars(
+						$r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : "").
+						(isset($r["username"]) ? " (".$r["username"].")" : ""), ENT_QUOTES, "UTF-8"
+					);
+					$text = htmlspecialchars(str_replace("\n", "<br>", $r["text"]));
 					$time = htmlspecialchars($r["created_at"]);
-					$html .= "<b>".$name.": </b><br>".$time."<br><br>".$text."<br><br><br>";
+					$html .= "<b>".$name.": </b><br>".$time."<br>".$text."<br><br>";
 				}
 
 				$mpdf = new Mpdf(
@@ -175,7 +178,7 @@ class Kulgram extends ResponseFoundation
 				$content = ob_get_clean();
 				file_put_contents($this->sDir."/archives/kulgram_".$this->info["count"].".pdf", $content);
 				$this->info["status"] = "sleep";
-				unset($this->info["current_session"]);
+				unset($this->info["current_session"], $content);
 				$reply = "https://webhook-a2.teainside.tech/storage/kulgram/".$this->data["chat_id"]."/archives/kulgram_".$this->info["count"].".pdf";
 			} elseif ($this->info["status"] === "sleep") {
 				$reply = "An error occured, could not stop system record.\nDevice is not ready, please initialize a session.";
