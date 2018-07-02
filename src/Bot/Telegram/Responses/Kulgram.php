@@ -145,7 +145,7 @@ class Kulgram extends ResponseFoundation
 					INNER JOIN `group_messages_data` AS `b` ON `a`.`id`=`b`.`message_id`
 					INNER JOIN `users` AS `c` ON `a`.`user_id` = `c`.`id`
 					WHERE `a`.`group_id`=:group_id AND `a`.`tmsg_id` >= :_start AND `a`.`tmsg_id` <= :_end
-					ORDER BY `a`.`created_at`"
+					ORDER BY `a`.`created_at`;"
 				);
 				$st->execute(
 					[
@@ -157,7 +157,7 @@ class Kulgram extends ResponseFoundation
 					var_dump($st->errorInfo()) xor die()
 				);
 
-				$html = "";
+				$html = "<center><h1>".htmlspecialchars($this->info["current_session"]["title"])."</h1></center><br><br>";
 				while ($r = $st->fetch(PDO::FETCH_ASSOC)) {
 					$name = htmlspecialchars(
 						$r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : "").
@@ -165,11 +165,11 @@ class Kulgram extends ResponseFoundation
 					);
 					$text = htmlspecialchars(str_replace("\n", "<br>", $r["text"]));
 					$time = htmlspecialchars($r["created_at"]);
-					$html .= "<b>".$name.": </b><br>".$time."<br>".$text."<br><br>";
+					$html .= $time." <b>".$name.": </b><br>".$text."<br><br>";
 				}
 
 				$mpdf = new Mpdf(
-					['tempDir' => '/tmp']
+					["tempDir" => "/tmp"]
 				);
 				$mpdf->WriteHTML($html);
 				unset($html);
