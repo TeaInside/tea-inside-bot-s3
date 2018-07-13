@@ -175,8 +175,8 @@ class Kulgram extends ResponseFoundation
 						$mpdf->WriteHTML(
 							"<b>".$name."</b> ".$time."<br>".$text."<br>"
 						);
-						$mpdf->Image(
-							file_storage."/".$r["sha1_checksum"]."_".$r["md5_checksum"].".jpg", 0, 0
+						$mpdf->WriteHTML(
+							"<img src=\"data:image/jpg;base64,".base64_encode(file_get_contents(file_storage."/".$r["sha1_checksum"]."_".$r["md5_checksum"].".jpg"))."\">"
 						);
 						$mpdf->WriteHTML(
 							"<br><br>"
