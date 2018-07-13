@@ -140,10 +140,12 @@ class Kulgram extends ResponseFoundation
 				$st = $pdo->prepare(
 					"SELECT 
 						`b`.`text`,`b`.`file`,`b`.`msg_type`,`a`.`created_at`,`c`.`first_name`,
-						`c`.`last_name`,`c`.`username`,`c`.`id`
+						`c`.`last_name`,`c`.`username`,`c`.`id`,`d`.`sha1_checksum`,`d`.`md5_checksum`,
+						`d`.`info`,`d`.`filesize`,`d`.`type`
 					FROM `group_messages` AS `a`
 					INNER JOIN `group_messages_data` AS `b` ON `a`.`id`=`b`.`message_id`
 					INNER JOIN `users` AS `c` ON `a`.`user_id` = `c`.`id`
+					LEFT JOIN `files` AS `d` ON `b`.`file` = `d`.`id`
 					WHERE `a`.`group_id`=:group_id AND `a`.`tmsg_id` >= :_start AND `a`.`tmsg_id` <= :_end
 					ORDER BY `a`.`tmsg_id` ASC;"
 				);
@@ -169,9 +171,21 @@ class Kulgram extends ResponseFoundation
 					);
 					$text = htmlspecialchars(str_replace("\n", "<br>", $r["text"]));
 					$time = htmlspecialchars($r["created_at"]);
-					$mpdf->WriteHTML(
-						"<b>".$name."</b> ".$time."<br>".$text."<br><br>"
-					);
+					if ($r["msg_type"] == "photo") {
+						$mpdf->WriteHTML(
+							"<b>".$name."</b> ".$time."<br>".$text."<br>"
+						);
+						$mpdf->Image(
+							file_storage."/".$r["sha1_checksum"]."_".$r["md5_checksum"].".jpg", 0, 0
+						);
+						$mpdf->WriteHTML(
+							"<br><br>"
+						);
+					} else {
+						$mpdf->WriteHTML(
+							"<b>".$name."</b> ".$time."<br>".$text."<br><br>"
+						);
+					}
 				}
 				unset($html);
 				ob_start();
