@@ -20,6 +20,7 @@ class GetChatApi extends Api
 	 * @return array
 	 */
 	public function getNewChat(string $groupId, int $limit = 25) {
+		$limit = (int) $limit;
 		$st = $this->pdo->prepare(
 			"SELECT 
 				`b`.`text`,`b`.`file`,`b`.`msg_type`,`a`.`created_at`,`c`.`first_name`,
@@ -31,13 +32,12 @@ class GetChatApi extends Api
 			INNER JOIN `groups` AS `e` ON `a`.`group_id` = `e`.`id`
 			LEFT JOIN `files` AS `d` ON `b`.`file` = `d`.`id`
 			WHERE `e`.`username` LIKE :group_username OR `e`.`id`=:group_username
-			ORDER BY `a`.`tmsg_id` DESC LIMIT :_limit;"
+			ORDER BY `a`.`tmsg_id` DESC LIMIT {$limit};"
 		);
 
 		$st->execute(
 			[
-				":group_username" => $groupId,
-				":_limit" => $limit
+				":group_username" => $groupId
 			]
 		);
 
