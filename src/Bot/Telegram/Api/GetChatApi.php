@@ -60,4 +60,10 @@ class GetChatApi extends Api
 		$st->execute([":g" => $groupId]);
 		return (bool) ($st->fetch(PDO::FETCH_NUM));
 	}
+
+	public function __destruct()
+	{
+		$this->pdo = null;
+		unset($this->pdo);
+	}
 }
