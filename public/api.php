@@ -4,6 +4,7 @@ require __DIR__."/../vendor/autoload.php";
 require __DIR__."/../config/telegram/main.php";
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
 
 if (isset($_GET["method"])) {
 	switch (strtolower($_GET["method"])) {
