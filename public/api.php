@@ -30,6 +30,8 @@ getChat:
 		if (! is_numeric($_GET["limit"])) {
 			err("Invalid Parameter: \"limit\" must be an integer");
 		}
+	} else {
+		$_GET["limit"] = 25;
 	}
 
 	$st = new Bot\Telegram\Api\GetChatApi;

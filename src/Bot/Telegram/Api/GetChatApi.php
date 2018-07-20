@@ -19,7 +19,7 @@ class GetChatApi extends Api
 	 * @param int    $limit
 	 * @return array
 	 */
-	public function getNewChat(string $groupId, int $limit) {
+	public function getNewChat(string $groupId, int $limit = 25) {
 		$st = $this->pdo->prepare(
 			"SELECT 
 				`b`.`text`,`b`.`file`,`b`.`msg_type`,`a`.`created_at`,`c`.`first_name`,
