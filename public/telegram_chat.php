@@ -79,9 +79,9 @@ if (! isset($_GET["group_id"])) {
 
 		getChat();
 
-		// setInterval(function () {
-		// 	getChat();
-		// }, 3000);
+		setInterval(function () {
+			getChat();
+		}, 3000);
 	</script>
 </body>
 </html>
