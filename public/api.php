@@ -27,7 +27,7 @@ getChat:
 	}
 
 	if (isset($_GET["limit"])) {
-		if (! is_int($_GET["limit"])) {
+		if (! is_numeric($_GET["limit"])) {
 			err("Invalid Parameter: \"limit\" must be an integer");
 		}
 	}
