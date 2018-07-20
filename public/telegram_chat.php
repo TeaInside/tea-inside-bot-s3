@@ -14,10 +14,11 @@ if (! isset($_GET["group_id"])) {
 		}
 
 		.text {
-			width: 500px;
+			text-align: left;
+			width: 740px;
 		}
 		.mcage {
-			width: 550px;
+			width: 750px;
 			min-height: 100px;
 			padding-bottom: 10px;
 			border: 1px solid #000;
@@ -26,12 +27,12 @@ if (! isset($_GET["group_id"])) {
 			margin-top: 50px;
 			border: 1px solid #000;
 			height: 530px;
-			width: 600px;
+			width: 800px;
 			overflow-y: scroll;
 		}
 		.img-chat {
-			max-width: 300px;
-			max-height: 300px;
+			max-width: 350px;
+			max-height: 350px;
 		}
 	</style>
 </head>
@@ -59,11 +60,11 @@ if (! isset($_GET["group_id"])) {
 									cn = buildImage(r[i]);
 									console.log(cn);
 								} else {
-									cn = r[i]['text'];
+									cn = "<div class=\"text\">"+r[i]['text'].replace("\n", "<br/>")+"</div>";
 								}
 								q.innerHTML += "<div class=\"mcage\">\
 										<div class=\"name\"><strong>["+r[i]['id']+"]<br/>"+r[i]['first_name']+(r[i]['last_name']?" "+r[i]['last_name']:"")+"<br/>"+(r[i]['username'] ? "(@"+r[i]['username']+")" : "(No Username)")+"</strong><br/><br/></div>\
-										<div class=\"text\">"+cn+"</div>\
+										"+cn+"\
 									</div>";
 							}
 						} catch (e) {
@@ -78,9 +79,9 @@ if (! isset($_GET["group_id"])) {
 
 		getChat();
 
-		setInterval(function () {
-			getChat();
-		}, 3000);
+		// setInterval(function () {
+		// 	getChat();
+		// }, 3000);
 	</script>
 </body>
 </html>
