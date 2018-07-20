@@ -72,6 +72,7 @@ function err($errorMsg)
 			"message" => $errorMsg
 		]
 	);
+	exit;
 }
 
 function ssk($msg)
@@ -84,4 +85,5 @@ function ssk($msg)
 			"message" => $msg
 		]	
 	);
+	exit;
 }
