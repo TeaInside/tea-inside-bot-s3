@@ -7,7 +7,7 @@ header("Content-Type: application/json");
 
 if (isset($_GET["method"])) {
 	switch (strtolower($_GET["method"])) {
-		case 'getChat':
+		case 'getchat':
 			goto getChat;
 			break;
 		
