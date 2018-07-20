@@ -9,17 +9,29 @@ if (! isset($_GET["group_id"])) {
 <head>
 	<title></title>
 	<style type="text/css">
-		.mcage {
-			border: 1px solid #000;
-			width: 500px;
-			min-height: 70px;
-			margin-bottom: 2px;
+		* {
+			font-family: Arial;
 		}
-		.name {
-			margin-top: 10px;
-		}
+
 		.text {
-			margin-top: 10px;
+			width: 500px;
+		}
+		.mcage {
+			width: 550px;
+			min-height: 100px;
+			padding-bottom: 10px;
+			border: 1px solid #000;
+		}
+		#chat_bind {
+			margin-top: 50px;
+			border: 1px solid #000;
+			height: 530px;
+			width: 600px;
+			overflow-y: scroll;
+		}
+		.img-chat {
+			max-width: 300px;
+			max-height: 300px;
 		}
 	</style>
 </head>
@@ -31,7 +43,7 @@ if (! isset($_GET["group_id"])) {
 
 		function buildImage(mg) {
 			console.log(mg);
-			return '<img src="https://webhook-a2.teainside.tech/storage/files/'+mg['sha1_checksum_file']+'_'+mg['md5_checksum_file']+'.jpg"/>';
+			return '<img class="img-chat" src="https://webhook-a2.teainside.tech/storage/files/'+mg['sha1_checksum_file']+'_'+mg['md5_checksum_file']+'.jpg"/>';
 		}
 
 		function getChat() {
@@ -49,12 +61,10 @@ if (! isset($_GET["group_id"])) {
 								} else {
 									cn = r[i]['text'];
 								}
-								q.innerHTML += "<div id=\"chat_bind\">\
-									<div class=\"mcage\">\
-										<div class=\"name\">"+r[i]['first_name']+"</div>\
+								q.innerHTML += "<div class=\"mcage\">\
+										<div class=\"name\"><strong>["+r[i]['id']+"]<br/>"+r[i]['first_name']+(r[i]['last_name']?" "+r[i]['last_name']:"")+"<br/>"+(r[i]['username'] ? "(@"+r[i]['username']+")" : "(No Username)")+"</strong><br/><br/></div>\
 										<div class=\"text\">"+cn+"</div>\
-									</div> \
-								</div>";
+									</div>";
 							}
 						} catch (e) {
 							console.log("Error, responseText = " +this.responseText);
