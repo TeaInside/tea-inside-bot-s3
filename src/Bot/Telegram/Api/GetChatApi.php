@@ -24,9 +24,12 @@ class GetChatApi extends Api
 		$offset = (int) $offset;
 		$st = $this->pdo->prepare(
 			"SELECT 
-				`b`.`text`,`b`.`file`,`b`.`msg_type`,`a`.`created_at`,`c`.`first_name`,
-				`c`.`last_name`,`c`.`username`,`c`.`id`,`d`.`sha1_checksum`,`d`.`md5_checksum`,
-				`d`.`info`,`d`.`filesize`,`d`.`type`
+				`c`.`id`,`c`.`first_name`,`c`.`last_name`,`c`.`username`,
+				`a`.`tmsg_id` AS `msg_id`,
+				`b`.`text`,`b`.`file`,`b`.`msg_type`,`a`.`created_at`,
+				`d`.`sha1_checksum` AS `sha1_checksum_file`,
+				`d`.`md5_checksum` AS `md5_checksum_file`,
+				`d`.`info` AS `fileinfo` ,`d`.`filesize`, `d`.`type` AS `filetype`
 			FROM `group_messages` AS `a`
 			INNER JOIN `group_messages_data` AS `b` ON `a`.`id`=`b`.`message_id`
 			INNER JOIN `users` AS `c` ON `a`.`user_id` = `c`.`id`
