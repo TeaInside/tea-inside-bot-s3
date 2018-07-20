@@ -31,8 +31,8 @@ if (! isset($_GET["group_id"])) {
 			overflow-y: scroll;
 		}
 		.img-chat {
-			max-width: 350px;
-			max-height: 350px;
+			max-width: 400px;
+			max-height: 400px;
 		}
 	</style>
 </head>
