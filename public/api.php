@@ -34,9 +34,17 @@ getChat:
 		$_GET["limit"] = 25;
 	}
 
+	if (isset($_GET["offset"])) {
+		if (! is_numeric($_GET["offset"])) {
+			err("Invalid Parameter: \"offset\" must be an integer");
+		}
+	} else {
+		$_GET["offset"] = 0;
+	}
+
 	$st = new Bot\Telegram\Api\GetChatApi;
 	if ($st->groupExists($_GET["group_id"])) {
-		ssk($st->getNewChat($_GET["group_id"], $_GET["limit"]));	
+		ssk($st->getNewChat($_GET["group_id"], $_GET["limit"], $_GET["offset"]));	
 	} else {
 		err("Group \"{$_GET['group_id']}\" does not exist");
 	}
