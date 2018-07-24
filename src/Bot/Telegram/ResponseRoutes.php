@@ -214,6 +214,12 @@ trait ResponseRoutes
 				return [true, ["c"]];
 			}
 		}, "VirtualizorLanguages@run");
+
+		$this->set(function($d){
+			if (preg_match("/^(\/|!|~)me/", $d["text"], $m)) {
+				return [true, []];
+			}
+		}, "Me@me");
 	}
 
 	/**
