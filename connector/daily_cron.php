@@ -22,6 +22,9 @@ $aaa = microtime(true)-$aaa;
 file_put_contents($f, $count);
 file_put_contents($f = logs."/daily_cron/".$count.".log", "Start: $now\n\n".$sh."\n\nEnd: $end\nElapsed time: ".$aaa);
 
+
+
+
 foreach(SUDOERS as $sudoer) {
 	Exe::sendMessage(
 		[

@@ -68,7 +68,13 @@ class VirtualizorLanguages extends ResponseFoundation
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'c++':
-					$st = new Cpp($this->data["__code"]);
+					$st = new Cpp(
+						str_replace(
+							["»", "«"],
+							[">>", "<<"],
+							$this->data["__code"]
+						)
+					);
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			case 'java':
