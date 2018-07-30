@@ -173,7 +173,7 @@ class Kulgram extends ResponseFoundation
 					$time = htmlspecialchars($r["created_at"]);
 					if ($r["msg_type"] == "photo") {
 						$mpdf->WriteHTML(
-							"<b>".$name."</b> ".$time."<br>".$text."<br>"
+							"<b>".$time."</b> ".$name."<br>".$text."<br>"
 						);
 						$mpdf->WriteHTML(
 							"<img src=\"data:image/jpg;base64,".base64_encode(file_get_contents(file_storage."/".$r["sha1_checksum"]."_".$r["md5_checksum"].".jpg"))."\">"
