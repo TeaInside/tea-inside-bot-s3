@@ -169,7 +169,7 @@ class Kulgram extends ResponseFoundation
 						$r["first_name"].(isset($r["last_name"]) ? " ".$r["last_name"] : "").
 						(isset($r["username"]) ? " (@".$r["username"].")" : ""), ENT_QUOTES, "UTF-8"
 					);
-					$text = htmlspecialchars(str_replace("\n", "<br>", $r["text"]));
+					$text = tr_replace("\n", "<br>", htmlspecialchars($r["text"]));
 					$time = htmlspecialchars($r["created_at"]);
 					if ($r["msg_type"] == "photo") {
 						$mpdf->WriteHTML(

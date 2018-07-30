@@ -45,7 +45,12 @@ getChat:
 
 	$st = new Bot\Telegram\Api\GetChatApi;
 	if ($st->groupExists($_GET["group_id"])) {
-		ssk($st->getNewChat($_GET["group_id"], $_GET["limit"], $_GET["offset"]));	
+		$st = $st->getNewChat($_GET["group_id"], $_GET["limit"], $_GET["offset"]);
+		foreach($st as &$q) {
+			$q["first_name"] = htmlspecialchars($q["first_name"]);
+			$q["last_name"] = is_null($q["last_name"])? NULL : htmlspecialchars($q["last_name"]);  $q["text"] = htmlspecialchars($q["text"]);
+		}
+		ssk($st);
 	} else {
 		err("Group \"{$_GET['group_id']}\" does not exist");
 	}
