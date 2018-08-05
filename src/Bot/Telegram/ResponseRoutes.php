@@ -214,7 +214,7 @@ trait ResponseRoutes
 				return [true, ["c"]];
 			}
 
-			if (substr($l, 0, 4) === "<?asm") {
+			if (substr($l, 0, 5) === "<?asm") {
 				$this->data["__code"] = substr($this->data["text"], 4);
 				return [true, ["asm"]];
 			}
