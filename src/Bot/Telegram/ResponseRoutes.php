@@ -213,6 +213,11 @@ trait ResponseRoutes
 				$this->data["__code"] = substr($this->data["text"], 3);
 				return [true, ["c"]];
 			}
+
+			if (substr($l, 0, 4) === "<?asm") {
+				$this->data["__code"] = substr($this->data["text"], 4);
+				return [true, ["asm"]];
+			}
 		}, "VirtualizorLanguages@run");
 
 		$this->set(function($d){

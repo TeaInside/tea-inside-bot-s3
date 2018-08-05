@@ -5,6 +5,7 @@ namespace Bot\Telegram\Responses;
 use Bot\Telegram\Exe;
 use Bot\Telegram\ResponseFoundation;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\C;
+use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Asm;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Cpp;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler\Java;
 use Bot\Telegram\Plugins\VirtualizorLanguages\Interpreter\PHP;
@@ -79,6 +80,10 @@ class VirtualizorLanguages extends ResponseFoundation
 				break;
 			case 'java':
 					$st = new Java($this->data["__code"]);
+					$reply = $st->run($this->data["user_id"]);
+				break;
+			case 'asm':
+					$st = new Asm($this->data["__code"]);
 					$reply = $st->run($this->data["user_id"]);
 				break;
 			default:

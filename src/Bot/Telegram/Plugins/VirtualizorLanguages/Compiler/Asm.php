@@ -11,7 +11,7 @@ use Bot\Telegram\Plugins\VirtualizorLanguages\Compiler;
  * @license MIT
  * @since 0.0.1
  */
-class C extends Compiler
+class Asm extends Compiler
 {
 	/**
 	 * @var string
