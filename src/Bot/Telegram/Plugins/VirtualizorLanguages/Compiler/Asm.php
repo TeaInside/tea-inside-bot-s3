@@ -58,7 +58,7 @@ class Asm extends Compiler
 	{
 		$id = $this->uniqueId = Isolator::generateUserId($userId);
 		$this->isolator = new Isolator($id);
-
+		$f = ISOLATOR_HOME."/".$id."/u".$id."/".($n = $this->generateFilename()).".asm";
 		file_put_contents($f, $this->code);
 		$exe = trim(shell_exec("sudo nasm -f elf ".$f." -o ".ISOLATOR_HOME."/".$id."/u".$id."/".$n.".o 2>&1"));
 		var_dump("exe1: ".$exe);
