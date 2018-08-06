@@ -23,6 +23,25 @@ trait ResponseRoutes
 	public function buildRoutes()
 	{
 		$this->set(function($d){
+			return [$this->data["voice"]["file_id"] === "AwADBQADVQADp1TpVnBDarzQ8GkPAg", []];
+		}, function () {
+			Exe::deleteMessage(
+				[
+					"message_id" => $this->data["msg_id"],
+					"chat_id" => $this->data["chat_id"]
+				]
+			);
+
+			Exe::sendMessage(
+				[
+					"chat_id" => $this->data["chat_id"],
+					"text" => "Sorry ".$this->data["first_name"].", the type of media you have sent is not allowed in this chat. Due to the security reason we deleted your message."
+				]
+			);
+			echo 123;
+		});
+
+		$this->set(function($d){
 			if ($this->data["chat_id"]."" === "-1001134449138") {
 				return [true, ["Ce20228a1f1f98e6cf9d6f6338603e962"]];
 			}
