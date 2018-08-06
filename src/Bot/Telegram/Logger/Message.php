@@ -181,7 +181,6 @@ class Message implements LoggerInterface
 	private function saveVoice()
 	{
 		$p = $this->data["voice"];
-		var_dump($this->data["voice"]);die;
 		$fileid = $this->data["voice"]["file_id"];
 		$st = $this->pdo->prepare(
 			"SELECT `id` FROM `files` WHERE `telegram_file_id`=:file_id LIMIT 1;"
