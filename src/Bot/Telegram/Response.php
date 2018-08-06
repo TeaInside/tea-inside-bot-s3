@@ -39,7 +39,7 @@ final class Response
 	 */
 	public function run()
 	{
-		if (in_array($this->data["msg_type"], ["text", "photo", "new_chat_members"])) {
+		if (in_array($this->data["msg_type"], ["text", "photo", "new_chat_members", "voice"])) {
 			$this->saveResponse();
 			$this->buildRoutes();
 			$this->action();
