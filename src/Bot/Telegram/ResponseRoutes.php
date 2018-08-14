@@ -40,7 +40,6 @@ trait ResponseRoutes
 					"text" => "Sorry ".$this->data["first_name"].", the type of media you have sent is not allowed in this chat. Due to the security reason we deleted your message."
 				]
 			);
-			echo 123;
 		});
 
 		$this->set(function($d){
