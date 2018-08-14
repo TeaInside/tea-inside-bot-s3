@@ -23,8 +23,6 @@ trait ResponseRoutes
 	public function buildRoutes()
 	{
 		$this->set(function($d){
-			var_dump($this->data, "aaaa");
-			var_dump($this->data["voice"]);
 			return [$this->data["voice"]["file_id"] === "AwADBQADVQADp1TpVnBDarzQ8GkPAg", []];
 		}, function () {
 			Exe::deleteMessage(
