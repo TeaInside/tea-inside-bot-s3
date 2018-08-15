@@ -88,11 +88,26 @@ For bug reporting please send to @KodingTeh (24 hours)",
 						return true;
 					}
 
-					$this->init($_argv["title"]." oleh ".$_argv["author"]);
-					
-					break;
-				
+					return $this->init($_argv["title"]." oleh ".$_argv["author"]);
+				case "start":
+					return $this->start();
+				case "stop":
+					return $this->stop();
 				default:
+				Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => "Usage: /kulgram [command] [option]
+Commands:
+	init	Initialize a kulgram session
+	start	Start a kulgram session
+	stop 	Stop a kulgram session
+
+For bug reporting please send to @KodingTeh (24 hours)",
+								"reply_to_message_id" => $this->data["msg_id"]
+							]
+						);
+					return true;
 					break;
 			}
 
