@@ -326,7 +326,7 @@ For bug reporting please send to @KodingTeh (24 hours)",
 		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
 			if ($this->info["status"] === "sleep") {
 				$judul = strtoupper($judul);
-				$reply = "A kulgram session initialized!\nTitle: <b>".htmlspecialchars($judul)."</b>";
+				$reply = "A kulgram session initialized!\nTitle: <b>".htmlspecialchars($judul)."</b>\nStatus: <b>Idle</b>";
 				$this->info["status"] = "idle";
 				$this->info["current_session"] = [
 					"title" => $judul,
