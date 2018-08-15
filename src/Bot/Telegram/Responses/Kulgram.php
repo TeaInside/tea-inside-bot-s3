@@ -20,6 +20,7 @@ class Kulgram extends ResponseFoundation
 
 	public function handle()
 	{
+		$this->data["text"] = str_replace(chr(226).chr(128).chr(148), "--", $this->data["text"]);
 		if (preg_match("/^(?:\\/|\\!|\\~)(?:kulgram)(?:[\\s\\n]{1,})?([^\\s\\n]+)?(?:[\\s\\n]{1,})?(.*)?$/", $this->data["text"], $m)) {
 			$_argv = [];
 			if (isset($m[2]) && preg_match_all("/\-{2}([^\\s\\n]+)(?:\\s+|\\n+|\=)((?:\\\"|\\')(.+)(?:[^(\\\\\")]\\\"|\\')|[^\\s\\n]+)(?:[\\s\\n]|$)/Usi", $m[2], $n)) {
@@ -87,6 +88,7 @@ For bug reporting please send to @KodingTeh (24 hours)",
 						return true;
 					}
 
+					$this->init($_argv["title"]." oleh ".$_argv["author"]);
 					
 					break;
 				
