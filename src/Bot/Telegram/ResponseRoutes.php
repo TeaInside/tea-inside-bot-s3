@@ -22,23 +22,26 @@ trait ResponseRoutes
 	 */
 	public function buildRoutes()
 	{
-		$this->set(function($d){
-			return [$this->data["voice"]["file_id"] === "AwADBQADVQADp1TpVnBDarzQ8GkPAg", []];
-		}, function () {
-			Exe::deleteMessage(
-				[
-					"message_id" => $this->data["msg_id"],
-					"chat_id" => $this->data["chat_id"]
-				]
-			);
 
-			Exe::sendMessage(
-				[
-					"chat_id" => $this->data["chat_id"],
-					"text" => "Sorry ".$this->data["first_name"].", the type of media you have sent is not allowed in this chat. Due to the security reason we deleted your message."
-				]
-			);
-		});
+		if (isset($this->data["voice"]["file_id"])) {
+			$this->set(function($d){
+				return [$this->data["voice"]["file_id"] === "AwADBQADVQADp1TpVnBDarzQ8GkPAg", []];
+			}, function () {
+				Exe::deleteMessage(
+					[
+						"message_id" => $this->data["msg_id"],
+						"chat_id" => $this->data["chat_id"]
+					]
+				);
+
+				Exe::sendMessage(
+					[
+						"chat_id" => $this->data["chat_id"],
+						"text" => "Sorry ".$this->data["first_name"].", the type of media you have sent is not allowed in this chat. Due to the security reason we deleted your message."
+					]
+				);
+			});
+		}
 
 		$this->set(function($d){
 			if ($this->data["chat_id"]."" === "-1001134449138") {
@@ -46,27 +49,36 @@ trait ResponseRoutes
 			}
 		}, "Solid@run");
 
-		if (preg_match("/\@".bot_username."/i", $this->data["text"])) {
-			$this->set(function($d){
-				if (preg_match("/(to?pi?k)\s{1,4}kulgram\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
-					return [true, [$m[3]]];
-				} elseif (preg_match("/ju?du?l\s{1,4}kulgram\s{1,4}(ha?ri|ka?li)\s{1,4}ini\s{1,4}(.*)$/Usi", $d["text"], $m)) {
-					return [true, [$m[2]]];
-				}
-			}, "Kulgram@init");
+		if (preg_match("/^\/kulgram/Usi", $this->data["text"])) {
 
-			$this->set(function($d){
-				if (preg_match("/mu?lai\s{1,4}(nyatet|mencatat|nyatat)/Usi", $d["text"], $m)) {
-					return [true, []];
-				}
-			}, "Kulgram@start");
 
-			$this->set(function($d){
-				if (preg_match("/he?ntika?n\s{1,4}(ca?ta?ta?n|nyatet|mencatat|nyatat)/Usi", $d["text"], $m)) {
-					return [true, []];
-				}
-			}, "Kulgram@stop");
+			$this->set(function ($d) {
+				return [true, []];
+			}, "Kulgram@handle");
+
+			// $this->set(function($d){
+			// 	if (preg_match("/(?:^\/kulgram\s{1,}init\s{1,})/Usi", $d["text"], $m)) {
+			// 	}
+
+			// }, "Kulgram@init");
+
+			// $this->set(function($d){
+			// 	if (preg_match("/mu?lai\s{1,4}(nyatet|mencatat|nyatat)/Usi", $d["text"], $m)) {
+			// 		return [true, []];
+			// 	}
+			// }, "Kulgram@start");
+
+			// $this->set(function($d){
+			// 	if (preg_match("/he?ntika?n\s{1,4}(ca?ta?ta?n|nyatet|mencatat|nyatat)/Usi", $d["text"], $m)) {
+			// 		return [true, []];
+			// 	}
+			// }, "Kulgram@stop");
+
+
 		}
+
+
+
 
 		$this->set(function($d){
 			if ($this->data["msg_type"] === "new_chat_members") {

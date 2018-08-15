@@ -17,6 +17,69 @@ use Bot\Telegram\ResponseFoundation;
  */
 class Kulgram extends ResponseFoundation
 {	
+
+	public function handle()
+	{
+		if (preg_match("/^(?:\\/|\\!|\\~)(?:kulgram)(?:[\\s\\n]{1,})?([^\\s\\n]+)?(?:[\\s\\n]{1,})?(.*)?$/", $a, $m)) {
+			$_argv = [];
+			if (isset($m[2]) && preg_match_all("/\-{2}([^\\s\\n]+)(?:\\s+|\\n+|\=)((?:\\\"|\\')(.+)(?:[^(\\\\\")]\\\"|\\')|[^\\s\\n]+)(?:[\\s\\n]|$)/Usi", $m[2], $n)) {
+				foreach ($n[2] as $k => &$v) {
+					if (! empty($n[3][$k])) {
+						$v = substr($v, 1, -1);
+					}
+					do {
+						$v = str_replace("\\\"", "\"", $v, $nn);
+					} while ($nn);
+					do {
+						$v = str_replace("\\\\", "\\", $v, $nn);
+					} while ($nn);
+					$_argv[$n[1][$k]] = ($v = trim($v));
+				}
+			}
+
+			switch ($m[1]) {
+				case 'init':
+					if ((!isset($_argv["title"])) && (!isset($_argv["author"]))) {
+						Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => "krec: fatal error: You need to provide the title and author.
+								
+	--title		Set kulgram title
+	--author	Set kulgram author
+
+For bug reporting please send to @KodingTeh (24 hours)",
+								"reply_to_message_id" => $this->data["msg_id"]
+							]
+						);
+						return true;
+					}
+
+					if (! isset($_argv["title"])) {
+						Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => "You need to specify the title!",
+								"reply_to_message_id" => $this->data["msg_id"]
+							]
+						);
+						return true;
+					}
+
+					if (! isset($_argv["author"])) {
+						return true;
+					}
+
+					
+					break;
+				
+				default:
+					break;
+			}
+
+		}
+	}
+
 	/**
 	 * @return bool
 	 */
