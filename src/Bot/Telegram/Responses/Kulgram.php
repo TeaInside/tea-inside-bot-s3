@@ -59,7 +59,12 @@ For bug reporting please send to @KodingTeh (24 hours)",
 						Exe::sendMessage(
 							[
 								"chat_id" => $this->data["chat_id"],
-								"text" => "You need to specify the title!",
+								"text" => "krec: fatal error: You need to provide the title.
+
+	--title		Set kulgram title
+	--author	Set kulgram author
+
+For bug reporting please send to @KodingTeh (24 hours)",
 								"reply_to_message_id" => $this->data["msg_id"]
 							]
 						);
@@ -67,6 +72,18 @@ For bug reporting please send to @KodingTeh (24 hours)",
 					}
 
 					if (! isset($_argv["author"])) {
+						Exe::sendMessage(
+							[
+								"chat_id" => $this->data["chat_id"],
+								"text" => "krec: fatal error: You need to provide the author.
+
+	--title		Set kulgram title
+	--author	Set kulgram author
+
+For bug reporting please send to @KodingTeh (24 hours)",
+								"reply_to_message_id" => $this->data["msg_id"]
+							]
+						);
 						return true;
 					}
 
