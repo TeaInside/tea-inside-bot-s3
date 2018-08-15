@@ -20,7 +20,7 @@ class Kulgram extends ResponseFoundation
 
 	public function handle()
 	{
-		if (preg_match("/^(?:\\/|\\!|\\~)(?:kulgram)(?:[\\s\\n]{1,})?([^\\s\\n]+)?(?:[\\s\\n]{1,})?(.*)?$/", $a, $m)) {
+		if (preg_match("/^(?:\\/|\\!|\\~)(?:kulgram)(?:[\\s\\n]{1,})?([^\\s\\n]+)?(?:[\\s\\n]{1,})?(.*)?$/", $this->data["text"], $m)) {
 			$_argv = [];
 			if (isset($m[2]) && preg_match_all("/\-{2}([^\\s\\n]+)(?:\\s+|\\n+|\=)((?:\\\"|\\')(.+)(?:[^(\\\\\")]\\\"|\\')|[^\\s\\n]+)(?:[\\s\\n]|$)/Usi", $m[2], $n)) {
 				foreach ($n[2] as $k => &$v) {
@@ -44,7 +44,7 @@ class Kulgram extends ResponseFoundation
 							[
 								"chat_id" => $this->data["chat_id"],
 								"text" => "krec: fatal error: You need to provide the title and author.
-								
+
 	--title		Set kulgram title
 	--author	Set kulgram author
 
