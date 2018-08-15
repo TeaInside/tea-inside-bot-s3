@@ -39,6 +39,10 @@ class Kulgram extends ResponseFoundation
 			}
 
 			switch ($m[1]) {
+				case 'cancel':
+
+					break;
+
 				case 'init':
 					if ((!isset($_argv["title"])) && (!isset($_argv["author"]))) {
 						Exe::sendMessage(
@@ -270,7 +274,7 @@ For bug reporting please send to @KodingTeh (24 hours)",
 					$time = htmlspecialchars($r["created_at"]);
 					if ($r["msg_type"] == "photo") {
 						$mpdf->WriteHTML(
-							"<b>".$name."</b> ".$time."<br>".$text."<br>"
+							$time." <b>".$name."</b><br>".$text."<br>"
 						);
 						$mpdf->WriteHTML(
 							"<img src=\"data:image/jpg;base64,".base64_encode(file_get_contents(file_storage."/".$r["sha1_checksum"]."_".$r["md5_checksum"].".jpg"))."\">"
@@ -322,7 +326,7 @@ For bug reporting please send to @KodingTeh (24 hours)",
 		if (in_array($this->data["user_id"], SUDOERS) || $this->isAdmin()) {
 			if ($this->info["status"] === "sleep") {
 				$judul = strtoupper($judul);
-				$reply = "Title: <b>".htmlspecialchars($judul)."</b>";
+				$reply = "A kulgram session initialized!\nTitle: <b>".htmlspecialchars($judul)."</b>";
 				$this->info["status"] = "idle";
 				$this->info["current_session"] = [
 					"title" => $judul,
